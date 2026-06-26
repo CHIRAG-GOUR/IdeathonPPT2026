@@ -134,17 +134,17 @@ export default function Scene8() {
         </motion.h2>
 
         {/* Responsive Grid Layout */}
-        <div className="flex flex-col md:flex-row items-center justify-center w-full max-w-6xl gap-8 pb-12">
+        <div className="flex flex-col md:flex-row items-stretch justify-center w-full max-w-7xl gap-6 pb-12 px-4">
           
-          {/* Left: 1st Place */}
+          {/* Left: 1st and 2nd Place */}
           <div className="flex flex-col gap-6 w-full md:w-1/3 z-10 order-2 md:order-1">
             <motion.div 
-              initial={{ opacity: 0, x: -100, rotateY: -30 }} 
+              initial={{ opacity: 0, x: -100, rotateY: -20 }} 
               animate={{ opacity: 1, x: 0, rotateY: 0 }} 
               transition={{ delay: 0.3, duration: 0.8, type: "spring" }}
-              className="glass-card p-6 md:p-8 rounded-2xl border-t-4 border-t-[#FFD700] md:scale-110 shadow-lg bg-white/70 backdrop-blur-xl"
+              className="glass-card p-6 md:p-8 rounded-2xl border-2 border-[#FFD700] shadow-[0_0_30px_rgba(255,215,0,0.6)] bg-white/80 backdrop-blur-xl flex-1"
             >
-              <div className="flex items-center justify-center md:justify-start gap-3 mb-3">
+              <div className="flex items-center justify-center md:justify-start gap-3 mb-4">
                 <div className="p-2 bg-[#FFD700]/10 rounded-full">
                   <svg className="w-8 h-8 text-[#D4AF37]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                 </div>
@@ -154,10 +154,27 @@ export default function Scene8() {
                 {rewards.first.map((item, i) => <li key={i}>• {item}</li>)}
               </ul>
             </motion.div>
+
+            <motion.div 
+              initial={{ opacity: 0, x: -100, rotateY: -20 }} 
+              animate={{ opacity: 1, x: 0, rotateY: 0 }} 
+              transition={{ delay: 0.5, duration: 0.8, type: "spring" }} 
+              className="glass-card bg-white/80 backdrop-blur-xl p-6 md:p-8 rounded-2xl border-2 border-[#C0C0C0] shadow-[0_0_25px_rgba(192,192,192,0.6)] text-center md:text-left flex-1"
+            >
+              <div className="flex items-center justify-center md:justify-start gap-3 mb-4">
+                <div className="p-2 bg-[#C0C0C0]/10 rounded-full">
+                  <svg className="w-7 h-7 text-[#A0A0A0]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>
+                </div>
+                <h3 className="text-xl md:text-2xl font-bold text-[#808080] drop-shadow-sm">2nd Place</h3>
+              </div>
+              <ul className="text-sm md:text-base text-gray-700 space-y-2 font-bold">
+                {rewards.second.map((item, i) => <li key={i}>• {item}</li>)}
+              </ul>
+            </motion.div>
           </div>
 
           {/* Center: 3D Trophy */}
-          <div className="w-full md:w-1/3 h-[300px] md:h-[400px] z-0 flex flex-col items-center justify-center order-1 md:order-2 shrink-0">
+          <div className="w-full md:w-1/3 h-[300px] md:h-[450px] z-0 flex flex-col items-center justify-center order-1 md:order-2 shrink-0">
             <div className="w-full h-full relative">
               <Canvas camera={{ position: [0, 0, 8], fov: 45 }} gl={{ alpha: true }}>
                 <ambientLight intensity={0.5} />
@@ -169,55 +186,44 @@ export default function Scene8() {
             </div>
           </div>
 
-          {/* Right: 2nd, 3rd, and Everyone */}
+          {/* Right: 3rd, and Everyone */}
           <div className="flex flex-col gap-6 w-full md:w-1/3 z-10 order-3 md:order-3">
             <motion.div 
-              initial={{ opacity: 0, x: 100, rotateX: 30 }} 
-              animate={{ opacity: 1, x: 0, rotateX: 0 }} 
-              transition={{ delay: 0.6, duration: 0.8, type: "spring" }} 
-              className="glass-card bg-white/70 backdrop-blur-xl p-6 rounded-2xl border-l-4 border-l-[#A0A0A0] shadow-sm text-center md:text-left"
+              initial={{ opacity: 0, x: 100, rotateY: 20 }} 
+              animate={{ opacity: 1, x: 0, rotateY: 0 }} 
+              transition={{ delay: 0.7, duration: 0.8, type: "spring" }} 
+              className="glass-card bg-white/80 backdrop-blur-xl p-6 md:p-8 rounded-2xl border-2 border-[#CD7F32] shadow-[0_0_25px_rgba(205,127,50,0.6)] text-center md:text-left flex-1"
             >
-              <div className="flex items-center justify-center md:justify-start gap-2 mb-3">
-                <svg className="w-6 h-6 text-[#A0A0A0]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>
-                <h3 className="text-xl font-bold text-[#808080] drop-shadow-sm">2nd Place</h3>
+              <div className="flex items-center justify-center md:justify-start gap-3 mb-4">
+                <div className="p-2 bg-[#CD7F32]/10 rounded-full">
+                  <svg className="w-7 h-7 text-[#CD7F32]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                </div>
+                <h3 className="text-xl md:text-2xl font-bold text-[#CD7F32] drop-shadow-sm">3rd Place</h3>
               </div>
-              <ul className="text-sm md:text-base text-gray-600 space-y-2 font-medium">
-                {rewards.second.map((item, i) => <li key={i}>• {item}</li>)}
+              <ul className="text-sm md:text-base text-gray-700 space-y-2 font-bold">
+                {rewards.third.map((item, i) => <li key={i}>• {item}</li>)}
               </ul>
             </motion.div>
-            
+
             <motion.div 
-              initial={{ opacity: 0, y: 100, scale: 0.8 }} 
-              animate={{ opacity: 1, y: 0, scale: 1 }} 
+              initial={{ opacity: 0, x: 100, rotateY: 20 }} 
+              animate={{ opacity: 1, x: 0, rotateY: 0 }} 
               transition={{ delay: 0.9, duration: 0.8, type: "spring" }} 
-              className="glass-card bg-white/70 backdrop-blur-xl p-6 rounded-2xl border-l-4 border-l-[#CD7F32] shadow-sm text-center md:text-left"
+              className="glass-card bg-white/80 backdrop-blur-xl p-6 md:p-8 rounded-2xl border-2 border-brand-green shadow-[0_0_25px_rgba(0,255,102,0.4)] text-center md:text-left flex-1"
             >
-              <div className="flex items-center justify-center md:justify-start gap-2 mb-3">
-                <svg className="w-6 h-6 text-[#CD7F32]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                <h3 className="text-xl font-bold text-[#CD7F32] drop-shadow-sm">3rd Place</h3>
+              <div className="flex items-center justify-center md:justify-start gap-3 mb-4">
+                <div className="p-2 bg-brand-green/10 rounded-full">
+                  <svg className="w-7 h-7 text-brand-green" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" /></svg>
+                </div>
+                <h3 className="text-xl md:text-2xl font-bold text-brand-green drop-shadow-sm">For Everyone</h3>
               </div>
-              <ul className="text-sm md:text-base text-gray-600 space-y-2 font-medium">
-                {rewards.third.map((item, i) => <li key={i}>• {item}</li>)}
+              <ul className="text-sm md:text-base text-gray-700 font-bold space-y-2">
+                {rewards.everyone.map((item, i) => <li key={i}>• {item}</li>)}
               </ul>
             </motion.div>
           </div>
           
         </div>
-
-        <motion.div 
-          initial={{ opacity: 0, y: 50 }} 
-          animate={{ opacity: 1, y: 0 }} 
-          transition={{ delay: 1.2, duration: 0.8, type: "spring" }} 
-          className="glass-card bg-white/70 backdrop-blur-xl p-6 rounded-2xl w-full max-w-2xl border-b-4 border-b-brand-green shadow-sm mt-0 md:-mt-8 text-center"
-        >
-          <div className="flex items-center justify-center gap-2 mb-3">
-            <svg className="w-6 h-6 text-brand-green" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" /></svg>
-            <h3 className="text-xl font-bold text-brand-green drop-shadow-sm">For Everyone</h3>
-          </div>
-          <ul className="text-sm md:text-base text-gray-600 font-medium grid grid-cols-1 md:grid-cols-2 gap-2">
-            {rewards.everyone.map((item, i) => <li key={i}>• {item}</li>)}
-          </ul>
-        </motion.div>
       </div>
     </SceneWrapper>
   );
