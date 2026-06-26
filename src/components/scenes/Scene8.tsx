@@ -89,24 +89,6 @@ function Trophy3D() {
   );
 }
 
-export default function Scene8() {
-  const { rewards } = ideathonData.scene8;
-
-  return (
-    <SceneWrapper>
-      {/* Custom Framer Motion Confetti */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
-        {Array.from({ length: 50 }).map((_, i) => (
-          <motion.div
-            key={`confetti-${i}`}
-            initial={{ 
-              top: "-10%", 
-              left: `${Math.random() * 100}%`,
-              opacity: 1,
-              scale: Math.random() * 0.5 + 0.5,
-              rotate: Math.random() * 360 
-            }}
-            animate={{ 
 const Medal = ({ color }: { color: string }) => (
   <svg className="w-14 h-14 drop-shadow-xl" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M8.21 13.89L7 23l5-3 5 3-1.21-9.11" fill={color} stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
