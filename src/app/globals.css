@@ -4,13 +4,13 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   
-  --color-brand-blue: #00F0FF;
-  --color-brand-purple: #B026FF;
-  --color-brand-green: #00FF66;
-  --color-brand-gold: #FFD700;
+  --color-brand-blue: #0052CC;
+  --color-brand-purple: #4C51BF;
+  --color-brand-green: #38A169;
+  --color-brand-gold: #D69E2E;
   
-  --color-bg-dark: #050510;
-  --color-bg-surface: #0a0a1a;
+  --color-bg-dark: #F8F9FA;
+  --color-bg-surface: #FFFFFF;
 }
 
 @custom-variant dark (&:is(.dark *));
@@ -18,41 +18,31 @@
 @layer base {
   body {
     background-color: var(--color-bg-dark);
-    color: white;
+    color: #1F2937;
     overflow-x: hidden;
   }
 }
 
 .glass-card {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-  border-radius: 1.5rem;
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border-radius: 1rem;
 }
 
 .glass-card-colorful {
-  background: linear-gradient(135deg, rgba(0, 240, 255, 0.1) 0%, rgba(176, 38, 255, 0.1) 100%);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
-  border-radius: 1.5rem;
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 82, 204, 0.15);
+  box-shadow: 0 8px 30px rgba(0, 82, 204, 0.08);
+  border-radius: 1rem;
 }
 
 .text-gradient {
-  background: linear-gradient(to right, var(--color-brand-blue), var(--color-brand-purple));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--color-brand-blue);
 }
 
 .text-gradient-gold {
-  background: linear-gradient(to right, #FFD700, #FFA500);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--color-brand-gold);
 }
 
 /* Hide scrollbar for cleaner look */

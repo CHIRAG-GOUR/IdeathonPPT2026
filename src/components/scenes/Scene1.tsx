@@ -1,82 +1,97 @@
 "use client";
 
-import { useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import SceneWrapper from "./SceneWrapper";
 import { ideathonData } from "@/content/ideathon-data";
 
-export default function Scene1({ step = 0 }: { step?: number }) {
-  const phase = step < 3 ? "countdown" : step < 8 ? "words" : "reveal";
-  const count = 3 - step; 
-  const wordIndex = step - 3; 
+const flyDirections = [
+  { x: -300, y: -200 }, // THINK
+  { x: 200, y: -300 },  // CREATE
+  { x: 0, y: 300 },     // BUILD
+  { x: -250, y: 200 },  // PITCH
+  { x: 300, y: 150 }    // WIN
+];
 
-  useEffect(() => {
-    let audioSrc = "";
-    if (step === 0) audioSrc = "/audio/3.mp3";
-    else if (step === 1) audioSrc = "/audio/2.mp3";
-    else if (step === 2) audioSrc = "/audio/1.mp3";
-    else if (step === 3) audioSrc = "/audio/think.mp3";
-    else if (step === 4) audioSrc = "/audio/create.mp3";
-    else if (step === 5) audioSrc = "/audio/build.mp3";
-    else if (step === 6) audioSrc = "/audio/pitch.mp3";
-    else if (step === 7) audioSrc = "/audio/win.mp3";
-
-    if (audioSrc) {
-      const audio = new Audio(audioSrc);
-      audio.play().catch(e => console.log("Audio play blocked:", e));
-    }
-  }, [step]);
-
+export default function Scene1() {
   return (
     <SceneWrapper>
-      <div className="relative flex items-center justify-center w-full h-full">
-        <AnimatePresence mode="wait">
-          {phase === "countdown" && (
-            <motion.div
-              key={`count-${count}`}
-              initial={{ scale: 0.5, opacity: 0 }}
-              animate={{ scale: 1.5, opacity: 1 }}
-              exit={{ scale: 3, opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="absolute text-9xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-white to-gray-500"
-            >
-              {count}
-            </motion.div>
-          )}
+      <div className="relative flex flex-col items-center justify-center w-full h-full gap-6 overflow-hidden">
+        
+        {/* GIF loads first, fades in */}
+        <motion.img 
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          src="/media/Gif 4.gif" 
+          alt="Important Announcement"
+          className="w-48 md:w-64 h-auto rounded-xl shadow-md mb-2"
+          fetchPriority="high"
+          loading="eager"
+        />
 
-          {phase === "words" && (
-            <motion.div
-              key={`word-${wordIndex}`}
-              initial={{ y: 50, opacity: 0, filter: "blur(10px)" }}
-              animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
-              exit={{ y: -50, opacity: 0, filter: "blur(10px)" }}
-              transition={{ duration: 0.3 }}
-              className="absolute text-7xl md:text-9xl font-black text-transparent bg-clip-text bg-gradient-to-r from-brand-blue to-brand-purple tracking-tighter"
-            >
-              {ideathonData.scene1.words[wordIndex]}
-            </motion.div>
-          )}
+        {/* Title animates in later */}
+        <motion.h1 
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.8, duration: 1.5, ease: "easeOut" }}
+          className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter text-gray-900 drop-shadow-sm mt-4"
+        >
+          {ideathonData.scene1.title}
+        </motion.h1>
 
-          {phase === "reveal" && (
-            <motion.div
-              key="reveal"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1.5, ease: "easeOut" }}
-              className="flex flex-col items-center gap-6"
-            >
-              <h1 className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter text-white drop-shadow-[0_0_30px_rgba(0,240,255,0.5)]">
-                {ideathonData.scene1.title}
-              </h1>
-              <h2 className="text-2xl md:text-4xl font-medium text-gray-300">
-                {ideathonData.scene1.subtitle}
-              </h2>
-              <div className="mt-8 px-6 py-3 rounded-full border border-brand-green/30 bg-brand-green/10 text-brand-green tracking-widest text-sm uppercase">
-                {ideathonData.scene1.tagline}
+        {/* Subtitle animates in */}
+        <motion.h2 
+          initial={{ opacity: 0, filter: "blur(10px)" }}
+          animate={{ opacity: 1, filter: "blur(0px)" }}
+          transition={{ delay: 1.5, duration: 1.5, ease: "easeOut" }}
+          className="text-xl md:text-3xl font-bold text-gray-600 text-center max-w-4xl leading-tight -mt-2"
+        >
+          {ideathonData.scene1.subtitle}
+        </motion.h2>
+
+        {/* Words flying in smoothly */}
+        <div className="flex gap-4 md:gap-8 mt-6 mb-4">
+          {ideathonData.scene1.words.map((word, i) => {
+            const dir = flyDirections[i % flyDirections.length];
+            return (
+              <div key={word} className="relative inline-block">
+                {/* Smoke Trails */}
+                {[...Array(3)].map((_, j) => (
+                  <motion.span
+                    key={j}
+                    initial={{ opacity: 0, x: dir.x, y: dir.y, scale: 0.5, filter: "blur(15px)" }}
+                    animate={{ opacity: [0, 0.3 - j * 0.1, 0], x: 0, y: 0, scale: 1.2, filter: "blur(4px)" }}
+                    transition={{ delay: 2.5 + i * 0.4 + j * 0.1, duration: 1.2, ease: "easeInOut" }}
+                    className="absolute inset-0 text-xl md:text-3xl font-black text-gray-400 tracking-widest pointer-events-none"
+                  >
+                    {word}
+                  </motion.span>
+                ))}
+                
+                {/* Main Word */}
+                <motion.span
+                  initial={{ opacity: 0, x: dir.x, y: dir.y, scale: 0.5, filter: "blur(10px)" }}
+                  animate={{ opacity: 1, x: 0, y: 0, scale: 1, filter: "blur(0px)" }}
+                  transition={{ delay: 2.5 + i * 0.4, duration: 1.2, type: "spring", bounce: 0.2 }}
+                  className="relative text-xl md:text-3xl font-black text-brand-blue tracking-widest drop-shadow-sm inline-block"
+                >
+                  {word}
+                </motion.span>
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+            );
+          })}
+        </div>
+
+        {/* Tagline animates in last */}
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 5.5, duration: 1, ease: "easeOut" }}
+          className="mt-6 px-8 py-4 rounded-full border border-brand-blue/30 bg-white shadow-sm text-brand-blue tracking-widest text-sm uppercase text-center font-bold"
+        >
+          {ideathonData.scene1.tagline}
+        </motion.div>
+          
       </div>
     </SceneWrapper>
   );

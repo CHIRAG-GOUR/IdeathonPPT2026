@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import SceneWrapper from "./SceneWrapper";
 import { ideathonData } from "@/content/ideathon-data";
+import { LettersPullUp, WordReveal, LetterBounce } from "../AnimatedTexts";
 
 export default function Scene10() {
   const [phase, setPhase] = useState<"lines" | "finale">("lines");
@@ -14,7 +15,7 @@ export default function Scene10() {
   useEffect(() => {
     if (phase === "lines") {
       if (currentLine < lines.length) {
-        const timer = setTimeout(() => setCurrentLine(currentLine + 1), currentLine === 0 ? 2000 : 1500);
+        const timer = setTimeout(() => setCurrentLine(currentLine + 1), currentLine === 0 ? 1000 : 2500);
         return () => clearTimeout(timer);
       } else {
         const timer = setTimeout(() => setPhase("finale"), 2000);
@@ -24,70 +25,116 @@ export default function Scene10() {
   }, [phase, currentLine, lines.length]);
 
   return (
-    <SceneWrapper>
-      <div className="relative w-full h-full flex flex-col items-center justify-center">
+    <SceneWrapper className="bg-gray-50/50">
+      <div className="relative w-full max-w-[1000px] mx-auto">
+        {/* Glowing border effect */}
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-200/60 via-gray-300/50 to-pink-200/50 blur-xl rounded-[3rem] transform scale-[1.02] z-0"></div>
+        
+        <div 
+          className="w-full p-[3rem_2rem] md:p-[5rem_4rem] rounded-[3rem] text-center relative overflow-hidden z-10"
+          style={{
+            background: 'rgba(255, 255, 255, 0.75)',
+            border: '1px solid rgba(255, 255, 255, 0.8)',
+            boxShadow: '0 30px 60px -15px rgba(0, 0, 0, 0.1)',
+            backdropFilter: 'blur(24px)'
+          }}
+        >
+          <div className="relative w-full h-full flex flex-col items-center justify-center min-h-[500px]">
 
-        <AnimatePresence mode="wait">
-          {phase === "lines" && (
-            <motion.div
-              key="lines"
-              exit={{ opacity: 0, scale: 0.9, filter: "blur(10px)" }}
-              transition={{ duration: 1.5 }}
-              className="flex flex-col items-center justify-center gap-4 text-center max-w-4xl"
+          <AnimatePresence mode="wait">
+            {phase === "lines" && (
+              <motion.div
+                key="lines"
+                exit={{ opacity: 0, scale: 0.9, filter: "blur(10px)" }}
+                transition={{ duration: 1.5 }}
+                className="flex flex-col items-center justify-center gap-6 text-center w-full"
+              >
+                <h2 className="text-2xl md:text-4xl font-black mb-8 text-gray-900 tracking-widest uppercase">
+                  {ideathonData.scene10.title}
+                </h2>
+
+                <div className="relative w-full h-64 mt-8 flex items-center justify-center">
+                  <AnimatePresence mode="wait">
+                    {currentLine > 0 && currentLine <= lines.length && (
+                      <motion.div
+                        key={currentLine}
+                        initial={{ opacity: 0, y: 20, filter: "blur(5px)" }}
+                        animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                        exit={{ opacity: 0, y: -20, filter: "blur(5px)" }}
+                        transition={{ duration: 0.5 }}
+                        className="absolute inset-0 flex items-center justify-center"
+                      >
+                        <LettersPullUp 
+                          text={lines[currentLine - 1]} 
+                          className={`font-black uppercase tracking-tight ${(currentLine - 1) % 2 !== 0 ? 'text-brand-blue drop-shadow-sm' : 'text-gray-700'}`} 
+                          style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)', lineHeight: 1.2, justifyContent: 'center' }} 
+                        />
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+
+              </motion.div>
+            )}
+
+            {phase === "finale" && <motion.div
+              key="finale"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 2, ease: "easeOut" }}
+              className="flex flex-col items-center justify-center relative z-10 w-full"
             >
-              <h2 className="text-3xl md:text-5xl font-black mb-12 text-brand-blue tracking-widest uppercase opacity-50">
-                {ideathonData.scene10.title}
-              </h2>
+              {/* Spotlight */}
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 0.3, height: "200vh" }}
+                transition={{ duration: 2 }}
+                className="absolute top-[-100vh] left-1/2 -translate-x-1/2 w-96 bg-gradient-to-b from-brand-blue/30 via-brand-green/10 to-transparent blur-[50px] pointer-events-none -z-10"
+                style={{ clipPath: "polygon(40% 0, 60% 0, 100% 100%, 0% 100%)" }}
+              />
 
-              {lines.slice(0, currentLine).map((line, i) => (
-                <motion.p
-                  key={i}
-                  initial={{ opacity: 0, y: 20, filter: "blur(5px)" }}
-                  animate={{ opacity: i % 2 === 0 ? 0.6 : 1, y: 0, filter: "blur(0px)" }}
-                  transition={{ duration: 1, ease: "easeOut" }}
-                  className={`text-xl md:text-4xl font-light ${i % 2 !== 0 ? 'text-white font-medium drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]' : 'text-gray-400'}`}
-                >
-                  {line}
-                </motion.p>
-              ))}
-            </motion.div>
-          )}
+              <WordReveal 
+                text={ideathonData.scene10.finale.title} 
+                className="font-black text-gray-900 tracking-tighter drop-shadow-sm uppercase" 
+                style={{ fontSize: 'clamp(3rem, 8vw, 7rem)', lineHeight: 1.1 }} 
+              />
+              
+              <LetterBounce 
+                text={ideathonData.scene10.finale.subtitle} 
+                className="font-bold text-brand-blue mt-4 mb-8 text-center uppercase tracking-widest" 
+                style={{ fontSize: 'clamp(1.2rem, 3vw, 2.5rem)' }} 
+              />
 
-          {phase === "finale" && <motion.div
-            key="finale"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 2, ease: "easeOut" }}
-            className="flex flex-col items-center justify-center relative z-10 w-full"
-          >
-            {/* Massive Spotlight from above */}
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 0.8, height: "200vh" }}
-              transition={{ duration: 2 }}
-              className="absolute top-[-100vh] left-1/2 -translate-x-1/2 w-96 bg-gradient-to-b from-white/40 via-brand-blue/20 to-transparent blur-[50px] pointer-events-none -z-10"
-              style={{ clipPath: "polygon(40% 0, 60% 0, 100% 100%, 0% 100%)" }}
-            />
+              <motion.button
+                whileHover={{ scale: 1.05, boxShadow: "0 0 40px rgba(0, 240, 255, 0.4)" }}
+                whileTap={{ scale: 0.95 }}
+                className="px-10 py-5 bg-brand-blue rounded-full text-white font-black text-xl md:text-2xl tracking-widest uppercase transition-all duration-300 relative overflow-hidden group shadow-md"
+              >
+                <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+                <span className="relative z-10">{ideathonData.scene10.buttonText}</span>
+              </motion.button>
 
-            <h1 className="text-7xl md:text-[150px] font-black text-transparent bg-clip-text bg-gradient-to-b from-white via-gray-200 to-gray-600 tracking-tighter drop-shadow-[0_0_50px_rgba(255,255,255,0.3)]">
-              {ideathonData.scene10.finale.title}
-            </h1>
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1, duration: 1 }}
+                className="mt-12 rounded-2xl overflow-hidden border border-gray-200 shadow-md w-64 md:w-96"
+              >
+                <video 
+                  src="/media/Ideathon hands.mov"
+                  autoPlay 
+                  loop 
+                  muted 
+                  playsInline
+                  className="w-full h-auto object-cover"
+                />
+              </motion.div>
 
-            <h2 className="text-4xl md:text-6xl font-bold text-brand-green mt-4 mb-16 tracking-widest drop-shadow-[0_0_20px_rgba(0,255,102,0.5)] uppercase text-center">
-              {ideathonData.scene10.finale.subtitle}
-            </h2>
+            </motion.div>}
+          </AnimatePresence>
 
-            <motion.button
-              whileHover={{ scale: 1.05, boxShadow: "0 0 40px rgba(0, 240, 255, 0.8)" }}
-              whileTap={{ scale: 0.95 }}
-              className="px-12 py-6 bg-gradient-to-r from-brand-blue to-brand-purple rounded-full text-white font-black text-2xl md:text-3xl tracking-widest uppercase transition-all duration-300 relative overflow-hidden group"
-            >
-              <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-              <span className="relative z-10">{ideathonData.scene10.buttonText}</span>
-            </motion.button>
-          </motion.div>}
-        </AnimatePresence>
-
+        </div>
+        </div>
       </div>
     </SceneWrapper>
   );

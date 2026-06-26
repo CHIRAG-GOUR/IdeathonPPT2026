@@ -1,204 +1,101 @@
 "use client";
 
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Stars, Float, PerspectiveCamera, Environment } from "@react-three/drei";
-import { useRef, useMemo, useState } from "react";
+import { PerspectiveCamera } from "@react-three/drei";
+import { useRef, useMemo } from "react";
 import * as THREE from "three";
 
-function Particles({ activeScene }: { activeScene: number }) {
-  const points = useRef<THREE.Points>(null!);
-
-  useFrame((state) => {
-    if (points.current) {
-      points.current.rotation.y = state.clock.elapsedTime * 0.05;
-      points.current.rotation.x = state.clock.elapsedTime * 0.02;
-    }
-  });
-
-  return (
-    <Stars 
-      ref={points} 
-      radius={100} 
-      depth={50} 
-      count={2000} 
-      factor={4} 
-      saturation={0} 
-      fade 
-      speed={1} 
-    />
-  );
-}
-
-function ShootingStars() {
-  const starsRef = useRef<THREE.Group>(null!);
-  const [lastShootTime, setLastShootTime] = useState(0);
-  const [shooting, setShooting] = useState(false);
+function NetworkGrid() {
+  const pointsRef = useRef<THREE.Points>(null!);
+  const linesRef = useRef<THREE.LineSegments>(null!);
   
-  const starData = useMemo(() => {
-    return Array.from({ length: 5 }).map(() => ({
-      position: new THREE.Vector3(
-        (Math.random() - 0.5) * 100,
-        Math.random() * 40 + 40,
-        -40 - Math.random() * 20 
-      ),
-      speed: Math.random() * 2 + 2,
-      active: false
-    }));
-  }, []);
-
-  useFrame((state) => {
-    const time = state.clock.elapsedTime;
+  const particleCount = 150;
+  const maxDistance = 15;
+  
+  const { positions, velocities } = useMemo(() => {
+    const positions = new Float32Array(particleCount * 3);
+    const velocities = [];
     
-    // Shoot every 5 seconds
-    if (time - lastShootTime > 5) {
-      setLastShootTime(time);
-      setShooting(true);
+    for (let i = 0; i < particleCount; i++) {
+      positions[i * 3] = (Math.random() - 0.5) * 80;
+      positions[i * 3 + 1] = (Math.random() - 0.5) * 50;
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 40 - 20;
       
-      // Reset positions for active stars
-      starData.forEach(star => {
-        star.active = true;
-        star.position.set(
-          (Math.random() - 0.5) * 100,
-          Math.random() * 20 + 30,
-          -40 - Math.random() * 20
-        );
-      });
-    }
-
-    if (shooting && starsRef.current) {
-      let allDone = true;
-      starsRef.current.children.forEach((child, i) => {
-        if (starData[i].active) {
-          allDone = false;
-          child.position.y -= starData[i].speed;
-          child.position.x -= starData[i].speed;
-          
-          if (child.position.y < -50) {
-            starData[i].active = false;
-            // hide it
-            child.position.y = 100; 
-          }
-        }
-      });
-      if (allDone) setShooting(false);
-    }
-  });
-
-  return (
-    <group ref={starsRef}>
-      {starData.map((star, i) => (
-        <mesh key={i} position={[0, 100, 0]}>
-          <cylinderGeometry args={[0.02, 0.1, 4, 8]} />
-          <meshBasicMaterial color="#FFFFFF" transparent opacity={0.8} />
-        </mesh>
-      ))}
-    </group>
-  );
-}
-
-function Planets() {
-  const groupRef = useRef<THREE.Group>(null!);
-  const satelliteRef = useRef<THREE.Group>(null!);
-
-  useFrame((state) => {
-    if (groupRef.current) {
-      groupRef.current.rotation.y = state.clock.elapsedTime * 0.05;
-    }
-    if (satelliteRef.current) {
-      // Orbit around the planet
-      satelliteRef.current.rotation.y = state.clock.elapsedTime * 0.5;
-    }
-  });
-
-  return (
-    <group ref={groupRef}>
-      {/* Planet 1 */}
-      <group position={[15, 5, -25]}>
-        <mesh>
-          <sphereGeometry args={[4, 24, 24]} />
-          <meshStandardMaterial color="#B026FF" roughness={0.7} />
-        </mesh>
-        {/* Ring for Planet 1 */}
-        <mesh rotation={[Math.PI / 2.5, 0, 0]}>
-          <torusGeometry args={[6, 0.1, 8, 64]} />
-          <meshStandardMaterial color="#00F0FF" roughness={0.4} />
-        </mesh>
-
-        {/* Orbiting Satellite */}
-        <group ref={satelliteRef}>
-          <mesh position={[8, 0, 0]} rotation={[0, 0, Math.PI / 4]}>
-            <cylinderGeometry args={[0.2, 0.2, 1, 8]} />
-            <meshBasicMaterial color="#CCCCCC" />
-            <mesh position={[0.8, 0, 0]}>
-              <boxGeometry args={[1.2, 0.05, 0.6]} />
-              <meshBasicMaterial color="#00F0FF" />
-            </mesh>
-            <mesh position={[-0.8, 0, 0]}>
-              <boxGeometry args={[1.2, 0.05, 0.6]} />
-              <meshBasicMaterial color="#00F0FF" />
-            </mesh>
-          </mesh>
-        </group>
-      </group>
-
-      {/* Planet 2 */}
-      <mesh position={[-20, -10, -30]}>
-        <sphereGeometry args={[6, 16, 16]} />
-        <meshBasicMaterial color="#00FF66" wireframe />
-      </mesh>
-    </group>
-  );
-}
-
-function FloatingShapes({ activeScene }: { activeScene: number }) {
-  const groupRef = useRef<THREE.Group>(null!);
-
-  useFrame((state) => {
-    if (groupRef.current) {
-      const targetY = -activeScene * 5;
-      groupRef.current.position.y = THREE.MathUtils.lerp(
-        groupRef.current.position.y,
-        targetY,
-        0.05
+      velocities.push(
+        (Math.random() - 0.5) * 0.05,
+        (Math.random() - 0.5) * 0.05,
+        (Math.random() - 0.5) * 0.05
       );
     }
+    
+    return { positions, velocities };
+  }, []);
+
+  const particlesGeometry = useMemo(() => {
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    return geo;
+  }, [positions]);
+
+  useFrame(() => {
+    if (!pointsRef.current || !linesRef.current) return;
+    
+    const positions = pointsRef.current.geometry.attributes.position.array as Float32Array;
+    
+    // Update positions
+    for (let i = 0; i < particleCount; i++) {
+      positions[i * 3] += velocities[i * 3];
+      positions[i * 3 + 1] += velocities[i * 3 + 1];
+      positions[i * 3 + 2] += velocities[i * 3 + 2];
+      
+      // Bounce off walls
+      if (Math.abs(positions[i * 3]) > 40) velocities[i * 3] *= -1;
+      if (Math.abs(positions[i * 3 + 1]) > 25) velocities[i * 3 + 1] *= -1;
+      if (positions[i * 3 + 2] > 0 || positions[i * 3 + 2] < -40) velocities[i * 3 + 2] *= -1;
+    }
+    pointsRef.current.geometry.attributes.position.needsUpdate = true;
+    
+    // Update lines
+    const linePositions = [];
+    for (let i = 0; i < particleCount; i++) {
+      for (let j = i + 1; j < particleCount; j++) {
+        const dx = positions[i * 3] - positions[j * 3];
+        const dy = positions[i * 3 + 1] - positions[j * 3 + 1];
+        const dz = positions[i * 3 + 2] - positions[j * 3 + 2];
+        const distSq = dx*dx + dy*dy + dz*dz;
+        
+        if (distSq < maxDistance * maxDistance) {
+          linePositions.push(
+            positions[i * 3], positions[i * 3 + 1], positions[i * 3 + 2],
+            positions[j * 3], positions[j * 3 + 1], positions[j * 3 + 2]
+          );
+        }
+      }
+    }
+    
+    linesRef.current.geometry.setAttribute('position', new THREE.Float32BufferAttribute(linePositions, 3));
   });
 
   return (
-    <group ref={groupRef}>
-      {/* Scene 1 Elements */}
-      <Float speed={2} rotationIntensity={1} floatIntensity={2} position={[5, 0, -8]}>
-        <mesh>
-          <octahedronGeometry args={[1.5, 0]} />
-          <meshStandardMaterial color="#00F0FF" wireframe />
-        </mesh>
-      </Float>
-
-      {/* Scene 2 Elements */}
-      <Float speed={1.5} rotationIntensity={2} floatIntensity={1.5} position={[-5, -5, -10]}>
-        <mesh>
-          <icosahedronGeometry args={[2, 0]} />
-          <meshStandardMaterial color="#B026FF" wireframe />
-        </mesh>
-      </Float>
+    <group>
+      <points ref={pointsRef} geometry={particlesGeometry}>
+        <pointsMaterial size={0.3} color="#1E3A8A" transparent opacity={0.6} sizeAttenuation />
+      </points>
+      <lineSegments ref={linesRef}>
+        <lineBasicMaterial color="#3B82F6" transparent opacity={0.2} />
+      </lineSegments>
     </group>
   );
 }
 
 export default function PresentationCanvas({ activeScene }: { activeScene: number }) {
   return (
-    <Canvas performance={{ min: 0.5 }}>
-      <PerspectiveCamera makeDefault position={[0, 0, 10]} fov={60} />
-      <ambientLight intensity={0.3} />
-      <directionalLight position={[10, 10, 5]} intensity={1} color="#00F0FF" />
-      <directionalLight position={[-10, -10, -5]} intensity={0.5} color="#B026FF" />
-      
-      <Particles activeScene={activeScene} />
-      <ShootingStars />
-      <Planets />
-      <FloatingShapes activeScene={activeScene} />
-      
-      <fog attach="fog" args={['#050510', 15, 60]} />
-    </Canvas>
+    <div className="absolute inset-0 w-full h-full bg-[#F8FAFC]">
+      <Canvas dpr={[1, 1.5]} gl={{ antialias: false, powerPreference: "low-power" }}>
+        <PerspectiveCamera makeDefault position={[0, 0, 15]} fov={60} />
+        <ambientLight intensity={1} />
+        <NetworkGrid />
+      </Canvas>
+    </div>
   );
 }

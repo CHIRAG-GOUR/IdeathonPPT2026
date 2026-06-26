@@ -4,7 +4,6 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Navigation from "@/components/Navigation";
 import PresentationCanvas from "@/components/PresentationCanvas";
-import { Maximize, Minimize } from "lucide-react";
 
 import Scene1 from "@/components/scenes/Scene1";
 import Scene2 from "@/components/scenes/Scene2";
@@ -19,7 +18,7 @@ import Scene10 from "@/components/scenes/Scene10";
 import { playWhooshSound, playStartupSound } from "@/utils/audio";
 
 // Define the number of steps per scene for arrow navigation
-const SCENE_STEPS = [9, 1, 1, 1, 1, 4, 1, 4, 1, 1];
+const SCENE_STEPS = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
 const TOTAL_SCENES = 10;
 
 export default function Presentation() {
@@ -27,6 +26,7 @@ export default function Presentation() {
   const [activeScene, setActiveScene] = useState(0);
   const [activeStep, setActiveStep] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isAutoplaying, setIsAutoplaying] = useState(false);
   const isScrolling = useRef(false);
 
   // Play sound when activeScene changes (only if it has started)
@@ -64,6 +64,26 @@ export default function Presentation() {
       setActiveStep(SCENE_STEPS[activeScene - 1] - 1);
     }
   }, [activeScene, activeStep]);
+
+  // Handle Autoplay
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (isAutoplaying) {
+      interval = setInterval(() => {
+        nextAction();
+      }, 5000); // 5 seconds per slide step
+    }
+    return () => clearInterval(interval);
+  }, [isAutoplaying, nextAction]);
+
+  const toggleAutoplay = () => {
+    const newPlayState = !isAutoplaying;
+    setIsAutoplaying(newPlayState);
+    if (newPlayState && !isFullscreen && !document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(err => console.log(err));
+      setIsFullscreen(true);
+    }
+  };
 
   // Handle Wheel Events
   useEffect(() => {
@@ -112,14 +132,14 @@ export default function Presentation() {
 
   const renderScene = () => {
     switch (activeScene) {
-      case 0: return <Scene1 key="scene1" step={activeStep} />;
+      case 0: return <Scene1 key="scene1" />;
       case 1: return <Scene2 key="scene2" />;
       case 2: return <Scene3 key="scene3" />;
       case 3: return <Scene4 key="scene4" />;
       case 4: return <Scene5 key="scene5" />;
-      case 5: return <Scene6 key="scene6" step={activeStep} />;
+      case 5: return <Scene6 key="scene6" />;
       case 6: return <Scene7 key="scene7" />;
-      case 7: return <Scene8 key="scene8" step={activeStep} />;
+      case 7: return <Scene8 key="scene8" />;
       case 8: return <Scene9 key="scene9" />;
       case 9: return <Scene10 key="scene10" />;
       default: return null;
@@ -171,14 +191,16 @@ export default function Presentation() {
           setActiveScene(idx);
           setActiveStep(0);
         }} 
+        isAutoplaying={isAutoplaying}
+        toggleAutoplay={toggleAutoplay}
       />
       
       {/* Fullscreen Toggle */}
       <button 
         onClick={toggleFullscreen}
-        className="absolute top-6 right-6 z-50 p-3 bg-white/10 hover:bg-brand-blue/30 text-white rounded-full transition-colors backdrop-blur-md border border-white/20"
+        className="absolute top-6 right-6 z-50 p-3 bg-white/80 hover:bg-white text-gray-700 hover:text-brand-blue rounded-full transition-colors shadow-sm border border-gray-200"
       >
-        {isFullscreen ? <Minimize size={20} /> : <Maximize size={20} />}
+        <span className="text-xl leading-none">{isFullscreen ? "🗗" : "⛶"}</span>
       </button>
 
     </main>

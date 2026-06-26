@@ -3,89 +3,113 @@
 import { motion } from "framer-motion";
 import SceneWrapper from "./SceneWrapper";
 import { ideathonData } from "@/content/ideathon-data";
-import { Trophy, Swords, Crown, ArrowRight } from "lucide-react";
 
-export default function Scene6({ step = 3 }: { step?: number }) {
-  const icons = [Swords, Crown, Trophy];
+const getBoxStyles = (index: number) => {
+  switch(index) {
+    case 0:
+      return "bg-[#c4a484] border-[#8b4513] shadow-[0_0_40px_rgba(0,100,0,0.6)] text-white";
+    case 1:
+      return "bg-[#e0e0e0] border-[#a0a0a0] shadow-[0_0_40px_rgba(100,100,100,0.6)] text-gray-900";
+    case 2:
+      return "bg-[#ffd700] border-[#b8860b] shadow-[0_0_50px_rgba(255,215,0,0.9)] text-black";
+    default:
+      return "";
+  }
+};
+
+const getImage = (index: number) => {
+  switch(index) {
+    case 0: return "/media/level_1.png";
+    case 1: return "/media/level_2.png";
+    case 2: return "/media/level_3.png";
+    default: return "";
+  }
+};
+
+export default function Scene6() {
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { staggerChildren: 0.3 }
+    }
+  };
+
+  const item = {
+    hidden: { opacity: 0, y: 30 },
+    show: { opacity: 1, y: 0, transition: { type: "spring" as const, bounce: 0.4 } }
+  };
 
   return (
     <SceneWrapper>
-      <div className="w-full flex flex-col items-center pt-12">
+      <div className="w-full flex flex-col items-center pt-2">
+        
         <motion.h2 
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#FFD700] to-[#FFA500] mb-16 uppercase tracking-widest drop-shadow-lg"
+          transition={{ duration: 0.8, type: "spring" }}
+          className="text-4xl md:text-5xl lg:text-6xl font-black mb-8 text-brand-blue uppercase tracking-wide flex items-center gap-4 drop-shadow-sm text-center"
         >
           {ideathonData.scene6.title}
         </motion.h2>
 
-        <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16 w-full max-w-6xl relative z-10">
-          
-          {ideathonData.scene6.levels.map((level, i) => {
-            const Icon = icons[i];
-            const isLast = i === ideathonData.scene6.levels.length - 1;
-            const isVisible = step >= i;
-            
-            return (
-              <div key={i} className="flex flex-col md:flex-row items-center gap-8 md:gap-16">
-                <motion.div 
-                  initial={{ opacity: 0, y: 50, scale: 0.8 }}
-                  animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 50, scale: isVisible ? (isLast ? 1.1 : 1) : 0.8 }}
-                  transition={{ duration: 0.6, type: "spring" }}
-                  className={`relative flex flex-col items-center text-center p-8 glass-card-colorful rounded-2xl w-full md:w-80 border-t-4 ${
-                    i === 0 ? "border-t-brand-blue" : 
-                    i === 1 ? "border-t-brand-purple" : 
-                    "border-t-brand-gold shadow-[0_0_30px_rgba(255,215,0,0.2)]"
-                  }`}
-                >
-                  <div className={`w-20 h-20 rounded-full flex items-center justify-center mb-6 shadow-lg ${
-                    i === 0 ? "bg-brand-blue/20 text-brand-blue shadow-brand-blue/30" : 
-                    i === 1 ? "bg-brand-purple/20 text-brand-purple shadow-brand-purple/30" : 
-                    "bg-brand-gold/20 text-brand-gold shadow-brand-gold/30"
-                  }`}>
-                    <Icon size={40} />
-                  </div>
-                  
-                  <h3 className="text-xl font-bold text-gray-400 mb-2">{level.level}</h3>
-                  <h4 className={`text-2xl font-black mb-4 ${isLast ? 'text-brand-gold' : 'text-white'}`}>{level.name}</h4>
-                  <p className="text-gray-400 text-sm">{level.desc}</p>
-                </motion.div>
-
-                {/* Arrow pointing to next level, instead of line */}
-                {i < ideathonData.scene6.levels.length - 1 && (
-                  <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: step >= i + 1 ? 1 : 0, x: step >= i + 1 ? 0 : -20 }}
-                    transition={{ duration: 0.5 }}
-                    className="hidden md:block text-gray-500"
-                  >
-                    <ArrowRight size={40} />
-                  </motion.div>
-                )}
-              </div>
-            )
-          })}
-        </div>
-
         <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: step >= 3 ? 1 : 0 }}
-          transition={{ duration: 1 }}
-          className="mt-12 flex gap-8 text-2xl md:text-4xl font-black tracking-widest text-white/80"
+          variants={container}
+          initial="hidden"
+          animate="show"
+          className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8"
         >
-          {ideathonData.scene6.tagline.map((word, i) => (
-            <motion.span 
-              key={i}
-              initial={{ opacity: 0, scale: 1.5 }}
-              animate={{ opacity: step >= 3 ? 1 : 0, scale: step >= 3 ? 1 : 1.5 }}
-              transition={{ delay: step >= 3 ? i * 0.4 : 0, type: "spring", stiffness: 200 }}
-              className={i === 2 ? "text-brand-green drop-shadow-lg" : ""}
+          {ideathonData.scene6.levels.map((level, i) => (
+            <motion.div 
+              key={i} 
+              variants={item}
+              className={`p-4 md:p-6 flex flex-col items-center justify-center text-center gap-3 group hover:scale-[1.05] transition-all duration-300 w-full relative overflow-hidden rounded-2xl border-2 ${getBoxStyles(i)}`}
             >
-              {word}
-            </motion.span>
+              {/* Generated Image */}
+              <div className="w-full h-32 md:h-40 rounded-xl overflow-hidden shadow-inner mb-2 border border-black/10">
+                <img src={getImage(i)} alt={level.name} className="w-full h-full object-cover" />
+              </div>
+              
+              <div className="flex-shrink-0 w-10 h-10 rounded-full bg-white/20 flex items-center justify-center border border-white/40 shadow-sm">
+                <span className="text-xl font-black">{i + 1}</span>
+              </div>
+
+              <div className="font-bold tracking-widest text-[10px] md:text-xs uppercase opacity-80">{level.level}</div>
+              <h3 className="text-lg md:text-xl font-black mb-1 leading-tight">{level.name}</h3>
+              <p className="text-sm opacity-90">{level.desc}</p>
+            </motion.div>
           ))}
         </motion.div>
 
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 1 }}
+          className="mt-8 flex flex-col items-center gap-4"
+        >
+          <div className="flex gap-4 md:gap-8 text-xl md:text-3xl font-black tracking-widest text-gray-700">
+            {ideathonData.scene6.tagline.map((word, i) => (
+              <motion.span 
+                key={i}
+                initial={{ opacity: 0, scale: 1.5 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 1.5 + i * 0.4, type: "spring", stiffness: 200 }}
+                className={i === 2 ? "text-brand-green" : ""}
+              >
+                {word}
+              </motion.span>
+            ))}
+          </div>
+          
+          <motion.img 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 2.5, duration: 0.5 }}
+            src="/media/Gif 6.gif"
+            alt="Champion"
+            className="w-32 md:w-48 h-auto rounded-xl shadow-md"
+          />
+        </motion.div>
 
       </div>
     </SceneWrapper>

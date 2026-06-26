@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, useAnimation } from "framer-motion";
+import { motion } from "framer-motion";
 import SceneWrapper from "./SceneWrapper";
 import { ideathonData } from "@/content/ideathon-data";
 
@@ -37,14 +37,14 @@ function Counter({ value, suffix, label, delay }: { value: number, suffix: strin
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay, duration: 0.8 }}
-      className="flex flex-col items-center p-8 glass-card rounded-2xl relative overflow-hidden group"
+      className="flex flex-col items-center p-4 md:p-6 glass-card rounded-2xl relative overflow-hidden group shadow-sm hover:border-brand-blue/30 transition-all bg-white"
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-brand-blue/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-      <div className="text-5xl md:text-7xl font-black text-white mb-4 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] flex items-end">
+      <div className="absolute inset-0 bg-gradient-to-br from-brand-blue/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      <div className="text-3xl md:text-5xl font-black text-brand-blue mb-2 drop-shadow-sm flex items-end">
         {count}
-        <span className="text-3xl md:text-5xl text-brand-gold ml-1">{suffix}</span>
+        <span className="text-xl md:text-3xl text-brand-gold ml-1">{suffix}</span>
       </div>
-      <div className="text-lg md:text-xl text-gray-300 font-medium tracking-wide text-center uppercase">
+      <div className="text-xs md:text-sm text-gray-600 font-bold tracking-wide text-center uppercase leading-tight">
         {label}
       </div>
     </motion.div>
@@ -54,16 +54,25 @@ function Counter({ value, suffix, label, delay }: { value: number, suffix: strin
 export default function Scene4() {
   return (
     <SceneWrapper>
-      <div className="w-full flex flex-col items-center pt-10">
+      <div className="w-full flex flex-col items-center pt-2">
         <motion.h2 
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="text-4xl md:text-6xl font-bold mb-16 text-gradient"
+          className="text-2xl md:text-3xl lg:text-4xl font-black mb-6 text-brand-blue tracking-wide uppercase drop-shadow-sm text-center"
         >
           {ideathonData.scene4.title}
         </motion.h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-6xl mb-16">
+        <motion.img 
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.2, type: "spring", bounce: 0.5 }}
+          src="/media/Gif 1.gif"
+          alt="Animation"
+          className="w-48 md:w-64 lg:w-80 h-auto object-contain drop-shadow-md mb-6"
+        />
+
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 w-full max-w-5xl mb-10">
           {ideathonData.scene4.metrics.map((metric, i) => (
             <Counter 
               key={i}
@@ -79,15 +88,20 @@ export default function Scene4() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.5, duration: 1 }}
-          className="text-2xl md:text-4xl font-light text-center"
+          className="text-lg md:text-xl lg:text-2xl font-light text-center text-gray-600"
         >
           {ideathonData.scene4.tagline.split('. ').map((part, i) => (
-            <span key={i} className={i === 2 ? "text-brand-green font-bold block mt-4" : "block md:inline md:after:content-['.'] md:after:mx-2"}>
+            <motion.span 
+              key={i} 
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 1.5 + i * 0.3 }}
+              className={i === 2 ? "text-brand-green font-black block mt-3 text-xl md:text-3xl tracking-tight drop-shadow-sm" : "block md:inline md:after:content-['.'] md:after:mx-2"}
+            >
               {part.replace('.', '')}
-            </span>
+            </motion.span>
           ))}
         </motion.div>
-
 
       </div>
     </SceneWrapper>
