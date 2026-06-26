@@ -107,7 +107,33 @@ export default function Scene8() {
               rotate: Math.random() * 360 
             }}
             animate={{ 
-              top: "110%", 
+const Medal = ({ color }: { color: string }) => (
+  <svg className="w-14 h-14 drop-shadow-xl" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M8.21 13.89L7 23l5-3 5 3-1.21-9.11" fill={color} stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <circle cx="12" cy="9" r="7" fill={color} stroke="#FFFFFF" strokeWidth="2" />
+    <circle cx="12" cy="9" r="4" fill="none" stroke="#FFFFFF" strokeWidth="1" strokeOpacity="0.5" />
+    <circle cx="12" cy="9" r="1.5" fill="#FFFFFF" fillOpacity="0.8" />
+  </svg>
+);
+
+export default function Scene8() {
+  const rewards = ideathonData.scene8.rewards;
+
+  return (
+    <SceneWrapper>
+      {/* Background Confetti/Particles */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-40 z-0">
+        {[...Array(30)].map((_, i) => (
+          <motion.div
+            key={i}
+            initial={{ 
+              x: Math.random() * 1000 - 500, 
+              y: -100,
+              rotate: 0,
+              opacity: 1
+            }}
+            animate={{ 
+              y: "110%", 
               rotate: Math.random() * 720,
               opacity: [1, 1, 0]
             }}
@@ -118,7 +144,10 @@ export default function Scene8() {
               ease: "linear"
             }}
             className={`absolute w-3 h-3 ${['bg-red-400', 'bg-blue-400', 'bg-green-400', 'bg-yellow-400', 'bg-purple-400'][Math.floor(Math.random() * 5)]}`}
-            style={{ borderRadius: Math.random() > 0.5 ? '50%' : '0%' }}
+            style={{ 
+              left: `${Math.random() * 100}%`,
+              borderRadius: Math.random() > 0.5 ? '50%' : '0%' 
+            }}
           />
         ))}
       </div>
@@ -142,8 +171,12 @@ export default function Scene8() {
               initial={{ opacity: 0, x: -100, rotateY: -20 }} 
               animate={{ opacity: 1, x: 0, rotateY: 0 }} 
               transition={{ delay: 0.3, duration: 0.8, type: "spring" }}
-              className="glass-card p-6 md:p-8 rounded-2xl border-2 border-[#FFD700] shadow-[0_0_30px_rgba(255,215,0,0.6)] bg-white/80 backdrop-blur-xl flex-1"
+              className="glass-card relative p-6 md:p-8 rounded-2xl bg-white/80 backdrop-blur-xl flex-1"
+              style={{ border: '3px solid #FFD700', boxShadow: '0 0 35px rgba(255,215,0,0.6)' }}
             >
+              <div className="absolute -top-5 -right-3 rotate-[15deg]">
+                <Medal color="#FFD700" />
+              </div>
               <div className="flex items-center justify-center md:justify-start gap-3 mb-4">
                 <div className="p-2 bg-[#FFD700]/10 rounded-full">
                   <svg className="w-8 h-8 text-[#D4AF37]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
@@ -159,8 +192,12 @@ export default function Scene8() {
               initial={{ opacity: 0, x: -100, rotateY: -20 }} 
               animate={{ opacity: 1, x: 0, rotateY: 0 }} 
               transition={{ delay: 0.5, duration: 0.8, type: "spring" }} 
-              className="glass-card bg-white/80 backdrop-blur-xl p-6 md:p-8 rounded-2xl border-2 border-[#C0C0C0] shadow-[0_0_25px_rgba(192,192,192,0.6)] text-center md:text-left flex-1"
+              className="glass-card relative bg-white/80 backdrop-blur-xl p-6 md:p-8 rounded-2xl text-center md:text-left flex-1"
+              style={{ border: '3px solid #C0C0C0', boxShadow: '0 0 30px rgba(192,192,192,0.7)' }}
             >
+              <div className="absolute -top-5 -right-3 rotate-[15deg]">
+                <Medal color="#C0C0C0" />
+              </div>
               <div className="flex items-center justify-center md:justify-start gap-3 mb-4">
                 <div className="p-2 bg-[#C0C0C0]/10 rounded-full">
                   <svg className="w-7 h-7 text-[#A0A0A0]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>
@@ -192,8 +229,12 @@ export default function Scene8() {
               initial={{ opacity: 0, x: 100, rotateY: 20 }} 
               animate={{ opacity: 1, x: 0, rotateY: 0 }} 
               transition={{ delay: 0.7, duration: 0.8, type: "spring" }} 
-              className="glass-card bg-white/80 backdrop-blur-xl p-6 md:p-8 rounded-2xl border-2 border-[#CD7F32] shadow-[0_0_25px_rgba(205,127,50,0.6)] text-center md:text-left flex-1"
+              className="glass-card relative bg-white/80 backdrop-blur-xl p-6 md:p-8 rounded-2xl text-center md:text-left flex-1"
+              style={{ border: '3px solid #CD7F32', boxShadow: '0 0 30px rgba(205,127,50,0.7)' }}
             >
+              <div className="absolute -top-5 -right-3 rotate-[15deg]">
+                <Medal color="#CD7F32" />
+              </div>
               <div className="flex items-center justify-center md:justify-start gap-3 mb-4">
                 <div className="p-2 bg-[#CD7F32]/10 rounded-full">
                   <svg className="w-7 h-7 text-[#CD7F32]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
@@ -209,7 +250,8 @@ export default function Scene8() {
               initial={{ opacity: 0, x: 100, rotateY: 20 }} 
               animate={{ opacity: 1, x: 0, rotateY: 0 }} 
               transition={{ delay: 0.9, duration: 0.8, type: "spring" }} 
-              className="glass-card bg-white/80 backdrop-blur-xl p-6 md:p-8 rounded-2xl border-2 border-brand-green shadow-[0_0_25px_rgba(0,255,102,0.4)] text-center md:text-left flex-1"
+              className="glass-card relative bg-white/80 backdrop-blur-xl p-6 md:p-8 rounded-2xl text-center md:text-left flex-1"
+              style={{ border: '3px solid #10B981', boxShadow: '0 0 30px rgba(16,185,129,0.5)' }}
             >
               <div className="flex items-center justify-center md:justify-start gap-3 mb-4">
                 <div className="p-2 bg-brand-green/10 rounded-full">
