@@ -88,15 +88,7 @@ export default function Scene4() {
           ))}
         </motion.div>
 
-        {/* Fun GIF added for kids */}
-        <motion.img 
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 2, duration: 1, type: "spring" }}
-          src="https://media.giphy.com/media/3o7TKSjRrfIPjeiVyM/giphy.gif"
-          alt="Kids amazed"
-          className="mt-12 rounded-3xl w-48 md:w-64 border-2 border-white/20 shadow-[0_0_30px_rgba(0,240,255,0.2)]"
-        />
+
       </div>
     </SceneWrapper>
   );

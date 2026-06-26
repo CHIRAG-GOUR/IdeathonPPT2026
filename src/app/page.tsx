@@ -19,7 +19,7 @@ import Scene10 from "@/components/scenes/Scene10";
 import { playWhooshSound, playStartupSound } from "@/utils/audio";
 
 // Define the number of steps per scene for arrow navigation
-const SCENE_STEPS = [9, 1, 1, 1, 1, 4, 1, 1, 1, 1];
+const SCENE_STEPS = [9, 1, 1, 1, 1, 4, 1, 4, 1, 1];
 const TOTAL_SCENES = 10;
 
 export default function Presentation() {
@@ -119,7 +119,7 @@ export default function Presentation() {
       case 4: return <Scene5 key="scene5" />;
       case 5: return <Scene6 key="scene6" step={activeStep} />;
       case 6: return <Scene7 key="scene7" />;
-      case 7: return <Scene8 key="scene8" />;
+      case 7: return <Scene8 key="scene8" step={activeStep} />;
       case 8: return <Scene9 key="scene9" />;
       case 9: return <Scene10 key="scene10" />;
       default: return null;

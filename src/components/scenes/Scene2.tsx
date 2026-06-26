@@ -87,13 +87,6 @@ export default function Scene2() {
               </motion.div>
             </div>
 
-            {/* Fun GIF added for kids */}
-            <motion.img 
-               variants={item}
-               src="https://media.giphy.com/media/l0HlHFRbmaZtBRhXG/giphy.gif"
-               alt="Spotlight hype"
-               className="mt-8 rounded-3xl w-48 md:w-64 border-2 border-white/20 shadow-[0_0_30px_rgba(0,240,255,0.2)]"
-            />
           </div>
 
         </motion.div>

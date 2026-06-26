@@ -116,11 +116,9 @@ export default function Scene3() {
                 <X size={24} />
               </button>
               
-              <img 
-                src="https://media.giphy.com/media/26n6WvwCRGQjfBBhC/giphy.gif" 
-                alt="Students learning and innovating" 
-                className="w-full h-full object-cover opacity-90"
-              />
+              <div className="w-full h-full bg-slate-900 flex items-center justify-center text-gray-500 font-bold tracking-widest text-xl">
+                [ VIDEO / GIF PLACEHOLDER ]
+              </div>
               
               {/* Fake Video Playing Effect overlay */}
               <motion.div 

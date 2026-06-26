@@ -86,15 +86,7 @@ export default function Scene6({ step = 3 }: { step?: number }) {
           ))}
         </motion.div>
 
-        {/* Fun GIF added for kids */}
-        <motion.img 
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: step >= 3 ? 1 : 0, scale: step >= 3 ? 1 : 0.8 }}
-          transition={{ delay: step >= 3 ? 1.5 : 0, duration: 1 }}
-          src="https://media.giphy.com/media/l41lFw057lAJQMwg0/giphy.gif"
-          alt="Brain power"
-          className="mt-8 rounded-3xl w-32 md:w-48 shadow-[0_0_30px_rgba(0,240,255,0.3)] border-2 border-white/20"
-        />
+
       </div>
     </SceneWrapper>
   );
