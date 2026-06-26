@@ -88,7 +88,7 @@ export default function Scene3() {
           <div className="w-full max-w-2xl aspect-video bg-gray-100 rounded-2xl overflow-hidden shadow-lg border border-gray-200 relative">
             <iframe 
               className="w-full h-full absolute inset-0"
-              src="" 
+              src="about:blank" 
               title="Video Placeholder"
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
