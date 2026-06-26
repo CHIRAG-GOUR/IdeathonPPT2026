@@ -65,16 +65,33 @@ export default function Presentation() {
     }
   }, [activeScene, activeStep]);
 
+  const getAutoplayDuration = (sceneIndex: number) => {
+    switch (sceneIndex) {
+      case 0: return 5000; // Scene 1: Title
+      case 1: return 6500; // Scene 2: Text Heavy
+      case 2: return 7000; // Scene 3: Pointers
+      case 3: return 6000; // Scene 4: Numbers
+      case 4: return 6000; // Scene 5: Timeline
+      case 5: return 5500; // Scene 6: 3 Levels
+      case 6: return 7000; // Scene 7: Categories & Activities
+      case 7: return 7000; // Scene 8: Prizes
+      case 8: return 5500; // Scene 9: Clock
+      case 9: return 6000; // Scene 10: Call to action
+      default: return 5000;
+    }
+  };
+
   // Handle Autoplay
   useEffect(() => {
-    let interval: NodeJS.Timeout;
+    let timeout: NodeJS.Timeout;
     if (isAutoplaying) {
-      interval = setInterval(() => {
+      const duration = getAutoplayDuration(activeScene);
+      timeout = setTimeout(() => {
         nextAction();
-      }, 5000); // 5 seconds per slide step
+      }, duration);
     }
-    return () => clearInterval(interval);
-  }, [isAutoplaying, nextAction]);
+    return () => clearTimeout(timeout);
+  }, [isAutoplaying, activeScene, nextAction]);
 
   const toggleAutoplay = () => {
     const newPlayState = !isAutoplaying;

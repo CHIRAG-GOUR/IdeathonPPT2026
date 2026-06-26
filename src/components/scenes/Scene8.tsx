@@ -50,12 +50,12 @@ function Trophy3D() {
         </mesh>
 
         {/* Better Handles */}
-        <mesh position={[0.7, 2.2, 0]} rotation={[0, 0, -Math.PI / 2]}>
-          <torusGeometry args={[0.5, 0.08, 16, 32, Math.PI]} />
+        <mesh position={[0.65, 2.1, 0]} rotation={[0, 0, -Math.PI / 2 - 0.4]}>
+          <torusGeometry args={[0.45, 0.08, 16, 32, Math.PI]} />
           <meshStandardMaterial color="#FFD700" metalness={0.9} roughness={0.1} />
         </mesh>
-        <mesh position={[-0.7, 2.2, 0]} rotation={[0, 0, Math.PI / 2]}>
-          <torusGeometry args={[0.5, 0.08, 16, 32, Math.PI]} />
+        <mesh position={[-0.65, 2.1, 0]} rotation={[0, 0, Math.PI / 2 + 0.4]}>
+          <torusGeometry args={[0.45, 0.08, 16, 32, Math.PI]} />
           <meshStandardMaterial color="#FFD700" metalness={0.9} roughness={0.1} />
         </mesh>
         
