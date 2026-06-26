@@ -17,6 +17,8 @@ import Scene8 from "@/components/scenes/Scene8";
 import Scene9 from "@/components/scenes/Scene9";
 import Scene10 from "@/components/scenes/Scene10";
 
+import { playWhooshSound } from "@/utils/audio";
+
 // Define the number of steps per scene for arrow navigation
 const SCENE_STEPS = [9, 1, 1, 1, 1, 4, 1, 1, 1, 1];
 const TOTAL_SCENES = 10;
@@ -26,6 +28,11 @@ export default function Presentation() {
   const [activeStep, setActiveStep] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const isScrolling = useRef(false);
+
+  // Play sound when activeScene changes
+  useEffect(() => {
+    playWhooshSound();
+  }, [activeScene]);
 
   const nextAction = useCallback(() => {
     if (activeStep < SCENE_STEPS[activeScene] - 1) {
@@ -135,9 +142,6 @@ export default function Presentation() {
         {isFullscreen ? <Minimize size={20} /> : <Maximize size={20} />}
       </button>
 
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-xs text-white/30 tracking-widest uppercase">
-        Use Arrow Keys or Scroll to Navigate
-      </div>
     </main>
   );
 }

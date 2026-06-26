@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import SceneWrapper from "./SceneWrapper";
 import { ideathonData } from "@/content/ideathon-data";
@@ -8,6 +9,23 @@ export default function Scene1({ step = 0 }: { step?: number }) {
   const phase = step < 3 ? "countdown" : step < 8 ? "words" : "reveal";
   const count = 3 - step; 
   const wordIndex = step - 3; 
+
+  useEffect(() => {
+    let audioSrc = "";
+    if (step === 0) audioSrc = "/audio/3.mp3";
+    else if (step === 1) audioSrc = "/audio/2.mp3";
+    else if (step === 2) audioSrc = "/audio/1.mp3";
+    else if (step === 3) audioSrc = "/audio/think.mp3";
+    else if (step === 4) audioSrc = "/audio/create.mp3";
+    else if (step === 5) audioSrc = "/audio/build.mp3";
+    else if (step === 6) audioSrc = "/audio/pitch.mp3";
+    else if (step === 7) audioSrc = "/audio/win.mp3";
+
+    if (audioSrc) {
+      const audio = new Audio(audioSrc);
+      audio.play().catch(e => console.log("Audio play blocked:", e));
+    }
+  }, [step]);
 
   return (
     <SceneWrapper>
