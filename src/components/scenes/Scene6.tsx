@@ -65,9 +65,9 @@ export default function Scene6() {
               variants={item}
               className={`p-4 md:p-6 flex flex-col items-center justify-center text-center gap-3 group hover:scale-[1.05] transition-all duration-300 w-full relative overflow-hidden rounded-2xl border-2 ${getBoxStyles(i)}`}
             >
-              {/* Generated Image */}
+              {/* Generated Image - Optimized */}
               <div className="w-full h-32 md:h-40 rounded-xl overflow-hidden shadow-inner mb-2 border border-black/10">
-                <img src={getImage(i)} alt={level.name} className="w-full h-full object-cover" />
+                <img src={getImage(i)} alt={level.name} className="w-full h-full object-cover" loading="lazy" decoding="async" />
               </div>
               
               <div className="flex-shrink-0 w-10 h-10 rounded-full bg-white/20 flex items-center justify-center border border-white/40 shadow-sm">

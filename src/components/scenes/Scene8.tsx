@@ -103,9 +103,9 @@ export default function Scene8() {
 
   return (
     <SceneWrapper>
-      {/* Background Confetti/Particles */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-40 z-0">
-        {[...Array(30)].map((_, i) => (
+      {/* Background Confetti/Particles - Optimized */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-30 z-0">
+        {[...Array(15)].map((_, i) => (
           <motion.div
             key={i}
             initial={{ 
@@ -128,7 +128,8 @@ export default function Scene8() {
             className={`absolute w-3 h-3 ${['bg-red-400', 'bg-blue-400', 'bg-green-400', 'bg-yellow-400', 'bg-purple-400'][Math.floor(Math.random() * 5)]}`}
             style={{ 
               left: `${Math.random() * 100}%`,
-              borderRadius: Math.random() > 0.5 ? '50%' : '0%' 
+              borderRadius: Math.random() > 0.5 ? '50%' : '0%',
+              willChange: 'transform, opacity'
             }}
           />
         ))}
@@ -195,7 +196,7 @@ export default function Scene8() {
           {/* Center: 3D Trophy */}
           <div className="w-full md:w-1/3 h-[300px] md:h-[450px] z-0 flex flex-col items-center justify-center order-1 md:order-2 shrink-0">
             <div className="w-full h-full relative">
-              <Canvas camera={{ position: [0, 0, 8], fov: 45 }} gl={{ alpha: true }}>
+              <Canvas camera={{ position: [0, 0, 8], fov: 45 }} gl={{ alpha: true, antialias: false }} dpr={[1, 1.5]}>
                 <ambientLight intensity={0.5} />
                 <directionalLight position={[10, 10, 10]} intensity={1.5} color="#FFFFFF" />
                 <directionalLight position={[-10, -10, -10]} intensity={0.5} color="#FFD700" />

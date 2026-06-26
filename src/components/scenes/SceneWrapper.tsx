@@ -11,14 +11,15 @@ export default function SceneWrapper({ children, className = "" }: { children: R
     >
       <div className="min-h-full w-full max-w-7xl mx-auto p-4 md:p-8 flex flex-col items-center">
         <div className="relative w-full my-auto">
-          {/* Glowing border effect */}
+          {/* Glowing border effect - Optimized for performance */}
           <motion.div 
-            animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
-            transition={{ duration: 10, ease: "linear", repeat: Infinity }}
-            className="absolute inset-0 bg-gradient-to-r from-blue-300/70 via-pink-200/70 to-blue-300/70 bg-[length:200%_200%] blur-2xl rounded-[2.5rem] transform scale-[1.03] z-0"
+            animate={{ opacity: [0.7, 0.9, 0.7] }}
+            transition={{ duration: 4, ease: "easeInOut", repeat: Infinity }}
+            className="absolute inset-0 bg-gradient-to-r from-blue-300/70 via-pink-200/70 to-blue-300/70 blur-xl rounded-[2.5rem] transform scale-[1.02] z-0"
+            style={{ willChange: "opacity" }}
           ></motion.div>
           
-          <div className="relative z-10 w-full bg-white/40 backdrop-blur-3xl border border-white/60 rounded-[2.5rem] p-6 md:p-10 flex flex-col items-center justify-center shadow-[0_8px_32px_rgba(0,0,0,0.05)]">
+          <div className="relative z-10 w-full bg-white/50 backdrop-blur-xl border border-white/60 rounded-[2.5rem] p-6 md:p-10 flex flex-col items-center justify-center shadow-lg">
             {children}
           </div>
         </div>
