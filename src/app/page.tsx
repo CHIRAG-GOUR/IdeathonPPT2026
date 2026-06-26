@@ -16,23 +16,36 @@ import Scene7 from "@/components/scenes/Scene7";
 import Scene8 from "@/components/scenes/Scene8";
 import Scene9 from "@/components/scenes/Scene9";
 import Scene10 from "@/components/scenes/Scene10";
-
-import { playWhooshSound } from "@/utils/audio";
+import { playWhooshSound, playStartupSound } from "@/utils/audio";
 
 // Define the number of steps per scene for arrow navigation
 const SCENE_STEPS = [9, 1, 1, 1, 1, 4, 1, 1, 1, 1];
 const TOTAL_SCENES = 10;
 
 export default function Presentation() {
+  const [hasStarted, setHasStarted] = useState(false);
   const [activeScene, setActiveScene] = useState(0);
   const [activeStep, setActiveStep] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const isScrolling = useRef(false);
 
-  // Play sound when activeScene changes
+  // Play sound when activeScene changes (only if it has started)
   useEffect(() => {
-    playWhooshSound();
-  }, [activeScene]);
+    if (hasStarted) {
+      playWhooshSound();
+    }
+  }, [activeScene, hasStarted]);
+
+  const handleStart = () => {
+    setHasStarted(true);
+    playStartupSound();
+    
+    // Optional: Auto enter fullscreen on start for true cinematic experience
+    // if (!document.fullscreenElement) {
+    //   document.documentElement.requestFullscreen().catch(err => console.log(err));
+    //   setIsFullscreen(true);
+    // }
+  };
 
   const nextAction = useCallback(() => {
     if (activeStep < SCENE_STEPS[activeScene] - 1) {
@@ -112,6 +125,32 @@ export default function Presentation() {
       default: return null;
     }
   };
+
+  if (!hasStarted) {
+    return (
+      <main 
+        className="relative w-full h-screen bg-bg-dark text-white flex items-center justify-center cursor-pointer overflow-hidden" 
+        onClick={handleStart}
+      >
+        <div className="absolute inset-0 z-0 pointer-events-none opacity-30">
+          <PresentationCanvas activeScene={0} />
+        </div>
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1, ease: "easeOut" }}
+          className="relative z-10 flex flex-col items-center"
+        >
+          <div className="text-2xl md:text-4xl text-brand-blue tracking-[0.4em] uppercase mb-6 opacity-90 animate-pulse font-black drop-shadow-[0_0_15px_rgba(0,240,255,0.5)]">
+            INITIALIZE
+          </div>
+          <div className="text-sm text-gray-400 uppercase tracking-[0.2em]">
+            Click anywhere to begin experience
+          </div>
+        </motion.div>
+      </main>
+    );
+  }
 
   return (
     <main className="relative w-full h-screen overflow-hidden bg-bg-dark text-white font-sans">
