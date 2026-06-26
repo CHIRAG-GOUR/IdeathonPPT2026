@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import SceneWrapper from "./SceneWrapper";
 import { ideathonData } from "@/content/ideathon-data";
 import * as THREE from "three";
-import { Float, Environment } from "@react-three/drei";
+import { Float, Environment, Text } from "@react-three/drei";
 
 function Trophy3D() {
   const groupRef = useRef<THREE.Group>(null!);
@@ -50,15 +50,28 @@ function Trophy3D() {
           <meshStandardMaterial color="#FFD700" metalness={0.9} roughness={0.1} />
         </mesh>
 
-        {/* Handles */}
-        <mesh position={[1.1, 2.8, 0]} rotation={[0, 0, Math.PI / 4]}>
-          <torusGeometry args={[0.6, 0.12, 16, 32, Math.PI]} />
+        {/* Better Handles */}
+        <mesh position={[1.0, 2.0, 0]} rotation={[0, 0, -Math.PI / 2]}>
+          <torusGeometry args={[0.6, 0.08, 16, 32, Math.PI]} />
           <meshStandardMaterial color="#FFD700" metalness={0.9} roughness={0.1} />
         </mesh>
-        <mesh position={[-1.1, 2.8, 0]} rotation={[0, 0, -Math.PI / 4 + Math.PI]}>
-          <torusGeometry args={[0.6, 0.12, 16, 32, Math.PI]} />
+        <mesh position={[-1.0, 2.0, 0]} rotation={[0, 0, Math.PI / 2]}>
+          <torusGeometry args={[0.6, 0.08, 16, 32, Math.PI]} />
           <meshStandardMaterial color="#FFD700" metalness={0.9} roughness={0.1} />
         </mesh>
+        
+        {/* Text on Base */}
+        <Text
+          position={[0, 0, 1.01]}
+          fontSize={0.15}
+          color="#FFD700"
+          anchorX="center"
+          anchorY="middle"
+          outlineWidth={0.01}
+          outlineColor="#000000"
+        >
+          Ideathon Winner 2026
+        </Text>
         
         {/* Floating Stars around Trophy */}
         <Float speed={4} rotationIntensity={2} floatIntensity={2}>
