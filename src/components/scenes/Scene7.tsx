@@ -1,10 +1,20 @@
 "use client";
 
-import { motion, Variants } from "framer-motion";
+import { useState } from "react";
+import { motion, Variants, AnimatePresence } from "framer-motion";
 import SceneWrapper from "./SceneWrapper";
 import { ideathonData } from "@/content/ideathon-data";
 
 export default function Scene7() {
+  const [activeActivity, setActiveActivity] = useState<string | null>(null);
+
+  const activityExamples: Record<string, { title: string, example: string }> = {
+    "Robot Building": { title: "🤖 Robot Building", example: "Example: Build a simple Arduino-powered line-following robot using basic sensors and motors." },
+    "Coding Challenges": { title: "💻 Coding Challenges", example: "Example: Create an interactive Scratch game or solve algorithmic logic puzzles to save a digital character." },
+    "Science Puzzles": { title: "🧪 Science Puzzles", example: "Example: Design and engineer a safe egg-drop container using only limited everyday materials." },
+    "Design Workshops": { title: "🎨 Design Workshops", example: "Example: Wireframe and prototype a mobile app interface using paper, pens, and sticky notes." }
+  };
+
   const container: Variants = {
     hidden: { opacity: 0 },
     show: {
@@ -90,10 +100,12 @@ export default function Scene7() {
                 key={i}
                 variants={item}
                 whileHover={{ scale: 1.05 }}
-                className="glass-card px-6 py-4 rounded-2xl flex items-center gap-4 group shadow-sm bg-white"
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setActiveActivity(activity)}
+                className="glass-card px-6 py-4 rounded-2xl flex items-center gap-4 group shadow-sm bg-white cursor-pointer hover:border-brand-green/30"
               >
-                <div className="w-10 h-10 rounded-full bg-brand-green/10 flex items-center justify-center border border-brand-green/20">
-                  <span className="font-black text-brand-green">{i + 1}</span>
+                <div className="w-10 h-10 rounded-full bg-brand-green/10 flex items-center justify-center border border-brand-green/20 group-hover:bg-brand-green group-hover:text-white transition-colors">
+                  <span className="font-black text-brand-green group-hover:text-white transition-colors">{i + 1}</span>
                 </div>
                 <span className="font-bold text-gray-700">{activity}</span>
               </motion.div>
@@ -110,6 +122,40 @@ export default function Scene7() {
           {ideathonData.scene7.statement}
         </motion.p>
       </div>
+
+      {/* Activity Modal */}
+      <AnimatePresence>
+        {activeActivity && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setActiveActivity(null)}
+              className="absolute inset-0 bg-black/40 backdrop-blur-sm cursor-pointer"
+            />
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              className="relative bg-white/90 backdrop-blur-md border border-white/50 shadow-2xl rounded-3xl p-8 max-w-md w-full z-10"
+            >
+              <button 
+                onClick={() => setActiveActivity(null)}
+                className="absolute top-4 right-4 text-gray-400 hover:text-gray-800 transition-colors"
+              >
+                ✕
+              </button>
+              <h3 className="text-2xl font-black text-brand-blue mb-4">
+                {activityExamples[activeActivity]?.title || activeActivity}
+              </h3>
+              <p className="text-lg text-gray-700 font-medium">
+                {activityExamples[activeActivity]?.example}
+              </p>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </SceneWrapper>
   );
 }

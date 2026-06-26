@@ -7,7 +7,7 @@ import { ideathonData } from "@/content/ideathon-data";
 const getBoxStyles = (index: number) => {
   switch(index) {
     case 0:
-      return "bg-[#c4a484] border-[#8b4513] shadow-[0_0_40px_rgba(0,100,0,0.6)] text-white";
+      return "bg-[#c4a484] border-[#8b4513] shadow-[0_0_40px_rgba(139,69,19,0.7)] text-white";
     case 1:
       return "bg-[#e0e0e0] border-[#a0a0a0] shadow-[0_0_40px_rgba(100,100,100,0.6)] text-gray-900";
     case 2:

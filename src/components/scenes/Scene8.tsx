@@ -17,10 +17,9 @@ function Trophy3D() {
     }
   });
 
-  // Create points for LatheGeometry to form a cup shape
   const points = [];
   for (let i = 0; i <= 10; i++) {
-    const x = 0.5 + Math.sin(i * 0.15) * 0.8;
+    const x = 0.2 + Math.sin(i * 0.15) * 1.1;
     const y = i * 0.3;
     points.push(new THREE.Vector2(x, y));
   }
@@ -29,7 +28,7 @@ function Trophy3D() {
     <Float speed={2} rotationIntensity={0.5} floatIntensity={1}>
       <group ref={groupRef} scale={1.2} position={[0, -1, 0]}>
         {/* Cup */}
-        <mesh position={[0, 1.2, 0]}>
+        <mesh position={[0, 1.15, 0]}>
           <latheGeometry args={[points, 32]} />
           <meshStandardMaterial color="#FFD700" metalness={0.9} roughness={0.1} />
         </mesh>
