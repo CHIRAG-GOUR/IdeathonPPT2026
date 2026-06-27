@@ -30,12 +30,12 @@ export default function Scene7() {
 
   return (
     <SceneWrapper>
-      <div className="w-full flex flex-col items-center justify-center pt-4 pb-12 relative">
+      <div className="w-full h-full flex flex-col items-center justify-center relative">
         
         <motion.h2 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-4xl md:text-5xl font-black mb-12 text-brand-blue uppercase tracking-wider text-center drop-shadow-sm"
+          className="text-3xl md:text-5xl font-black mb-8 text-brand-blue uppercase tracking-wider text-center drop-shadow-sm"
         >
           {ideathonData.scene7.title}
         </motion.h2>
@@ -44,7 +44,7 @@ export default function Scene7() {
           variants={container}
           initial="hidden"
           animate="show"
-          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 w-full max-w-7xl mb-16 relative z-10"
+          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6 w-full max-w-7xl mb-12 relative z-10 px-4"
         >
           {ideathonData.scene7.categories.map((category, i) => {
             const kidImages = [
@@ -61,18 +61,18 @@ export default function Scene7() {
                 key={i}
                 variants={item}
                 whileHover={{ scale: 1.05, y: -5 }}
-                className="glass-card p-6 rounded-3xl flex flex-col items-center text-center gap-4 group hover:border-brand-blue/30 transition-all shadow-sm"
+                className="glass-card p-4 md:p-6 rounded-3xl flex flex-col items-center text-center gap-4 group hover:border-brand-blue/30 transition-all shadow-sm"
               >
                 {/* Generated Illustration for Kids */}
                 <motion.div 
                   animate={{ y: [0, -5, 0] }}
                   transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: i * 0.2 }}
-                  className="w-24 h-24 rounded-2xl flex items-center justify-center overflow-hidden border border-gray-100 mb-2 shadow-sm"
+                  className="w-32 h-32 md:w-36 md:h-36 rounded-2xl flex items-center justify-center overflow-hidden border border-gray-100 mb-2 shadow-sm shrink-0"
                 >
                   <img src={`/media/${kidImages[i]}`} alt={category} className="w-full h-full object-cover" />
                 </motion.div>
 
-                <h3 className="text-sm md:text-base font-bold text-gray-700">{category}</h3>
+                <h3 className="text-sm md:text-base font-bold text-gray-700 leading-tight">{category}</h3>
               </motion.div>
             )
           })}
@@ -83,7 +83,7 @@ export default function Scene7() {
            initial={{ opacity: 0, scale: 0.8 }}
            animate={{ opacity: 1, scale: 1 }}
            transition={{ delay: 1 }}
-           className="text-2xl font-black text-brand-gold mb-8 uppercase tracking-widest drop-shadow-sm"
+           className="text-xl md:text-2xl font-black text-brand-gold mb-6 uppercase tracking-widest drop-shadow-sm"
         >
           FUN ACTIVITIES
         </motion.h3>
