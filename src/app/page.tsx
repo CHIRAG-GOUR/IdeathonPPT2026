@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Navigation from "@/components/Navigation";
 import PresentationCanvas from "@/components/PresentationCanvas";
+import Preloader from "@/components/Preloader";
 
 import Scene1 from "@/components/scenes/Scene1";
 import Scene2 from "@/components/scenes/Scene2";
@@ -169,6 +170,7 @@ export default function Presentation() {
         className="relative w-full h-screen bg-bg-dark text-white flex items-center justify-center cursor-pointer overflow-hidden"
         onClick={handleStart}
       >
+        <Preloader />
         <div className="absolute inset-0 z-0 pointer-events-none opacity-30">
           <PresentationCanvas activeScene={0} />
         </div>
@@ -191,6 +193,7 @@ export default function Presentation() {
 
   return (
     <main className="relative w-full h-screen overflow-hidden bg-bg-dark text-white font-sans">
+      <Preloader />
       <div className="absolute inset-0 z-0 pointer-events-none">
         <PresentationCanvas activeScene={activeScene} />
       </div>
