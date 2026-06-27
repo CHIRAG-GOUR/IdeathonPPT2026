@@ -39,7 +39,7 @@ export default function Presentation() {
   const handleStart = () => {
     setHasStarted(true);
     playStartupSound();
-    
+
     // Optional: Auto enter fullscreen on start for true cinematic experience
     // if (!document.fullscreenElement) {
     //   document.documentElement.requestFullscreen().catch(err => console.log(err));
@@ -165,14 +165,14 @@ export default function Presentation() {
 
   if (!hasStarted) {
     return (
-      <main 
-        className="relative w-full h-screen bg-bg-dark text-white flex items-center justify-center cursor-pointer overflow-hidden" 
+      <main
+        className="relative w-full h-screen bg-bg-dark text-white flex items-center justify-center cursor-pointer overflow-hidden"
         onClick={handleStart}
       >
         <div className="absolute inset-0 z-0 pointer-events-none opacity-30">
           <PresentationCanvas activeScene={0} />
         </div>
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, ease: "easeOut" }}
@@ -201,19 +201,19 @@ export default function Presentation() {
         </AnimatePresence>
       </div>
 
-      <Navigation 
-        activeScene={activeScene} 
-        totalScenes={TOTAL_SCENES} 
+      <Navigation
+        activeScene={activeScene}
+        totalScenes={TOTAL_SCENES}
         onNavigate={(idx) => {
           setActiveScene(idx);
           setActiveStep(0);
-        }} 
+        }}
         isAutoplaying={isAutoplaying}
         toggleAutoplay={toggleAutoplay}
       />
-      
+
       {/* Fullscreen Toggle */}
-      <button 
+      <button
         onClick={toggleFullscreen}
         className="absolute top-6 right-6 z-50 p-3 bg-white/80 hover:bg-white text-gray-700 hover:text-brand-blue rounded-full transition-colors shadow-sm border border-gray-200"
       >

@@ -1,117 +1,382 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState, useEffect, useRef, useCallback } from "react";
+import { motion, useAnimation, AnimatePresence } from "framer-motion";
 import SceneWrapper from "./SceneWrapper";
 import { ideathonData } from "@/content/ideathon-data";
 
 export default function Scene5() {
   const timeline = ideathonData.scene5.timeline;
+  const controls = useAnimation();
+  const [currentNode, setCurrentNode] = useState(-1);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const isPlayingRef = useRef(false);
+
+  const nodes = [
+    { x: 300, y: 300, cardX: 100, cardY: -10 },
+    { x: 800, y: 300, cardX: 600, cardY: -10 },
+    { x: 1300, y: 300, cardX: 1100, cardY: -10 },
+    { x: 1300, y: 700, cardX: 1100, cardY: 390 },
+    { x: 800, y: 700, cardX: 600, cardY: 390 },
+    { x: 300, y: 700, cardX: 100, cardY: 390 },
+    { x: 300, y: 1100, cardX: 100, cardY: 790 },
+    { x: 800, y: 1100, cardX: 600, cardY: 790 },
+    { x: 1300, y: 1100, cardX: 1100, cardY: 790 }
+  ];
+
+  const delay = (ms: number) => new Promise(r => setTimeout(r, ms));
+
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const tingAudioRef = useRef<HTMLAudioElement | null>(null);
+  const winnerAudioRef = useRef<HTMLAudioElement | null>(null);
+  const loopCountRef = useRef(0);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    const audio = new Audio("/sounds/car-sound.mp3");
+    audio.volume = 0.6;
+    audioRef.current = audio;
+    
+    const ting = new Audio("/sounds/ting-sound.mp3");
+    ting.volume = 0.8;
+    tingAudioRef.current = ting;
+    
+    const winner = new Audio("/sounds/winner-sound.mp3");
+    winner.volume = 0.9;
+    winnerAudioRef.current = winner;
+    
+    const handleEnded = () => {
+      if (loopCountRef.current < 2) {
+        loopCountRef.current++;
+        audio.currentTime = 0;
+        audio.play().catch(() => {});
+        
+        if (loopCountRef.current === 2) {
+          timeoutRef.current = setTimeout(() => {
+            audio.pause();
+          }, 2000);
+        }
+      }
+    };
+
+    audio.addEventListener('ended', handleEnded);
+    
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      audio.removeEventListener('ended', handleEnded);
+      audio.pause();
+      audioRef.current = null;
+      tingAudioRef.current = null;
+      winnerAudioRef.current = null;
+    };
+  }, []);
+
+  const playEngineSound = () => {
+    if (audioRef.current) {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      loopCountRef.current = 0;
+      audioRef.current.currentTime = 0;
+      audioRef.current.play().catch(() => {});
+    }
+  };
+
+  const playTingSound = () => {
+    if (tingAudioRef.current) {
+      tingAudioRef.current.currentTime = 0;
+      tingAudioRef.current.play().catch(() => {});
+    }
+  };
+
+  const playWinnerSound = () => {
+    if (winnerAudioRef.current) {
+      winnerAudioRef.current.currentTime = 0;
+      winnerAudioRef.current.play().catch(() => {});
+    }
+  };
+
+  const stopEngineSound = () => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+    }
+  };
+
+  // SVG path geometry:
+  // Row 1: M 100,300 -> L 1400,300 (y=300, left to right)
+  // Turn 1: Arc center (1400,500), r=200, from (1400,300) to (1400,700) clockwise
+  // Row 2: L 200,700 (y=700, right to left)
+  // Turn 2: Arc center (200,900), r=200, from (200,700) to (200,1100) counter-clockwise
+  // Row 3: L 1350,1100 (y=1100, left to right)
+
+  const buildTurn1Path = () => {
+    const cx = 1400, cy = 500, r = 200;
+    const steps = 20;
+    const arcDist = Math.PI * r;
+    const totalDist = 100 + arcDist + 100;
+    
+    const xs = [1300, 1400], ys = [300, 300], rs = [0, 0], ts = [0, 100/totalDist];
+    
+    for (let i = 1; i <= steps; i++) {
+      const frac = i / steps;
+      const angle = -Math.PI/2 + Math.PI * frac; // -90° to +90°
+      xs.push(cx + r * Math.cos(angle));
+      ys.push(cy + r * Math.sin(angle));
+      rs.push(frac * 180); // 0° to 180°
+      ts.push((100 + frac * arcDist) / totalDist);
+    }
+    
+    xs.push(1300); ys.push(700); rs.push(180); ts.push(1);
+    const easings = Array(xs.length - 1).fill("linear");
+    return { x: xs, y: ys, rotate: rs, times: ts, easings };
+  };
+
+  const buildTurn2Path = () => {
+    const cx = 200, cy = 900, r = 200;
+    const steps = 20;
+    const arcDist = Math.PI * r;
+    const totalDist = 100 + arcDist + 100;
+    
+    const xs = [300, 200], ys = [700, 700], rs = [180, 180], ts = [0, 100/totalDist];
+    
+    for (let i = 1; i <= steps; i++) {
+      const frac = i / steps;
+      const angle = -Math.PI/2 - Math.PI * frac; // -90° to -270°
+      xs.push(cx + r * Math.cos(angle));
+      ys.push(cy + r * Math.sin(angle));
+      rs.push(180 - frac * 180); // 180° to 0°
+      ts.push((100 + frac * arcDist) / totalDist);
+    }
+    
+    xs.push(300); ys.push(1100); rs.push(0); ts.push(1);
+    const easings = Array(xs.length - 1).fill("linear");
+    return { x: xs, y: ys, rotate: rs, times: ts, easings };
+  };
+
+  const startAnimation = useCallback(async () => {
+    if (isPlayingRef.current) return;
+    isPlayingRef.current = true;
+    setIsPlaying(true);
+    setCurrentNode(-1);
+    playEngineSound();
+    
+    controls.set({ x: 100, y: 300, rotate: 0 });
+    await delay(800);
+    
+    // Row 1: left to right (rotate: 0)
+    await controls.start({ x: 300, y: 300, rotate: 0, transition: { duration: 1, ease: "linear" } });
+    setCurrentNode(0); playTingSound(); await delay(600);
+
+    await controls.start({ x: 800, y: 300, rotate: 0, transition: { duration: 1.5, ease: "linear" } });
+    setCurrentNode(1); playTingSound(); await delay(600);
+
+    await controls.start({ x: 1300, y: 300, rotate: 0, transition: { duration: 1.5, ease: "linear" } });
+    setCurrentNode(2); playTingSound(); await delay(600);
+
+    // Turn 1: approach 1400, clockwise arc, exit to 1300 (Node 3)
+    const t1 = buildTurn1Path();
+    await controls.start({
+      x: t1.x, y: t1.y, rotate: t1.rotate,
+      transition: { duration: 2.2, times: t1.times, ease: t1.easings }
+    });
+    setCurrentNode(3); playTingSound(); await delay(600);
+
+    // Row 2: right to left (rotate: 180)
+    await controls.start({ x: 800, y: 700, rotate: 180, transition: { duration: 1.5, ease: "linear" } });
+    setCurrentNode(4); playTingSound(); await delay(600);
+
+    await controls.start({ x: 300, y: 700, rotate: 180, transition: { duration: 1.5, ease: "linear" } });
+    setCurrentNode(5); playTingSound(); await delay(600);
+
+    // Turn 2: approach 200, counter-clockwise arc, exit to 300 (Node 6)
+    const t2 = buildTurn2Path();
+    await controls.start({
+      x: t2.x, y: t2.y, rotate: t2.rotate,
+      transition: { duration: 2.2, times: t2.times, ease: t2.easings }
+    });
+    setCurrentNode(6); playTingSound(); await delay(600);
+
+    // Row 3: left to right (rotate: 0)
+    await controls.start({ x: 800, y: 1100, rotate: 0, transition: { duration: 1.5, ease: "linear" } });
+    setCurrentNode(7); playTingSound(); await delay(600);
+
+    await controls.start({ x: 1300, y: 1100, rotate: 0, transition: { duration: 1.5, ease: "linear" } });
+    setCurrentNode(8); playWinnerSound();
+    
+    stopEngineSound();
+    isPlayingRef.current = false;
+    setIsPlaying(false);
+  }, [controls]);
+
+  // Autoplay on mount
+  const hasStartedRef = useRef(false);
+  useEffect(() => {
+    if (!hasStartedRef.current) {
+      hasStartedRef.current = true;
+      controls.set({ x: 100, y: 300, rotate: 0 });
+      startAnimation();
+    }
+  }, [startAnimation, controls]);
+
+  const cardStyles = [
+    "bg-red-600 text-white border-white skew-x-[-3deg]",
+    "bg-yellow-400 text-black border-black skew-x-[3deg]",
+    "bg-blue-600 text-white border-white skew-x-[-3deg]",
+    "bg-green-500 text-white border-white skew-x-[3deg]",
+    "bg-purple-600 text-white border-white skew-x-[-3deg]",
+    "bg-orange-500 text-white border-white skew-x-[3deg]",
+    "bg-pink-500 text-white border-white skew-x-[-3deg]",
+    "bg-teal-500 text-black border-black skew-x-[3deg]",
+    "bg-gray-900 text-white border-yellow-400 skew-x-0"
+  ];
 
   return (
     <SceneWrapper>
-      <div className="w-full flex flex-col items-center pt-2">
+      <div className="w-full h-full flex flex-col relative overflow-hidden bg-gradient-to-b from-[#eef2ff] to-[#f8fafc]">
         
-        <motion.h2 
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-3xl md:text-5xl lg:text-6xl font-black mb-16 text-brand-blue tracking-widest uppercase text-center drop-shadow-sm relative z-30"
-        >
-          {ideathonData.scene5.title}
-        </motion.h2>
-
-        {/* Desktop Timeline */}
-        <div className="hidden md:flex relative w-full max-w-6xl items-center justify-between mt-12 h-64">
-          {/* Background Track line */}
-          <div className="absolute left-12 right-12 top-1/2 h-2 bg-gray-200 -translate-y-1/2 rounded-full" />
-          
-          {/* Animated fill track */}
-          <motion.div 
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: 1 }}
-            transition={{ duration: 4, ease: "linear" }}
-            className="absolute left-12 right-12 top-1/2 h-2 bg-brand-blue -translate-y-1/2 rounded-full origin-left"
-          />
-
-          {/* Moving Car Emoji */}
-          <div className="absolute left-12 right-12 top-1/2 -translate-y-1/2 pointer-events-none z-40 h-10 overflow-visible">
-            <motion.div
-              initial={{ left: "0%" }}
-              animate={{ left: "100%" }}
-              transition={{ duration: 4, ease: "linear" }}
-              className="absolute top-1/2 -translate-y-1/2 -mt-6 -ml-6"
+        {/* Header */}
+        <div className="w-full pt-6 md:pt-10 z-40 relative">
+          <motion.h2 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-xl md:text-3xl lg:text-4xl font-black text-brand-blue tracking-widest uppercase text-center drop-shadow-sm flex items-center justify-center gap-4"
+          >
+            {ideathonData.scene5.title}
+            <button 
+              onClick={startAnimation}
+              disabled={isPlaying}
+              className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-white border-2 border-brand-blue flex items-center justify-center hover:bg-brand-blue hover:text-white transition-colors disabled:opacity-50 text-xs md:text-sm shadow-md"
+              title="Replay Race"
             >
-              <span className="text-5xl drop-shadow-md inline-block -scale-x-100">🏎️</span>
-            </motion.div>
-          </div>
-
-          {timeline.map((point, i) => (
-            <div key={i} className="flex flex-col items-center justify-center relative w-48 group">
-              
-              <motion.div 
-                initial={{ opacity: 0, y: i % 2 === 0 ? 30 : -30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * (4 / timeline.length), duration: 0.5, type: "spring" }}
-                className={`glass-card bg-white p-4 rounded-2xl text-center w-full absolute
-                  ${i % 2 === 0 ? "bottom-16" : "top-16"}
-                  z-10 group-hover:-translate-y-2 transition-transform shadow-md border-t-4 border-t-brand-blue
-                `}
-              >
-                <div className="text-brand-blue font-black text-xl mb-1">{point.date}</div>
-                <div className="text-sm text-gray-700 font-bold uppercase">{point.event}</div>
-              </motion.div>
-
-              {/* Node Indicator */}
-              <motion.div 
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: i * (4 / timeline.length), duration: 0.3 }}
-                className="w-8 h-8 rounded-full bg-white border-4 border-brand-blue flex items-center justify-center shadow-md z-20 group-hover:scale-110 transition-transform shrink-0 relative"
-              />
-            </div>
-          ))}
+              🔄
+            </button>
+          </motion.h2>
         </div>
 
-        {/* Mobile Timeline */}
-        <div className="flex md:hidden relative w-full max-w-sm flex-col items-center py-8">
-          {/* Background Track line */}
-          <div className="absolute left-1/2 top-8 bottom-8 w-1 bg-gray-200 -translate-x-1/2 rounded-full" />
-          
-          {/* Animated fill track */}
-          <motion.div 
-            initial={{ scaleY: 0 }}
-            animate={{ scaleY: 1 }}
-            transition={{ duration: 4, ease: "linear" }}
-            className="absolute left-1/2 top-8 bottom-8 w-1 bg-brand-blue -translate-x-1/2 rounded-full origin-top"
-          />
+        {/* Unified Scalable SVG Area */}
+        <div className="flex-1 w-full flex items-center justify-center p-2 md:p-6 overflow-hidden">
+          <svg viewBox="0 0 1600 1250" className="w-full h-full max-h-[85vh] drop-shadow-2xl">
+            
+            {/* Asphalt Base */}
+            <path d="M 100 300 L 1400 300 A 200 200 0 0 1 1400 700 L 200 700 A 200 200 0 0 0 200 1100 L 1350 1100" 
+                  fill="none" stroke="#1f2937" strokeWidth="60" strokeLinecap="round" />
+            
+            {/* Road Borders */}
+            <path d="M 100 300 L 1400 300 A 200 200 0 0 1 1400 700 L 200 700 A 200 200 0 0 0 200 1100 L 1350 1100" 
+                  fill="none" stroke="#374151" strokeWidth="68" strokeLinecap="round" className="opacity-50" />
 
-          {timeline.map((point, i) => (
-            <div key={i} className="flex items-center w-full my-6 relative group">
-              
-              {/* Card - alternate left and right */}
-              <motion.div 
-                initial={{ opacity: 0, x: i % 2 === 0 ? -50 : 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: i * (4 / timeline.length), duration: 0.5 }}
-                className={`glass-card bg-white p-3 rounded-xl text-center w-[calc(50%-1.5rem)] absolute z-10 shadow-sm border-t-2 border-t-brand-blue
-                  ${i % 2 === 0 ? "right-[calc(50%+1.5rem)]" : "left-[calc(50%+1.5rem)]"}
-                `}
-              >
-                <div className="text-brand-blue font-black text-sm mb-1">{point.date}</div>
-                <div className="text-xs text-gray-700 font-bold uppercase leading-tight">{point.event}</div>
-              </motion.div>
+            {/* Center Dashed Line */}
+            <path d="M 100 300 L 1400 300 A 200 200 0 0 1 1400 700 L 200 700 A 200 200 0 0 0 200 1100 L 1350 1100" 
+                  fill="none" stroke="#fcd34d" strokeWidth="4" strokeDasharray="30 30" strokeLinecap="round" />
 
-              {/* Node Indicator */}
-              <motion.div 
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: i * (4 / timeline.length), duration: 0.3 }}
-                className="w-6 h-6 rounded-full bg-white border-4 border-brand-blue flex items-center justify-center shadow-md z-20 absolute left-1/2 -translate-x-1/2"
-              />
-              
-            </div>
-          ))}
+            {/* Finish Line Checkerboard at Node 8 */}
+            <pattern id="checker" width="20" height="20" patternUnits="userSpaceOnUse">
+              <rect width="10" height="10" fill="#000" />
+              <rect x="10" width="10" height="10" fill="#fff" />
+              <rect y="10" width="10" height="10" fill="#fff" />
+              <rect x="10" y="10" width="10" height="10" fill="#000" />
+            </pattern>
+            <rect x="1300" y="1070" width="50" height="60" fill="url(#checker)" />
+
+            {/* Event Nodes & Cards */}
+            {nodes.map((n, i) => (
+              <g key={`node-${i}`}>
+                {/* Node Marker */}
+                <motion.circle 
+                  cx={n.x} cy={n.y} r={16}
+                  animate={{ 
+                    fill: currentNode >= i ? "#FFF" : "#E5E7EB",
+                    stroke: currentNode >= i ? "#FCD34D" : "#9CA3AF"
+                  }}
+                  strokeWidth={6}
+                  className="transition-colors duration-300"
+                />
+
+                {/* Event Reveal Card wrapped in foreignObject */}
+                <foreignObject x={n.cardX} y={n.cardY} width="400" height="260">
+                  <div className="w-full h-full p-2 flex items-center justify-center">
+                    <AnimatePresence>
+                      {currentNode >= i && (
+                        <motion.div 
+                          initial={{ opacity: 0, y: 20, scale: 0.9 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          transition={{ type: "spring", bounce: 0.4 }}
+                          className={`w-[360px] p-6 rounded-3xl flex flex-col items-center text-center shadow-[0_15px_40px_rgba(0,0,0,0.25)] border-4 transition-all ${cardStyles[i]}`}
+                        >
+                          <div className={i % 2 === 0 && i !== 8 ? "skew-x-[3deg]" : (i === 8 ? "" : "skew-x-[-3deg]")}>
+                            <div className="flex items-center justify-center gap-3 mb-2">
+                              <span className="text-3xl">{i === 8 ? "🏆" : "🏁"}</span>
+                              <span className="font-black text-sm uppercase bg-black/20 px-4 py-1.5 rounded-full">{timeline[i].level}</span>
+                            </div>
+                            <h4 className="font-black text-xl uppercase mb-2 drop-shadow-md">{timeline[i].date}</h4>
+                            <h3 className="font-bold text-lg leading-tight mb-3 drop-shadow-md">{timeline[i].event}</h3>
+                            <div className="w-full h-1.5 bg-white/30 mb-3 rounded-full" />
+                            <p className="text-sm leading-snug drop-shadow-sm px-4 font-medium">{timeline[i].desc}</p>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                </foreignObject>
+              </g>
+            ))}
+
+            {/* Top-Down Racing Car SVG Group */}
+            <motion.g animate={controls} initial={{ x: 100, y: 300, rotate: 0 }}>
+              <g transform="translate(-40, -20)">
+                {/* Smoke Puffs */}
+                <motion.circle cx="0" cy="10" r="6" fill="#cbd5e1"
+                  animate={{ x: [-10, -40], y: [10, 0], opacity: [0.8, 0], scale: [1, 3] }}
+                  transition={{ duration: 0.6, repeat: Infinity, ease: "easeOut" }} />
+                <motion.circle cx="0" cy="30" r="6" fill="#cbd5e1"
+                  animate={{ x: [-10, -40], y: [30, 40], opacity: [0.8, 0], scale: [1, 3] }}
+                  transition={{ duration: 0.6, repeat: Infinity, delay: 0.2, ease: "easeOut" }} />
+                <motion.circle cx="-5" cy="20" r="8" fill="#94a3b8"
+                  animate={{ x: [-15, -50], opacity: [0.9, 0], scale: [1, 4] }}
+                  transition={{ duration: 0.7, repeat: Infinity, delay: 0.1, ease: "easeOut" }} />
+
+                {/* NOS Flames */}
+                <motion.path 
+                  d="M 10 15 L -10 10 L 0 20 L -10 30 Z" 
+                  fill="#06b6d4" 
+                  animate={{ scaleX: [1, 1.4, 1], opacity: [0.7, 1, 0.7] }}
+                  transition={{ duration: 0.1, repeat: Infinity }}
+                />
+                <motion.path 
+                  d="M 5 18 L -15 15 L -2 20 L -15 25 Z" 
+                  fill="#3b82f6" 
+                  animate={{ scaleX: [1, 1.5, 1], opacity: [0.5, 0.9, 0.5] }}
+                  transition={{ duration: 0.15, repeat: Infinity }}
+                />
+
+                {/* Tires */}
+                <rect x="15" y="0" width="16" height="8" rx="2" fill="#111" />
+                <rect x="15" y="32" width="16" height="8" rx="2" fill="#111" />
+                <rect x="55" y="0" width="16" height="8" rx="2" fill="#111" />
+                <rect x="55" y="32" width="16" height="8" rx="2" fill="#111" />
+                
+                {/* Front Wing & Nose */}
+                <path d="M 65 10 L 75 14 L 75 26 L 65 30 Z" fill="#222" />
+                <path d="M 40 14 L 70 17 L 70 23 L 40 26 Z" fill="#dc2626" />
+                
+                {/* Main Chassis */}
+                <path d="M 10 12 C 30 8, 50 10, 60 20 C 50 30, 30 32, 10 28 Z" fill="#ef4444" />
+                
+                {/* Yellow Accents (Racing stripes) */}
+                <path d="M 15 18 L 55 19 L 55 21 L 15 22 Z" fill="#facc15" />
+                
+                {/* Cockpit */}
+                <ellipse cx="40" cy="20" rx="8" ry="5" fill="#000" />
+                
+                {/* Driver Helmet */}
+                <circle cx="42" cy="20" r="3" fill="#fff" />
+                
+                {/* Rear Wing */}
+                <rect x="5" y="6" width="8" height="28" rx="1" fill="#222" />
+                <rect x="2" y="10" width="6" height="20" fill="#ef4444" />
+              </g>
+            </motion.g>
+
+          </svg>
         </div>
-
       </div>
     </SceneWrapper>
   );

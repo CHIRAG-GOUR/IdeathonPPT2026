@@ -50,11 +50,15 @@ export const ideathonData = {
   scene5: {
     title: "THE JOURNEY TO THE GRAND FINALE",
     timeline: [
-      { date: "AUGUST 5", event: "ROUND 1 BEGINS" },
-      { date: "AUGUST 9", event: "TEAM REGISTRATION" },
-      { date: "AUGUST 16", event: "LEVEL 1 PRESENTATIONS" },
-      { date: "LEVEL 2", event: "School Championship Round" },
-      { date: "LEVEL 3", event: "GRAND FINALE" }
+      { date: "JULY 27-28", event: "Ideathon Kickoff", level: "Level 1", desc: "Orientation, Introduction & Problem Statement in Auditorium" },
+      { date: "JULY 29-31", event: "Brainstorming & Teaming", level: "Level 1", desc: "Team formation & Idea sketching in class" },
+      { date: "AUG 3-8", event: "Masterclass Q&A", level: "Level 1", desc: "Live offline sessions to clarify doubts" },
+      { date: "AUG 10-29", event: "Finalize Idea & Prototype", level: "Level 1", desc: "3 weeks for class presentations and basic prep" },
+      { date: "AUG 31-SEP 1", event: "Announcement of Winners", level: "Level 2", desc: "Level 2 problem statement & judging" },
+      { date: "SEPT 28", event: "Align Winning Teams", level: "Level 2", desc: "Final alignments for Level 2 competitors" },
+      { date: "SEPT 29-31", event: "Masterclass & Live Q&A", level: "Level 2", desc: "Discussion with Aarna ma'am & parent judges" },
+      { date: "OCT 11", event: "Results & Founder's Masterclass", level: "Level 2+3", desc: "Certificate giveaway at CCIS" },
+      { date: "NOV 8", event: "Grand Finale", level: "Level 3", desc: "6 Finalist Teams Big pitch & trophy ceremony" }
     ]
   },
   scene6: {
