@@ -67,7 +67,7 @@ export default function Scene4() {
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.2, type: "spring", bounce: 0.5 }}
-          src="/media/Gif 1.gif"
+          src="/media/gif_1.gif"
           alt="Animation"
           className="w-48 md:w-64 lg:w-80 h-auto object-contain drop-shadow-md mb-6"
         />

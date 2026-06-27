@@ -105,7 +105,7 @@ export default function Scene6() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 2.5, duration: 0.5 }}
-            src="/media/Gif 6.gif"
+            src="/media/gif_6.gif"
             alt="Champion"
             className="w-32 md:w-48 h-auto rounded-xl shadow-md"
           />

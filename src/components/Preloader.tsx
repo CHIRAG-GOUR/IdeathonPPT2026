@@ -13,10 +13,10 @@ const MEDIA_ASSETS = [
   "/media/level_1.png",
   "/media/level_2.png",
   "/media/level_3.png",
-  "/media/Gif 1.gif",
-  "/media/Gif 4.gif",
-  "/media/Gif 5.gif",
-  "/media/Gif 6.gif"
+  "/media/gif_1.gif",
+  "/media/gif_4.gif",
+  "/media/gif_5.gif",
+  "/media/gif_6.gif"
 ];
 
 const AUDIO_ASSETS = [

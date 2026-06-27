@@ -22,7 +22,7 @@ export default function Scene1() {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          src="/media/Gif 4.gif" 
+          src="/media/gif_4.gif" 
           alt="Important Announcement"
           className="w-48 md:w-64 h-auto rounded-xl shadow-md mb-2"
           fetchPriority="high"

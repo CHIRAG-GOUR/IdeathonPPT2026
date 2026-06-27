@@ -69,7 +69,7 @@ export default function Scene2() {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, delay: 0.5 }}
-          src="/media/Gif 5.gif"
+          src="/media/gif_5.gif"
           alt="You got what it takes"
           className="mb-4 md:mb-6 rounded-2xl shadow-lg w-48 md:w-64 h-auto drop-shadow-md border-4 border-white/50"
         />
