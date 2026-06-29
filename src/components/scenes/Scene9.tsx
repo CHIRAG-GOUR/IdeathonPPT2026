@@ -122,10 +122,10 @@ export default function Scene9() {
           transition={{ delay: 1.5 }}
           className="bg-white border-4 border-green-500 rounded-3xl p-6 md:p-8 shadow-xl z-10 max-w-xl w-full text-center mt-2"
         >
-          <ul className="text-gray-800 font-bold text-sm md:text-lg flex flex-col gap-4">
+          <ul className="text-gray-800 font-bold text-sm md:text-lg flex flex-col gap-4 text-left mx-auto w-fit">
             {ideathonData.scene9.notes.map((note, i) => (
-              <li key={i} className="flex items-center justify-center">
-                {note}
+              <li key={i} className="flex items-center justify-start gap-3">
+                <span className="text-xl">➡️</span> {note}
               </li>
             ))}
           </ul>

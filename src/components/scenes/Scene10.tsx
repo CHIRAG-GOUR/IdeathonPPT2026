@@ -27,18 +27,9 @@ export default function Scene10() {
   return (
     <SceneWrapper className="bg-gray-50/50">
       <div className="relative w-full max-w-[1000px] mx-auto">
-        {/* Glowing border effect */}
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-200/60 via-gray-300/50 to-pink-200/50 blur-xl rounded-[3rem] transform scale-[1.02] z-0"></div>
+        {/* Glowing border effect removed */}
         
-        <div 
-          className="w-full p-[3rem_2rem] md:p-[5rem_4rem] rounded-[3rem] text-center relative overflow-hidden z-10"
-          style={{
-            background: 'rgba(255, 255, 255, 0.75)',
-            border: '1px solid rgba(255, 255, 255, 0.8)',
-            boxShadow: '0 30px 60px -15px rgba(0, 0, 0, 0.1)',
-            backdropFilter: 'blur(24px)'
-          }}
-        >
+        <div className="w-full p-[3rem_2rem] md:p-[5rem_4rem] text-center relative overflow-visible z-10">
           <div className="relative w-full h-full flex flex-col items-center justify-center min-h-[500px]">
 
           <AnimatePresence mode="wait">
