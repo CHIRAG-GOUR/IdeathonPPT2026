@@ -107,12 +107,6 @@ export default function Scene7() {
               "from-[#f59e0b] to-[#fbbf24]",
               "from-[#10b981] to-[#34d399]"
             ];
-            const bgTints = [
-              "bg-cyan-50/85",
-              "bg-fuchsia-50/85",
-              "bg-amber-50/85",
-              "bg-emerald-50/85"
-            ];
             const shadowColors = [
               "shadow-[#00bcf2]/40",
               "shadow-[#d946ef]/40",
@@ -127,18 +121,18 @@ export default function Scene7() {
                 whileHover={{ scale: 1.05, y: -5 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setActiveActivity(activity)}
-                className={`flex-1 rounded-[32px] p-1 bg-gradient-to-br ${gradients[i]} shadow-2xl ${shadowColors[i]} cursor-pointer group relative overflow-hidden`}
+                className={`flex-1 rounded-[32px] p-1 bg-gradient-to-br ${gradients[i]} shadow-2xl ${shadowColors[i]} cursor-pointer group`}
               >
-                <div className="absolute inset-1 rounded-[28px] overflow-hidden z-0">
-                  <img src={`/media/${actImages[i]}`} alt={activity} className="w-full h-full object-cover opacity-40 group-hover:opacity-50 group-hover:scale-110 transition-all duration-700" />
-                  <div className={`absolute inset-0 ${bgTints[i]} backdrop-blur-[2px] transition-colors duration-500`}></div>
-                </div>
-                
-                <div className="relative z-10 h-full w-full rounded-[28px] px-2 py-6 md:px-4 md:py-8 flex flex-col items-center justify-center gap-4 text-center">
-                  <div className={`w-12 h-12 md:w-16 md:h-16 rounded-full bg-gradient-to-br ${gradients[i]} flex items-center justify-center text-white text-xl md:text-2xl font-black shadow-lg transform group-hover:scale-110 transition-transform`}>
-                    {i + 1}
+                <div className="bg-white h-full w-full rounded-[28px] overflow-hidden flex flex-col p-1.5 md:p-2 text-center gap-2 md:gap-3">
+                  <div className="w-full aspect-[4/3] rounded-[22px] overflow-hidden relative shadow-sm">
+                    <img src={`/media/${actImages[i]}`} alt={activity} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                   </div>
-                  <span className="font-black text-gray-800 text-[11px] md:text-sm lg:text-[15px] uppercase tracking-wider leading-tight">{activity}</span>
+                  
+                  <div className="flex-1 flex items-center justify-center px-1 pb-1">
+                    <span className="font-black text-gray-800 text-[10px] md:text-xs lg:text-[14px] uppercase tracking-wider leading-tight">
+                      {activity}
+                    </span>
+                  </div>
                 </div>
               </motion.div>
             )
