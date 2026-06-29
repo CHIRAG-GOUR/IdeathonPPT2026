@@ -37,7 +37,7 @@ function Counter({ value, suffix, label, delay }: { value: number, suffix: strin
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay, duration: 0.8 }}
-      className="flex flex-col items-center p-4 md:p-6 glass-card rounded-2xl relative overflow-hidden group shadow-sm hover:border-brand-blue/30 transition-all bg-white"
+      className="flex flex-col items-center p-4 md:p-6 glass-card rounded-2xl relative overflow-hidden group hover:border-brand-blue/30 transition-all"
     >
       <div className="absolute inset-0 bg-gradient-to-br from-brand-blue/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
       <div className="text-3xl md:text-5xl font-black text-brand-blue mb-2 drop-shadow-sm flex items-end">

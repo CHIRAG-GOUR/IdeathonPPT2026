@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import SceneWrapper from "./SceneWrapper";
 import { ideathonData } from "@/content/ideathon-data";
+import AnimatedIdea from "../illustrations/AnimatedIdea";
 
 const flyDirections = [
   { x: -300, y: -200 }, // THINK
@@ -17,17 +18,15 @@ export default function Scene1() {
     <SceneWrapper>
       <div className="relative flex flex-col items-center justify-center w-full h-full gap-6 overflow-hidden">
         
-        {/* GIF loads first, fades in */}
-        <motion.img 
+        {/* Animated Storyset-style Illustration */}
+        <motion.div 
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          src="/media/gif_4.gif" 
-          alt="Important Announcement"
-          className="w-48 md:w-64 h-auto rounded-xl shadow-md mb-2"
-          fetchPriority="high"
-          loading="eager"
-        />
+          className="w-48 md:w-64 h-auto mb-2"
+        >
+          <AnimatedIdea />
+        </motion.div>
 
         {/* Title animates in later */}
         <motion.h1 
@@ -87,7 +86,7 @@ export default function Scene1() {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 5.5, duration: 1, ease: "easeOut" }}
-          className="mt-6 px-8 py-4 rounded-full border border-brand-blue/30 bg-white shadow-sm text-brand-blue tracking-widest text-sm uppercase text-center font-bold"
+          className="mt-6 px-8 py-4 rounded-full border border-brand-blue/30 glass-card shadow-sm text-brand-blue tracking-widest text-sm uppercase text-center font-bold"
         >
           {ideathonData.scene1.tagline}
         </motion.div>

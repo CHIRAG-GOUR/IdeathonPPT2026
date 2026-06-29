@@ -111,7 +111,7 @@ export default function Scene2() {
           <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4 w-full justify-center mt-1 pb-4">
             <motion.div 
               variants={slideLeft} 
-              className="px-4 py-3 rounded-2xl bg-white border-2 border-gray-200 shadow-md flex items-center justify-center w-full md:w-auto relative overflow-hidden group"
+              className="px-4 py-3 glass-card flex items-center justify-center w-full md:w-auto relative overflow-hidden group"
             >
               <div className="absolute inset-0 bg-gray-50 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-300" />
               <span className="text-sm md:text-base text-gray-600 font-bold relative z-10">{ideathonData.scene2.lines[4]}</span>
@@ -128,7 +128,7 @@ export default function Scene2() {
               variants={slideRight} 
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="px-4 py-3 rounded-2xl bg-gradient-to-r from-brand-blue to-blue-600 border border-brand-blue shadow-xl shadow-brand-blue/30 flex items-center justify-center w-full md:w-auto cursor-pointer"
+              className="px-4 py-3 glass-card-colorful flex items-center justify-center w-full md:w-auto cursor-pointer"
             >
               <span className="text-sm md:text-base font-black text-white tracking-widest uppercase drop-shadow-md">{ideathonData.scene2.lines[5]}</span>
             </motion.div>

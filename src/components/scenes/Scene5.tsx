@@ -36,21 +36,21 @@ export default function Scene5() {
     const audio = new Audio("/sounds/car-sound.mp3");
     audio.volume = 0.6;
     audioRef.current = audio;
-    
+
     const ting = new Audio("/sounds/ting-sound.mp3");
     ting.volume = 0.8;
     tingAudioRef.current = ting;
-    
+
     const winner = new Audio("/sounds/winner-sound.mp3");
     winner.volume = 0.9;
     winnerAudioRef.current = winner;
-    
+
     const handleEnded = () => {
       if (loopCountRef.current < 2) {
         loopCountRef.current++;
         audio.currentTime = 0;
-        audio.play().catch(() => {});
-        
+        audio.play().catch(() => { });
+
         if (loopCountRef.current === 2) {
           timeoutRef.current = setTimeout(() => {
             audio.pause();
@@ -60,7 +60,7 @@ export default function Scene5() {
     };
 
     audio.addEventListener('ended', handleEnded);
-    
+
     return () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
       audio.removeEventListener('ended', handleEnded);
@@ -76,21 +76,21 @@ export default function Scene5() {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
       loopCountRef.current = 0;
       audioRef.current.currentTime = 0;
-      audioRef.current.play().catch(() => {});
+      audioRef.current.play().catch(() => { });
     }
   };
 
   const playTingSound = () => {
     if (tingAudioRef.current) {
       tingAudioRef.current.currentTime = 0;
-      tingAudioRef.current.play().catch(() => {});
+      tingAudioRef.current.play().catch(() => { });
     }
   };
 
   const playWinnerSound = () => {
     if (winnerAudioRef.current) {
       winnerAudioRef.current.currentTime = 0;
-      winnerAudioRef.current.play().catch(() => {});
+      winnerAudioRef.current.play().catch(() => { });
     }
   };
 
@@ -112,18 +112,18 @@ export default function Scene5() {
     const steps = 20;
     const arcDist = Math.PI * r;
     const totalDist = 100 + arcDist + 100;
-    
-    const xs = [1300, 1400], ys = [300, 300], rs = [0, 0], ts = [0, 100/totalDist];
-    
+
+    const xs = [1300, 1400], ys = [300, 300], rs = [0, 0], ts = [0, 100 / totalDist];
+
     for (let i = 1; i <= steps; i++) {
       const frac = i / steps;
-      const angle = -Math.PI/2 + Math.PI * frac; // -90° to +90°
+      const angle = -Math.PI / 2 + Math.PI * frac; // -90° to +90°
       xs.push(cx + r * Math.cos(angle));
       ys.push(cy + r * Math.sin(angle));
       rs.push(frac * 180); // 0° to 180°
       ts.push((100 + frac * arcDist) / totalDist);
     }
-    
+
     xs.push(1300); ys.push(700); rs.push(180); ts.push(1);
     const easings = Array(xs.length - 1).fill("linear");
     return { x: xs, y: ys, rotate: rs, times: ts, easings };
@@ -134,18 +134,18 @@ export default function Scene5() {
     const steps = 20;
     const arcDist = Math.PI * r;
     const totalDist = 100 + arcDist + 100;
-    
-    const xs = [300, 200], ys = [700, 700], rs = [180, 180], ts = [0, 100/totalDist];
-    
+
+    const xs = [300, 200], ys = [700, 700], rs = [180, 180], ts = [0, 100 / totalDist];
+
     for (let i = 1; i <= steps; i++) {
       const frac = i / steps;
-      const angle = -Math.PI/2 - Math.PI * frac; // -90° to -270°
+      const angle = -Math.PI / 2 - Math.PI * frac; // -90° to -270°
       xs.push(cx + r * Math.cos(angle));
       ys.push(cy + r * Math.sin(angle));
       rs.push(180 - frac * 180); // 180° to 0°
       ts.push((100 + frac * arcDist) / totalDist);
     }
-    
+
     xs.push(300); ys.push(1100); rs.push(0); ts.push(1);
     const easings = Array(xs.length - 1).fill("linear");
     return { x: xs, y: ys, rotate: rs, times: ts, easings };
@@ -157,10 +157,10 @@ export default function Scene5() {
     setIsPlaying(true);
     setCurrentNode(-1);
     playEngineSound();
-    
+
     controls.set({ x: 100, y: 300, rotate: 0 });
     await delay(800);
-    
+
     // Row 1: left to right (rotate: 0)
     await controls.start({ x: 300, y: 300, rotate: 0, transition: { duration: 1, ease: "linear" } });
     setCurrentNode(0); playTingSound(); await delay(600);
@@ -200,7 +200,7 @@ export default function Scene5() {
 
     await controls.start({ x: 1300, y: 1100, rotate: 0, transition: { duration: 1.5, ease: "linear" } });
     setCurrentNode(8); playWinnerSound();
-    
+
     stopEngineSound();
     isPlayingRef.current = false;
     setIsPlaying(false);
@@ -231,16 +231,16 @@ export default function Scene5() {
   return (
     <SceneWrapper>
       <div className="w-full h-full flex flex-col relative overflow-hidden bg-gradient-to-b from-[#eef2ff] to-[#f8fafc]">
-        
+
         {/* Header */}
         <div className="w-full pt-6 md:pt-10 z-40 relative">
-          <motion.h2 
+          <motion.h2
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-xl md:text-3xl lg:text-4xl font-black text-brand-blue tracking-widest uppercase text-center drop-shadow-sm flex items-center justify-center gap-4"
           >
             {ideathonData.scene5.title}
-            <button 
+            <button
               onClick={startAnimation}
               disabled={isPlaying}
               className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-white border-2 border-brand-blue flex items-center justify-center hover:bg-brand-blue hover:text-white transition-colors disabled:opacity-50 text-xs md:text-sm shadow-md"
@@ -254,18 +254,18 @@ export default function Scene5() {
         {/* Unified Scalable SVG Area */}
         <div className="flex-1 w-full flex items-center justify-center p-2 md:p-6 overflow-hidden">
           <svg viewBox="0 0 1600 1250" className="w-full h-full max-h-[85vh] drop-shadow-2xl">
-            
+
             {/* Asphalt Base */}
-            <path d="M 100 300 L 1400 300 A 200 200 0 0 1 1400 700 L 200 700 A 200 200 0 0 0 200 1100 L 1350 1100" 
-                  fill="none" stroke="#1f2937" strokeWidth="60" strokeLinecap="round" />
-            
+            <path d="M 100 300 L 1400 300 A 200 200 0 0 1 1400 700 L 200 700 A 200 200 0 0 0 200 1100 L 1350 1100"
+              fill="none" stroke="#1f2937" strokeWidth="60" strokeLinecap="round" />
+
             {/* Road Borders */}
-            <path d="M 100 300 L 1400 300 A 200 200 0 0 1 1400 700 L 200 700 A 200 200 0 0 0 200 1100 L 1350 1100" 
-                  fill="none" stroke="#374151" strokeWidth="68" strokeLinecap="round" className="opacity-50" />
+            <path d="M 100 300 L 1400 300 A 200 200 0 0 1 1400 700 L 200 700 A 200 200 0 0 0 200 1100 L 1350 1100"
+              fill="none" stroke="#374151" strokeWidth="68" strokeLinecap="round" className="opacity-50" />
 
             {/* Center Dashed Line */}
-            <path d="M 100 300 L 1400 300 A 200 200 0 0 1 1400 700 L 200 700 A 200 200 0 0 0 200 1100 L 1350 1100" 
-                  fill="none" stroke="#fcd34d" strokeWidth="4" strokeDasharray="30 30" strokeLinecap="round" />
+            <path d="M 100 300 L 1400 300 A 200 200 0 0 1 1400 700 L 200 700 A 200 200 0 0 0 200 1100 L 1350 1100"
+              fill="none" stroke="#fcd34d" strokeWidth="4" strokeDasharray="30 30" strokeLinecap="round" />
 
             {/* Finish Line Checkerboard at Node 8 */}
             <pattern id="checker" width="20" height="20" patternUnits="userSpaceOnUse">
@@ -280,9 +280,9 @@ export default function Scene5() {
             {nodes.map((n, i) => (
               <g key={`node-${i}`}>
                 {/* Node Marker */}
-                <motion.circle 
+                <motion.circle
                   cx={n.x} cy={n.y} r={16}
-                  animate={{ 
+                  animate={{
                     fill: currentNode >= i ? "#FFF" : "#E5E7EB",
                     stroke: currentNode >= i ? "#FCD34D" : "#9CA3AF"
                   }}
@@ -295,7 +295,7 @@ export default function Scene5() {
                   <div className="w-full h-full p-2 flex items-center justify-center">
                     <AnimatePresence>
                       {currentNode >= i && (
-                        <motion.div 
+                        <motion.div
                           initial={{ opacity: 0, y: 20, scale: 0.9 }}
                           animate={{ opacity: 1, y: 0, scale: 1 }}
                           transition={{ type: "spring", bounce: 0.4 }}
@@ -334,15 +334,15 @@ export default function Scene5() {
                   transition={{ duration: 0.7, repeat: Infinity, delay: 0.1, ease: "easeOut" }} />
 
                 {/* NOS Flames */}
-                <motion.path 
-                  d="M 10 15 L -10 10 L 0 20 L -10 30 Z" 
-                  fill="#06b6d4" 
+                <motion.path
+                  d="M 10 15 L -10 10 L 0 20 L -10 30 Z"
+                  fill="#06b6d4"
                   animate={{ scaleX: [1, 1.4, 1], opacity: [0.7, 1, 0.7] }}
                   transition={{ duration: 0.1, repeat: Infinity }}
                 />
-                <motion.path 
-                  d="M 5 18 L -15 15 L -2 20 L -15 25 Z" 
-                  fill="#3b82f6" 
+                <motion.path
+                  d="M 5 18 L -15 15 L -2 20 L -15 25 Z"
+                  fill="#3b82f6"
                   animate={{ scaleX: [1, 1.5, 1], opacity: [0.5, 0.9, 0.5] }}
                   transition={{ duration: 0.15, repeat: Infinity }}
                 />
@@ -352,23 +352,23 @@ export default function Scene5() {
                 <rect x="15" y="32" width="16" height="8" rx="2" fill="#111" />
                 <rect x="55" y="0" width="16" height="8" rx="2" fill="#111" />
                 <rect x="55" y="32" width="16" height="8" rx="2" fill="#111" />
-                
+
                 {/* Front Wing & Nose */}
                 <path d="M 65 10 L 75 14 L 75 26 L 65 30 Z" fill="#222" />
                 <path d="M 40 14 L 70 17 L 70 23 L 40 26 Z" fill="#dc2626" />
-                
+
                 {/* Main Chassis */}
                 <path d="M 10 12 C 30 8, 50 10, 60 20 C 50 30, 30 32, 10 28 Z" fill="#ef4444" />
-                
+
                 {/* Yellow Accents (Racing stripes) */}
                 <path d="M 15 18 L 55 19 L 55 21 L 15 22 Z" fill="#facc15" />
-                
+
                 {/* Cockpit */}
                 <ellipse cx="40" cy="20" rx="8" ry="5" fill="#000" />
-                
+
                 {/* Driver Helmet */}
                 <circle cx="42" cy="20" r="3" fill="#fff" />
-                
+
                 {/* Rear Wing */}
                 <rect x="5" y="6" width="8" height="28" rx="1" fill="#222" />
                 <rect x="2" y="10" width="6" height="20" fill="#ef4444" />

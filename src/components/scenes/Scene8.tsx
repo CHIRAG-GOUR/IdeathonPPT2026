@@ -154,7 +154,7 @@ export default function Scene8() {
               initial={{ opacity: 0, x: -100, rotateY: -20 }} 
               animate={{ opacity: 1, x: 0, rotateY: 0 }} 
               transition={{ delay: 0.3, duration: 0.8, type: "spring" }}
-              className="glass-card relative p-6 md:p-8 rounded-2xl bg-white/80 backdrop-blur-xl flex-1"
+              className="glass-card relative p-6 md:p-8 rounded-2xl flex-1"
               style={{ border: '3px solid #FFD700', boxShadow: '0 0 35px rgba(255,215,0,0.6)' }}
             >
               <div className="absolute -top-5 -right-3 rotate-[15deg]">
@@ -175,7 +175,7 @@ export default function Scene8() {
               initial={{ opacity: 0, x: -100, rotateY: -20 }} 
               animate={{ opacity: 1, x: 0, rotateY: 0 }} 
               transition={{ delay: 0.5, duration: 0.8, type: "spring" }} 
-              className="glass-card relative bg-white/80 backdrop-blur-xl p-6 md:p-8 rounded-2xl text-center md:text-left flex-1"
+              className="glass-card relative p-6 md:p-8 rounded-2xl text-center md:text-left flex-1"
               style={{ border: '3px solid #C0C0C0', boxShadow: '0 0 30px rgba(192,192,192,0.7)' }}
             >
               <div className="absolute -top-5 -right-3 rotate-[15deg]">
@@ -212,7 +212,7 @@ export default function Scene8() {
               initial={{ opacity: 0, x: 100, rotateY: 20 }} 
               animate={{ opacity: 1, x: 0, rotateY: 0 }} 
               transition={{ delay: 0.7, duration: 0.8, type: "spring" }} 
-              className="glass-card relative bg-white/80 backdrop-blur-xl p-6 md:p-8 rounded-2xl text-center md:text-left flex-1"
+              className="glass-card relative p-6 md:p-8 rounded-2xl text-center md:text-left flex-1"
               style={{ border: '3px solid #CD7F32', boxShadow: '0 0 30px rgba(205,127,50,0.7)' }}
             >
               <div className="absolute -top-5 -right-3 rotate-[15deg]">
@@ -233,7 +233,7 @@ export default function Scene8() {
               initial={{ opacity: 0, x: 100, rotateY: 20 }} 
               animate={{ opacity: 1, x: 0, rotateY: 0 }} 
               transition={{ delay: 0.9, duration: 0.8, type: "spring" }} 
-              className="glass-card relative bg-white/80 backdrop-blur-xl p-6 md:p-8 rounded-2xl text-center md:text-left flex-1"
+              className="glass-card relative p-6 md:p-8 rounded-2xl text-center md:text-left flex-1"
               style={{ border: '3px solid #10B981', boxShadow: '0 0 30px rgba(16,185,129,0.5)' }}
             >
               <div className="flex items-center justify-center md:justify-start gap-3 mb-4">

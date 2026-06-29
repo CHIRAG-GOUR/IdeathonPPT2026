@@ -102,7 +102,7 @@ export default function Scene7() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setActiveActivity(activity)}
-                className="glass-card px-6 py-4 rounded-2xl flex items-center gap-4 group shadow-sm bg-white cursor-pointer hover:border-brand-green/30"
+                className="glass-card px-6 py-4 rounded-2xl flex items-center gap-4 group cursor-pointer hover:border-brand-green/30"
               >
                 <div className="w-10 h-10 rounded-full bg-brand-green/10 flex items-center justify-center border border-brand-green/20 group-hover:bg-brand-green group-hover:text-white transition-colors">
                   <span className="font-black text-brand-green group-hover:text-white transition-colors">{i + 1}</span>
@@ -138,7 +138,7 @@ export default function Scene7() {
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="relative bg-white/90 backdrop-blur-md border border-white/50 shadow-2xl rounded-3xl p-8 max-w-md w-full z-10"
+              className="relative glass-card shadow-2xl rounded-3xl p-8 max-w-md w-full z-10"
             >
               <button 
                 onClick={() => setActiveActivity(null)}
