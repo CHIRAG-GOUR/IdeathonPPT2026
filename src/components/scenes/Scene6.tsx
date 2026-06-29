@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
+import { useEffect } from "react";
 import SceneWrapper from "./SceneWrapper";
 import { ideathonData } from "@/content/ideathon-data";
 
@@ -12,11 +13,11 @@ interface PodiumColumnProps {
   darkColor: string;
   topColor: string;
   textColor: string;
-  rank: number;
+  levelNum: number;
   delay: number;
 }
 
-const PodiumColumn = ({ level, image, height, mainColor, darkColor, topColor, textColor, rank, delay }: PodiumColumnProps) => {
+const PodiumColumn = ({ level, image, height, mainColor, darkColor, topColor, textColor, levelNum, delay }: PodiumColumnProps) => {
   return (
     <motion.div 
       initial={{ y: 150, opacity: 0 }}
@@ -24,15 +25,15 @@ const PodiumColumn = ({ level, image, height, mainColor, darkColor, topColor, te
       transition={{ delay, type: "spring", bounce: 0.3, duration: 0.8 }}
       className="flex flex-col items-center justify-end w-1/3 flex-shrink-0 relative"
     >
-      {/* Mario Coin Hovering Image */}
+      {/* Hovering Image (Square/Rounded) */}
       <motion.div 
-        animate={{ y: [0, -15, 0] }} 
-        transition={{ repeat: Infinity, duration: 2.5, ease: "easeInOut", delay: delay * 0.5 }}
-        className="mb-4 md:mb-8 z-20"
+        animate={{ y: [0, -20, 0] }} 
+        transition={{ repeat: Infinity, duration: 3, ease: "easeInOut", delay: delay * 0.5 }}
+        className="mb-6 md:mb-10 z-20"
       >
-        <div className="w-16 h-16 md:w-28 md:h-28 lg:w-36 lg:h-36 rounded-full border-[4px] md:border-[6px] shadow-[0_15px_30px_rgba(0,0,0,0.3)] overflow-hidden bg-white" 
+        <div className="w-24 h-24 md:w-40 md:h-40 lg:w-48 lg:h-48 rounded-xl md:rounded-3xl border-[4px] md:border-[6px] shadow-[0_15px_40px_rgba(0,0,0,0.4)] overflow-hidden bg-white/20 backdrop-blur-sm" 
              style={{ borderColor: topColor }}>
-          <img src={image} alt={level.name} className="w-full h-full object-cover p-1 md:p-2 rounded-full" />
+          <img src={image} alt={level.name} className="w-full h-full object-cover p-1 md:p-2 rounded-xl md:rounded-3xl" />
         </div>
       </motion.div>
 
@@ -42,7 +43,7 @@ const PodiumColumn = ({ level, image, height, mainColor, darkColor, topColor, te
         <div className="h-6 md:h-12 w-[106%] rounded-t-lg shadow-sm z-10" style={{ backgroundColor: topColor }} />
         
         {/* Main Body */}
-        <div className={`w-full flex flex-col items-center justify-start p-3 md:p-6 text-center shadow-2xl relative overflow-hidden ${height}`} 
+        <div className={`w-full flex flex-col items-center justify-start p-3 md:p-8 text-center shadow-2xl relative overflow-hidden ${height}`} 
              style={{ 
                background: `linear-gradient(135deg, ${mainColor} 50%, ${darkColor} 50%)`,
                color: textColor 
@@ -50,13 +51,13 @@ const PodiumColumn = ({ level, image, height, mainColor, darkColor, topColor, te
           
           <div className="relative z-10 w-full">
             <div className="font-black text-[9px] md:text-sm uppercase tracking-widest opacity-90 mb-1 drop-shadow-sm">{level.level}</div>
-            <h3 className="text-xs md:text-xl lg:text-3xl font-black leading-tight mb-2 drop-shadow-sm">{level.name}</h3>
+            <h3 className="text-xs md:text-2xl lg:text-3xl font-black leading-tight mb-3 drop-shadow-sm">{level.name}</h3>
             <p className="text-[9px] md:text-sm lg:text-base font-bold opacity-90 hidden md:block drop-shadow-sm leading-snug">{level.desc}</p>
           </div>
           
           {/* Big Background Number */}
-          <div className="absolute bottom-2 md:bottom-4 left-0 right-0 text-[100px] md:text-[200px] font-black text-white/30 leading-none pointer-events-none select-none">
-            {rank}
+          <div className="absolute bottom-2 md:bottom-4 left-0 right-0 text-[120px] md:text-[220px] font-black text-white/30 leading-none pointer-events-none select-none">
+            {levelNum}
           </div>
         </div>
       </div>
@@ -64,31 +65,74 @@ const PodiumColumn = ({ level, image, height, mainColor, darkColor, topColor, te
   );
 };
 
+const Superhero = () => (
+  <svg viewBox="0 0 100 100" className="w-16 h-16 md:w-24 md:h-24 text-brand-blue drop-shadow-[0_10px_20px_rgba(0,188,242,0.6)] z-50">
+    <g fill="currentColor">
+      <circle cx="50" cy="20" r="10" />
+      <path d="M40,35 Q50,30 60,35 L75,55 L65,65 L50,45 L35,65 L25,55 Z" />
+      <path d="M45,40 L30,85 L45,90 L50,60 L55,90 L70,85 L55,40 Z" />
+      {/* Gold Cape! */}
+      <path d="M40,35 Q10,40 5,65 Q25,75 40,45 Z" fill="#ffd700" className="drop-shadow-md" />
+    </g>
+  </svg>
+);
+
 export default function Scene6() {
   const levels = ideathonData.scene6.levels; // [Level 1, Level 2, Level 3]
-  
-  // Custom images mapping corresponding to [Level 1, Level 2, Level 3]
   const images = ["/media/level_1.png", "/media/level_2.png", "/media/level_3.png"];
+  
+  const humanControls = useAnimation();
+
+  useEffect(() => {
+    const runAnimation = async () => {
+      // Wait a moment for the scene to enter
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      // Jump sequence: Offscreen Right -> Bronze -> Silver -> Gold
+      await humanControls.start({
+        x: ["150%", "80%", "33%", "0%", "-33%", "-16%", "0%"],
+        // Y coordinates correspond to the heights of the podiums
+        y: ["0px", "-280px", "-240px", "-550px", "-320px", "-600px", "-420px"],
+        rotate: [0, -30, 0, 30, 0, -360, 0],
+        scale: [1, 1.2, 1, 1.4, 1, 1.5, 1.2],
+        transition: { 
+          duration: 3.5, 
+          times: [0, 0.15, 0.3, 0.55, 0.7, 0.85, 1], 
+          ease: "easeInOut" 
+        }
+      });
+
+      // Celebration loop on top of Gold podium
+      humanControls.start({
+        y: ["-420px", "-480px", "-420px"],
+        rotate: [0, -10, 10, 0],
+        transition: { duration: 1, repeat: Infinity, ease: "easeInOut" }
+      });
+    };
+    
+    runAnimation();
+  }, [humanControls]);
 
   return (
     <SceneWrapper>
-      <div className="w-full flex flex-col items-center justify-center min-h-[85vh] pt-4">
+      <div className="w-full flex flex-col items-center justify-center min-h-[85vh] pt-4 overflow-visible">
         
         <motion.h2 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, type: "spring" }}
-          className="text-2xl md:text-4xl lg:text-5xl font-black mb-6 md:mb-10 text-brand-blue uppercase tracking-wide text-center drop-shadow-sm"
+          className="text-3xl md:text-5xl lg:text-6xl font-black mb-6 md:mb-12 uppercase tracking-wide text-center drop-shadow-sm flex flex-col sm:flex-row gap-2 sm:gap-4 justify-center"
         >
-          {ideathonData.scene6.title}
+          <span className="text-brand-blue">3 LEVELS.</span>
+          <span className="text-[#ffd700] drop-shadow-[0_2px_10px_rgba(255,215,0,0.4)]">1 CHAMPION.</span>
         </motion.h2>
 
         {/* Podium Container */}
-        <div className="w-full max-w-5xl mx-auto flex flex-col items-center mt-auto">
+        <div className="w-full max-w-5xl mx-auto flex flex-col items-center mt-auto relative">
           
           <div className="flex items-end justify-center w-full px-2 md:px-8 z-10 gap-1 md:gap-2">
             
-            {/* LEFT: Level 2 (Silver) - Rank 2 */}
+            {/* LEFT: Level 2 (Silver) - Height Medium */}
             <PodiumColumn 
               level={levels[1]} 
               image={images[1]}
@@ -97,11 +141,11 @@ export default function Scene6() {
               darkColor="#94a3b8" // slate-400
               topColor="#f8fafc" // slate-50
               textColor="#0f172a"
-              rank={2}
+              levelNum={2}
               delay={0.6}
             />
             
-            {/* CENTER: Level 3 (Gold) - Rank 1 */}
+            {/* CENTER: Level 3 (Gold) - Height Tallest */}
             <PodiumColumn 
               level={levels[2]} 
               image={images[2]}
@@ -110,11 +154,11 @@ export default function Scene6() {
               darkColor="#eab308" // yellow-500
               topColor="#fef08a" // yellow-200
               textColor="#422006"
-              rank={1}
+              levelNum={3}
               delay={0.8}
             />
             
-            {/* RIGHT: Level 1 (Bronze) - Rank 3 */}
+            {/* RIGHT: Level 1 (Bronze) - Height Shortest */}
             <PodiumColumn 
               level={levels[0]} 
               image={images[0]}
@@ -123,40 +167,33 @@ export default function Scene6() {
               darkColor="#b45309" // amber-700
               topColor="#fcd34d" // amber-300
               textColor="#ffffff"
-              rank={3}
+              levelNum={1}
               delay={0.4}
             />
 
           </div>
 
-          {/* Podium Base Floor */}
+          {/* Jumping Human Animation */}
+          <motion.div 
+            initial={{ x: "150%", y: "0px" }}
+            animate={humanControls}
+            className="absolute bottom-0 left-1/2 -ml-8 md:-ml-12 z-50 pointer-events-none"
+          >
+            <Superhero />
+          </motion.div>
+
+          {/* Podium Base Floor (Silver) */}
           <motion.div 
             initial={{ scaleX: 0 }}
             animate={{ scaleX: 1 }}
             transition={{ delay: 0.2, duration: 0.8 }}
-            className="w-[105%] h-6 md:h-10 bg-brand-blue rounded-sm shadow-2xl z-20"
-          />
+            className="w-[105%] h-8 md:h-12 bg-gradient-to-b from-[#e2e8f0] to-[#94a3b8] rounded-sm shadow-2xl z-20 flex items-center justify-center border-t-2 border-white/60"
+          >
+            <span className="font-black text-gray-800 tracking-[0.3em] uppercase text-xs md:text-xl drop-shadow-sm">
+              Ideathon 2026
+            </span>
+          </motion.div>
         </div>
-
-        {/* Tagline */}
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, delay: 1.5 }}
-          className="mt-6 md:mt-10 flex gap-2 md:gap-6 text-lg md:text-2xl lg:text-3xl font-black tracking-widest text-gray-800 z-20 mb-4"
-        >
-          {ideathonData.scene6.tagline.map((word, i) => (
-            <motion.span 
-              key={i}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.8 + i * 0.3, type: "spring", stiffness: 200 }}
-              className={i === 2 ? "text-brand-blue drop-shadow-md scale-110 origin-bottom" : ""}
-            >
-              {word}
-            </motion.span>
-          ))}
-        </motion.div>
 
       </div>
     </SceneWrapper>
