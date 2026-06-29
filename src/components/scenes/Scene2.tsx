@@ -128,7 +128,7 @@ export default function Scene2() {
               variants={slideRight} 
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="px-4 py-3 glass-card-colorful flex items-center justify-center w-full md:w-auto cursor-pointer"
+              className="px-6 py-3 bg-brand-blue rounded-xl shadow-lg border-2 border-brand-blue/30 flex items-center justify-center w-full md:w-auto cursor-pointer"
             >
               <span className="text-sm md:text-base font-black text-white tracking-widest uppercase drop-shadow-md">{ideathonData.scene2.lines[5]}</span>
             </motion.div>
