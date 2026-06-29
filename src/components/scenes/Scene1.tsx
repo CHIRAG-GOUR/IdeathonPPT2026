@@ -22,7 +22,7 @@ export default function Scene1() {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="w-64 md:w-96 h-auto mb-2 drop-shadow-xl"
+          className="w-48 md:w-72 h-auto mb-0 drop-shadow-xl"
         >
           <img src="/media/Slide_1.gif" alt="Ideathon Animation" className="w-full h-full object-contain mix-blend-multiply" />
         </motion.div>
