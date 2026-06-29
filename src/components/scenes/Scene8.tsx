@@ -39,11 +39,11 @@ function Certificate3D() {
 function SchoolKid({
   position, shirtColor = "#2563EB", scale = 1, isGirl = false,
   hasMedal = false, medalColor = "#C0C0C0", isWinner = false, hasCert = false,
-  skinTone = "#D2945F"
+  skinTone = "#D2945F", isWaving = false, isBitingMedal = false
 }: {
   position: [number, number, number]; shirtColor?: string; scale?: number;
   isGirl?: boolean; hasMedal?: boolean; medalColor?: string; isWinner?: boolean;
-  hasCert?: boolean; skinTone?: string;
+  hasCert?: boolean; skinTone?: string; isWaving?: boolean; isBitingMedal?: boolean;
 }) {
   const ref = useRef<THREE.Group>(null!);
 
@@ -62,6 +62,12 @@ function SchoolKid({
     if (isWinner) {
       if (la) { la.rotation.z = 0; la.rotation.x = -Math.PI + 0.1; } // Straight up
       if (ra) { ra.rotation.z = 0; ra.rotation.x = -Math.PI + 0.1; }
+    } else if (isWaving) {
+      if (la) { la.rotation.z = 0.1; la.rotation.x = -0.5 + Math.sin(t * 4) * 0.15; }
+      if (ra) { ra.rotation.z = Math.sin(t * 8) * 0.4; ra.rotation.x = -Math.PI + 0.3; } // Wave high!
+    } else if (isBitingMedal) {
+      if (la) { la.rotation.z = 0.1; la.rotation.x = -0.5 + Math.sin(t * 4) * 0.15; }
+      if (ra) { ra.rotation.z = 1.0; ra.rotation.x = -2.0; } // Hand to mouth!
     } else {
       if (la) { la.rotation.z = 0.1; la.rotation.x = -0.5 + Math.sin(t * 4) * 0.15; } // Forward and waving slightly
       if (ra) { ra.rotation.z = -0.1; ra.rotation.x = -0.5 - Math.sin(t * 4 + 1) * 0.15; }
@@ -138,7 +144,7 @@ function SchoolKid({
         <mesh position={[0.09, 0.38, 0.04]}><boxGeometry args={[0.1, 0.06, 0.16]} /><meshStandardMaterial color="#111" roughness={0.95} /></mesh>
         {/* Medal */}
         {hasMedal && (
-          <group position={[0, 1.2, 0.2]}>
+          <group position={isBitingMedal ? [0, 1.55, 0.18] : [0, 1.2, 0.2]}>
             <mesh position={[-0.04, 0.06, 0]} rotation={[0, 0, -0.35]}><boxGeometry args={[0.015, 0.15, 0.008]} /><meshStandardMaterial color="#EF4444" /></mesh>
             <mesh position={[0.04, 0.06, 0]} rotation={[0, 0, 0.35]}><boxGeometry args={[0.015, 0.15, 0.008]} /><meshStandardMaterial color="#EF4444" /></mesh>
             <mesh position={[0, -0.05, 0]}><cylinderGeometry args={[0.08, 0.08, 0.015, 32]} /><meshStandardMaterial color={medalColor} metalness={0.95} roughness={0.05} /></mesh>
@@ -174,10 +180,10 @@ function PodiumBlock({
         <meshStandardMaterial color="#CC0000" roughness={0.85} />
       </mesh>
       {/* Rank text */}
-      <Text position={[0, height - 0.5, depth / 2 + 0.03]} fontSize={0.6} color={textColor} anchorX="center" anchorY="middle" outlineWidth={0.02} outlineColor="#000">{rank}</Text>
+      <Text position={[0, height - 0.45, depth / 2 + 0.03]} fontSize={0.4} color={textColor} anchorX="center" anchorY="middle" outlineWidth={0.02} outlineColor="#000">{rank}</Text>
       {/* Reward lines (Fixed spacing so it is legible!) */}
       {rewards.map((r, i) => (
-        <Text key={i} position={[0, height - 1.1 - (i * 0.25), depth / 2 + 0.03]} fontSize={0.16} color="#FFF" anchorX="center" anchorY="middle" outlineWidth={0.01} outlineColor="#000" maxWidth={width * 0.65} textAlign="center">{r}</Text>
+        <Text key={i} position={[0, height - 0.95 - (i * 0.25), depth / 2 + 0.03]} fontSize={0.16} color="#FFF" anchorX="center" anchorY="middle" outlineWidth={0.01} outlineColor="#000" maxWidth={width * 0.65} textAlign="center">{r}</Text>
       ))}
     </group>
   );
@@ -309,15 +315,15 @@ export default function Scene8() {
 
               {/* 2nd place (left) - Wider podium (2.6) */}
               <PodiumBlock position={[-2.7, 0, 0]} width={2.6} height={2} depth={2} rank="2nd" rewards={rewards.second} textColor="#C0C0C0" />
-              <SchoolKid position={[-2.7, 2, 0]} isGirl hasMedal medalColor="#C0C0C0" shirtColor="#047857" hasCert skinTone="#C68642" scale={0.95} />
+              <SchoolKid position={[-2.7, 2, 0]} isGirl hasMedal medalColor="#C0C0C0" shirtColor="#047857" hasCert skinTone="#C68642" scale={0.95} isWaving />
 
               {/* 1st place (centre) - Wider podium (2.8) */}
               <PodiumBlock position={[0, 0, 0]} width={2.8} height={3.5} depth={2} rank="1st" rewards={rewards.first} textColor="#FFD700" />
-              <SchoolKid position={[0, 3.5, 0]} shirtColor="#1D4ED8" isWinner skinTone="#D2945F" />
+              <SchoolKid position={[0, 3.5, 0]} shirtColor="#1D4ED8" isWinner hasMedal medalColor="#FFD700" skinTone="#D2945F" />
 
               {/* 3rd place (right) - Wider podium (2.6) */}
               <PodiumBlock position={[2.7, 0, 0]} width={2.6} height={1.4} depth={2} rank="3rd" rewards={rewards.third} textColor="#CD7F32" />
-              <SchoolKid position={[2.7, 1.4, 0]} shirtColor="#B91C1C" hasMedal medalColor="#CD7F32" hasCert skinTone="#E0AC69" scale={0.9} />
+              <SchoolKid position={[2.7, 1.4, 0]} shirtColor="#B91C1C" hasMedal medalColor="#CD7F32" hasCert skinTone="#E0AC69" scale={0.9} isBitingMedal />
             </group>
           </Canvas>
         </div>
