@@ -4,127 +4,109 @@ import { motion } from "framer-motion";
 import SceneWrapper from "./SceneWrapper";
 import { ideathonData } from "@/content/ideathon-data";
 
-const get3DBoxStyles = (index: number) => {
-  switch(index) {
-    case 0: // Level 1 (Bronze - Bottom)
-      return "bg-gradient-to-br from-[#d9b897] to-[#c4a484] border-t-2 border-l-2 border-white/40 border-b-[12px] border-r-[12px] border-[#8b4513] shadow-2xl text-white";
-    case 1: // Level 2 (Silver - Middle)
-      return "bg-gradient-to-br from-[#f0f0f0] to-[#e0e0e0] border-t-2 border-l-2 border-white/80 border-b-[12px] border-r-[12px] border-[#a0a0a0] shadow-2xl text-gray-900";
-    case 2: // Level 3 (Gold - Top)
-      return "bg-gradient-to-br from-[#ffe540] to-[#ffd700] border-t-2 border-l-2 border-white/60 border-b-[12px] border-r-[12px] border-[#b8860b] shadow-2xl text-black";
-    default:
-      return "";
-  }
-};
-
-const getImage = (index: number) => {
-  switch(index) {
-    case 0: return "/media/level_1.png";
-    case 1: return "/media/level_2.png";
-    case 2: return "/media/level_3.png";
-    default: return "";
-  }
-};
-
-const getWidth = (index: number) => {
-  switch(index) {
-    case 0: return "w-[95%] md:w-[85%]";
-    case 1: return "w-[75%] md:w-[60%]";
-    case 2: return "w-[55%] md:w-[35%]";
-    default: return "w-full";
-  }
-};
-
 export default function Scene6() {
-  const container = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: { staggerChildren: 0.4, delayChildren: 0.2 }
-    }
-  };
-
-  const item = {
-    hidden: { opacity: 0, y: 50, scale: 0.9 },
-    show: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", bounce: 0.5, duration: 0.8 } }
-  };
-
-  // We reverse the array so Level 3 renders on top visually, 
-  // but we map over the original indexes to keep data intact.
-  const levelsReversed = [...ideathonData.scene6.levels].map((level, i) => ({ ...level, originalIndex: i })).reverse();
+  const levels = [...ideathonData.scene6.levels].reverse();
+  
+  // Custom images mapping
+  const images = ["/media/level_3.png", "/media/level_2.png", "/media/level_1.png"];
 
   return (
     <SceneWrapper>
-      <div className="w-full flex flex-col items-center pt-2 h-full justify-center">
+      <div className="w-full flex flex-col items-center justify-center min-h-[80vh]">
         
         <motion.h2 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, type: "spring" }}
-          className="text-3xl md:text-5xl lg:text-6xl font-black mb-6 md:mb-10 text-brand-blue uppercase tracking-wide flex items-center gap-4 drop-shadow-sm text-center"
+          className="text-2xl md:text-4xl lg:text-5xl font-black mb-4 md:mb-8 text-brand-blue uppercase tracking-wide text-center drop-shadow-sm"
         >
           {ideathonData.scene6.title}
         </motion.h2>
 
-        <motion.div 
-          variants={container}
-          initial="hidden"
-          animate="show"
-          className="w-full max-w-5xl flex flex-col items-center gap-4 md:gap-6 relative"
-        >
-          {levelsReversed.map((level) => {
-            const i = level.originalIndex;
-            return (
-              <motion.div 
-                key={i} 
-                variants={item}
-                whileHover={{ scale: 1.03, y: -5 }}
-                className={`flex ${i === 2 ? 'flex-col text-center' : 'flex-col md:flex-row text-center md:text-left'} items-center gap-4 p-4 md:p-6 rounded-2xl transition-transform duration-300 relative ${getWidth(i)} ${get3DBoxStyles(i)}`}
-                style={{ zIndex: i }}
-              >
-                {/* Level Image */}
-                <div className={`${i === 2 ? 'w-24 h-24 md:w-32 md:h-32' : 'w-20 h-20 md:w-28 md:h-28'} flex-shrink-0 rounded-xl overflow-hidden shadow-inner border-2 border-black/10`}>
-                  <img src={getImage(i)} alt={level.name} className="w-full h-full object-cover" loading="lazy" decoding="async" />
-                </div>
-                
-                {/* Level Content */}
-                <div className="flex flex-col justify-center flex-grow">
-                  <div className="flex items-center gap-2 mb-1 justify-center md:justify-start">
-                    <div className="flex-shrink-0 w-6 h-6 md:w-8 md:h-8 rounded-full bg-black/10 flex items-center justify-center border border-black/20 shadow-sm">
-                      <span className="text-sm md:text-base font-black">{i + 1}</span>
-                    </div>
-                    <span className="font-bold tracking-widest text-[10px] md:text-xs uppercase opacity-80">{level.level}</span>
-                  </div>
-                  
-                  <h3 className={`font-black mb-1 leading-tight ${i === 2 ? 'text-xl md:text-3xl' : 'text-lg md:text-xl'}`}>
-                    {level.name}
-                  </h3>
-                  <p className={`opacity-90 ${i === 2 ? 'text-sm md:text-base font-medium' : 'text-xs md:text-sm'}`}>
-                    {level.desc}
-                  </p>
-                </div>
+        <div className="relative w-full max-w-3xl aspect-[4/3] mx-auto">
+          {/* 3D Isometric Pyramid SVG */}
+          <motion.svg 
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, type: "spring", bounce: 0.4 }}
+            viewBox="0 0 800 600" 
+            className="w-full h-full drop-shadow-2xl overflow-visible absolute inset-0 z-0"
+          >
+            {/* LEVEL 1 (BOTTOM) */}
+            <motion.g initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.4 }}>
+              <path d="M 100,550 L 700,550 L 600,400 L 200,400 Z" fill="#00bcf2" />
+              <path d="M 700,550 L 600,400 L 650,350 L 750,500 Z" fill="#00a2d1" />
+              <path d="M 200,400 L 600,400 L 650,350 L 250,350 Z" fill="#33ccff" />
+            </motion.g>
 
-                {/* Crown Icon for Level 3 */}
-                {i === 2 && (
-                  <div className="absolute -top-6 -right-4 md:-top-8 md:-right-6 text-4xl md:text-6xl drop-shadow-xl animate-bounce">
-                    👑
-                  </div>
-                )}
-              </motion.div>
-            )
-          })}
-        </motion.div>
+            {/* LEVEL 2 (MIDDLE) */}
+            <motion.g initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.8 }}>
+              <path d="M 220,330 L 580,330 L 480,180 L 320,180 Z" fill="#78c6fa" />
+              <path d="M 580,330 L 480,180 L 530,130 L 630,280 Z" fill="#56aef2" />
+              <path d="M 320,180 L 480,180 L 530,130 L 370,130 Z" fill="#9bdaff" />
+            </motion.g>
 
+            {/* LEVEL 3 (TOP) */}
+            <motion.g initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 1.2 }}>
+              <path d="M 330,110 L 470,110 L 400,10 Z" fill="#a3d8e8" />
+              <path d="M 470,110 L 400,10 L 520,60 Z" fill="#8bc9dd" />
+            </motion.g>
+          </motion.svg>
+
+          {/* HTML Overlay for Text & Images */}
+          <div className="absolute inset-0 z-10 font-sans pointer-events-none">
+            
+            {/* LEVEL 3 OVERLAY (TOP) */}
+            <motion.div 
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5 }}
+              className="absolute flex flex-col items-center justify-center text-center"
+              style={{ top: "4%", left: "35%", width: "30%", height: "15%" }}
+            >
+              <img src={images[0]} alt="Level 3" className="w-8 h-8 md:w-12 md:h-12 object-contain drop-shadow-md mb-1" />
+              <div className="text-[8px] md:text-[10px] font-black text-gray-800 uppercase tracking-widest">{levels[0].level}</div>
+              <h3 className="text-[10px] md:text-sm font-black text-gray-900 leading-none">{levels[0].name}</h3>
+            </motion.div>
+
+            {/* LEVEL 2 OVERLAY (MIDDLE) */}
+            <motion.div 
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.1 }}
+              className="absolute flex flex-col items-center justify-center text-center px-2"
+              style={{ top: "30%", left: "30%", width: "40%", height: "25%" }}
+            >
+              <img src={images[1]} alt="Level 2" className="w-10 h-10 md:w-16 md:h-16 object-contain drop-shadow-md mb-1" />
+              <div className="text-[9px] md:text-xs font-black text-gray-800 uppercase tracking-widest">{levels[1].level}</div>
+              <h3 className="text-xs md:text-base font-black text-gray-900 leading-tight mb-1">{levels[1].name}</h3>
+              <p className="text-[8px] md:text-xs text-gray-800 leading-tight hidden sm:block">{levels[1].desc}</p>
+            </motion.div>
+
+            {/* LEVEL 1 OVERLAY (BOTTOM) */}
+            <motion.div 
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.7 }}
+              className="absolute flex flex-col sm:flex-row items-center justify-center text-center sm:text-left gap-2 sm:gap-4 px-4"
+              style={{ top: "66%", left: "20%", width: "60%", height: "25%" }}
+            >
+              <img src={images[2]} alt="Level 1" className="w-12 h-12 md:w-20 md:h-20 object-contain drop-shadow-md" />
+              <div className="flex flex-col justify-center">
+                <div className="text-[10px] md:text-sm font-black text-gray-800 uppercase tracking-widest">{levels[2].level}</div>
+                <h3 className="text-sm md:text-lg font-black text-gray-900 leading-tight mb-1">{levels[2].name}</h3>
+                <p className="text-[9px] md:text-sm text-gray-800 leading-tight hidden md:block max-w-[250px]">{levels[2].desc}</p>
+              </div>
+            </motion.div>
+
+          </div>
+        </div>
+
+        {/* Tagline */}
         <motion.div 
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, delay: 1.5 }}
-          className="mt-10 md:mt-12 flex gap-3 md:gap-6 text-xl md:text-3xl font-black tracking-widest text-gray-800"
+          transition={{ duration: 1, delay: 1.8 }}
+          className="mt-2 md:mt-4 flex gap-2 md:gap-6 text-lg md:text-2xl lg:text-3xl font-black tracking-widest text-gray-800"
         >
           {ideathonData.scene6.tagline.map((word, i) => (
             <motion.span 
               key={i}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 2 + i * 0.3, type: "spring", stiffness: 200 }}
               className={i === 2 ? "text-brand-blue drop-shadow-md scale-110 origin-bottom" : ""}
