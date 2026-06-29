@@ -52,97 +52,101 @@ function SchoolKid({
     const t = state.clock.elapsedTime;
     // Winner jumps
     if (isWinner) {
-      ref.current.position.y = position[1] + Math.abs(Math.sin(t * 3)) * 0.25;
+      ref.current.position.y = position[1] + Math.abs(Math.sin(t * 3.5)) * 0.3;
     } else {
       ref.current.position.y = position[1] + Math.sin(t * 2 + position[0]) * 0.04;
     }
-    // Celebrating arms
+    // Arms in front
     const la = ref.current.getObjectByName("leftArm");
     const ra = ref.current.getObjectByName("rightArm");
     if (isWinner) {
-      if (la) { la.rotation.z = 2.8; la.rotation.x = Math.sin(t * 6) * 0.3; }
-      if (ra) { ra.rotation.z = -2.8; ra.rotation.x = -Math.sin(t * 6 + 0.5) * 0.3; }
+      if (la) { la.rotation.z = 0; la.rotation.x = -Math.PI + 0.1; } // Straight up
+      if (ra) { ra.rotation.z = 0; ra.rotation.x = -Math.PI + 0.1; }
     } else {
-      if (la) { la.rotation.z = 2.2 + Math.sin(t * 4) * 0.4; }
-      if (ra) { ra.rotation.z = -2.2 - Math.sin(t * 4 + 1) * 0.4; }
+      if (la) { la.rotation.z = 0.1; la.rotation.x = -0.5 + Math.sin(t * 4) * 0.15; } // Forward and waving slightly
+      if (ra) { ra.rotation.z = -0.1; ra.rotation.x = -0.5 - Math.sin(t * 4 + 1) * 0.15; }
     }
   });
 
   return (
     <group position={position} scale={scale} ref={ref}>
-      {/* HEAD */}
-      <mesh position={[0, 1.65, 0]} castShadow>
-        <sphereGeometry args={[0.2, 32, 32]} />
-        <meshStandardMaterial color={skinTone} roughness={0.45} />
-      </mesh>
-      {/* Eyes */}
-      <mesh position={[-0.07, 1.68, 0.17]}><sphereGeometry args={[0.03, 16, 16]} /><meshStandardMaterial color="#fff" /></mesh>
-      <mesh position={[0.07, 1.68, 0.17]}><sphereGeometry args={[0.03, 16, 16]} /><meshStandardMaterial color="#fff" /></mesh>
-      <mesh position={[-0.07, 1.68, 0.195]}><sphereGeometry args={[0.015, 16, 16]} /><meshStandardMaterial color="#222" /></mesh>
-      <mesh position={[0.07, 1.68, 0.195]}><sphereGeometry args={[0.015, 16, 16]} /><meshStandardMaterial color="#222" /></mesh>
-      {/* Nose */}
-      <mesh position={[0, 1.63, 0.19]}><sphereGeometry args={[0.025, 12, 12]} /><meshStandardMaterial color={skinTone} roughness={0.5} /></mesh>
-      {/* Mouth (smile) */}
-      <mesh position={[0, 1.58, 0.17]} rotation={[0.3, 0, 0]}>
-        <torusGeometry args={[0.04, 0.008, 8, 16, Math.PI]} />
-        <meshStandardMaterial color="#C0392B" />
-      </mesh>
-      {/* Ears */}
-      <mesh position={[-0.2, 1.65, 0]}><sphereGeometry args={[0.04, 12, 12]} /><meshStandardMaterial color={skinTone} roughness={0.45} /></mesh>
-      <mesh position={[0.2, 1.65, 0]}><sphereGeometry args={[0.04, 12, 12]} /><meshStandardMaterial color={skinTone} roughness={0.45} /></mesh>
-      {/* Hair */}
-      {isGirl ? (
-        <group>
-          <mesh position={[0, 1.72, -0.03]}><sphereGeometry args={[0.22, 32, 32]} /><meshStandardMaterial color="#1a1a2e" /></mesh>
-          <mesh position={[-0.18, 1.5, -0.05]}><capsuleGeometry args={[0.04, 0.3, 8, 8]} /><meshStandardMaterial color="#1a1a2e" /></mesh>
-          <mesh position={[0.18, 1.5, -0.05]}><capsuleGeometry args={[0.04, 0.3, 8, 8]} /><meshStandardMaterial color="#1a1a2e" /></mesh>
+      <group position={[0, -0.38, 0]}>
+        {/* HEAD */}
+        <mesh position={[0, 1.65, 0]} castShadow>
+          <sphereGeometry args={[0.2, 32, 32]} />
+          <meshStandardMaterial color={skinTone} roughness={0.45} />
+        </mesh>
+        {/* Eyes */}
+        <mesh position={[-0.07, 1.68, 0.17]}><sphereGeometry args={[0.03, 16, 16]} /><meshStandardMaterial color="#fff" /></mesh>
+        <mesh position={[0.07, 1.68, 0.17]}><sphereGeometry args={[0.03, 16, 16]} /><meshStandardMaterial color="#fff" /></mesh>
+        <mesh position={[-0.07, 1.68, 0.195]}><sphereGeometry args={[0.015, 16, 16]} /><meshStandardMaterial color="#222" /></mesh>
+        <mesh position={[0.07, 1.68, 0.195]}><sphereGeometry args={[0.015, 16, 16]} /><meshStandardMaterial color="#222" /></mesh>
+        {/* Nose */}
+        <mesh position={[0, 1.63, 0.19]}><sphereGeometry args={[0.025, 12, 12]} /><meshStandardMaterial color={skinTone} roughness={0.5} /></mesh>
+        {/* Mouth (smile) */}
+        <mesh position={[0, 1.58, 0.17]} rotation={[0.3, 0, 0]}>
+          <torusGeometry args={[0.04, 0.008, 8, 16, Math.PI]} />
+          <meshStandardMaterial color="#C0392B" />
+        </mesh>
+        {/* Ears */}
+        <mesh position={[-0.2, 1.65, 0]}><sphereGeometry args={[0.04, 12, 12]} /><meshStandardMaterial color={skinTone} roughness={0.45} /></mesh>
+        <mesh position={[0.2, 1.65, 0]}><sphereGeometry args={[0.04, 12, 12]} /><meshStandardMaterial color={skinTone} roughness={0.45} /></mesh>
+        {/* Hair */}
+        {isGirl ? (
+          <group>
+            <mesh position={[0, 1.72, -0.03]}><sphereGeometry args={[0.22, 32, 32]} /><meshStandardMaterial color="#1a1a2e" /></mesh>
+            <mesh position={[-0.18, 1.5, -0.05]}><capsuleGeometry args={[0.04, 0.3, 8, 8]} /><meshStandardMaterial color="#1a1a2e" /></mesh>
+            <mesh position={[0.18, 1.5, -0.05]}><capsuleGeometry args={[0.04, 0.3, 8, 8]} /><meshStandardMaterial color="#1a1a2e" /></mesh>
+          </group>
+        ) : (
+          <mesh position={[0, 1.76, 0]}><boxGeometry args={[0.36, 0.12, 0.36]} /><meshStandardMaterial color="#1a1a2e" /></mesh>
+        )}
+        {/* TORSO — school shirt */}
+        <mesh position={[0, 1.15, 0]} castShadow>
+          <capsuleGeometry args={[0.18, 0.55, 16, 16]} />
+          <meshStandardMaterial color={shirtColor} roughness={0.8} />
+        </mesh>
+        {/* Collar */}
+        <mesh position={[0, 1.38, 0.1]} rotation={[0.3, 0, 0]}>
+          <boxGeometry args={[0.16, 0.06, 0.06]} />
+          <meshStandardMaterial color="#FFFFFF" />
+        </mesh>
+        {/* Tie */}
+        <mesh position={[0, 1.2, 0.19]}>
+          <boxGeometry args={[0.05, 0.22, 0.015]} />
+          <meshStandardMaterial color="#CC0000" />
+        </mesh>
+        {/* LEFT ARM */}
+        <group name="leftArm" position={[-0.25, 1.35, 0]}>
+          <mesh position={[0, -0.2, 0]} castShadow><capsuleGeometry args={[0.06, 0.3, 8, 8]} /><meshStandardMaterial color={shirtColor} roughness={0.8} /></mesh>
+          <mesh position={[0, -0.45, 0]}><sphereGeometry args={[0.06, 12, 12]} /><meshStandardMaterial color={skinTone} /></mesh>
+          {/* Winner holds trophy straight up (since arm is rotated -Math.PI on X, we rotate trophy Math.PI to fix it) */}
+          {isWinner && <group position={[0, -0.5, 0]} rotation={[Math.PI, 0, 0]}><MiniTrophy /></group>}
+          {/* Cert in left hand for runners up */}
+          {hasCert && <group position={[0, -0.5, 0.05]} rotation={[0.2, 0, 0.3]}><Certificate3D /></group>}
         </group>
-      ) : (
-        <mesh position={[0, 1.76, 0]}><boxGeometry args={[0.36, 0.12, 0.36]} /><meshStandardMaterial color="#1a1a2e" /></mesh>
-      )}
-      {/* TORSO — school shirt */}
-      <mesh position={[0, 1.15, 0]} castShadow>
-        <capsuleGeometry args={[0.18, 0.55, 16, 16]} />
-        <meshStandardMaterial color={shirtColor} roughness={0.8} />
-      </mesh>
-      {/* Collar */}
-      <mesh position={[0, 1.38, 0.1]} rotation={[0.3, 0, 0]}>
-        <boxGeometry args={[0.16, 0.06, 0.06]} />
-        <meshStandardMaterial color="#FFFFFF" />
-      </mesh>
-      {/* Tie */}
-      <mesh position={[0, 1.2, 0.19]}>
-        <boxGeometry args={[0.05, 0.22, 0.015]} />
-        <meshStandardMaterial color="#CC0000" />
-      </mesh>
-      {/* LEFT ARM */}
-      <group name="leftArm" position={[-0.25, 1.35, 0]}>
-        <mesh position={[0, -0.2, 0]} castShadow><capsuleGeometry args={[0.06, 0.3, 8, 8]} /><meshStandardMaterial color={shirtColor} roughness={0.8} /></mesh>
-        <mesh position={[0, -0.45, 0]}><sphereGeometry args={[0.06, 12, 12]} /><meshStandardMaterial color={skinTone} /></mesh>
-        {/* Winner holds trophy above head */}
-        {isWinner && <group position={[0, -0.5, 0]}><MiniTrophy /></group>}
-        {/* Cert in left hand for runners up */}
-        {hasCert && <group position={[0, -0.5, 0.05]} rotation={[0.2, 0, 0.3]}><Certificate3D /></group>}
-      </group>
-      {/* RIGHT ARM */}
-      <group name="rightArm" position={[0.25, 1.35, 0]}>
-        <mesh position={[0, -0.2, 0]} castShadow><capsuleGeometry args={[0.06, 0.3, 8, 8]} /><meshStandardMaterial color={shirtColor} roughness={0.8} /></mesh>
-        <mesh position={[0, -0.45, 0]}><sphereGeometry args={[0.06, 12, 12]} /><meshStandardMaterial color={skinTone} /></mesh>
-      </group>
-      {/* LEGS — school shorts/skirt */}
-      <mesh position={[-0.09, 0.65, 0]} castShadow><capsuleGeometry args={[0.065, 0.35, 8, 8]} /><meshStandardMaterial color="#1E3A5F" roughness={0.9} /></mesh>
-      <mesh position={[0.09, 0.65, 0]} castShadow><capsuleGeometry args={[0.065, 0.35, 8, 8]} /><meshStandardMaterial color="#1E3A5F" roughness={0.9} /></mesh>
-      {/* Shoes */}
-      <mesh position={[-0.09, 0.38, 0.04]}><boxGeometry args={[0.1, 0.06, 0.16]} /><meshStandardMaterial color="#111" roughness={0.95} /></mesh>
-      <mesh position={[0.09, 0.38, 0.04]}><boxGeometry args={[0.1, 0.06, 0.16]} /><meshStandardMaterial color="#111" roughness={0.95} /></mesh>
-      {/* Medal */}
-      {hasMedal && (
-        <group position={[0, 1.2, 0.2]}>
-          <mesh position={[-0.04, 0.06, 0]} rotation={[0, 0, -0.35]}><boxGeometry args={[0.015, 0.15, 0.008]} /><meshStandardMaterial color="#EF4444" /></mesh>
-          <mesh position={[0.04, 0.06, 0]} rotation={[0, 0, 0.35]}><boxGeometry args={[0.015, 0.15, 0.008]} /><meshStandardMaterial color="#EF4444" /></mesh>
-          <mesh position={[0, -0.05, 0]}><cylinderGeometry args={[0.08, 0.08, 0.015, 32]} /><meshStandardMaterial color={medalColor} metalness={0.95} roughness={0.05} /></mesh>
+        {/* RIGHT ARM */}
+        <group name="rightArm" position={[0.25, 1.35, 0]}>
+          <mesh position={[0, -0.2, 0]} castShadow><capsuleGeometry args={[0.06, 0.3, 8, 8]} /><meshStandardMaterial color={shirtColor} roughness={0.8} /></mesh>
+          <mesh position={[0, -0.45, 0]}><sphereGeometry args={[0.06, 12, 12]} /><meshStandardMaterial color={skinTone} /></mesh>
+          {/* Winner holds trophy with both hands! */}
+          {isWinner && <group position={[0, -0.5, 0]} rotation={[Math.PI, 0, 0]}><MiniTrophy /></group>}
         </group>
-      )}
+        {/* LEGS — school shorts/skirt */}
+        <mesh position={[-0.09, 0.65, 0]} castShadow><capsuleGeometry args={[0.065, 0.35, 8, 8]} /><meshStandardMaterial color="#1E3A5F" roughness={0.9} /></mesh>
+        <mesh position={[0.09, 0.65, 0]} castShadow><capsuleGeometry args={[0.065, 0.35, 8, 8]} /><meshStandardMaterial color="#1E3A5F" roughness={0.9} /></mesh>
+        {/* Shoes */}
+        <mesh position={[-0.09, 0.38, 0.04]}><boxGeometry args={[0.1, 0.06, 0.16]} /><meshStandardMaterial color="#111" roughness={0.95} /></mesh>
+        <mesh position={[0.09, 0.38, 0.04]}><boxGeometry args={[0.1, 0.06, 0.16]} /><meshStandardMaterial color="#111" roughness={0.95} /></mesh>
+        {/* Medal */}
+        {hasMedal && (
+          <group position={[0, 1.2, 0.2]}>
+            <mesh position={[-0.04, 0.06, 0]} rotation={[0, 0, -0.35]}><boxGeometry args={[0.015, 0.15, 0.008]} /><meshStandardMaterial color="#EF4444" /></mesh>
+            <mesh position={[0.04, 0.06, 0]} rotation={[0, 0, 0.35]}><boxGeometry args={[0.015, 0.15, 0.008]} /><meshStandardMaterial color="#EF4444" /></mesh>
+            <mesh position={[0, -0.05, 0]}><cylinderGeometry args={[0.08, 0.08, 0.015, 32]} /><meshStandardMaterial color={medalColor} metalness={0.95} roughness={0.05} /></mesh>
+          </group>
+        )}
+      </group>
     </group>
   );
 }
@@ -163,19 +167,19 @@ function PodiumBlock({
       </mesh>
       {/* Red carpet top */}
       <mesh position={[0, height + 0.01, 0]} receiveShadow>
-        <boxGeometry args={[width + 0.02, 0.02, depth + 0.02]} />
+        <boxGeometry args={[width * 0.7, 0.02, depth + 0.02]} />
         <meshStandardMaterial color="#CC0000" roughness={0.85} />
       </mesh>
       {/* Red carpet front face */}
       <mesh position={[0, height / 2, depth / 2 + 0.01]}>
-        <boxGeometry args={[width * 0.65, height + 0.01, 0.02]} />
+        <boxGeometry args={[width * 0.7, height + 0.01, 0.02]} />
         <meshStandardMaterial color="#CC0000" roughness={0.85} />
       </mesh>
       {/* Rank text */}
-      <Text position={[0, height * 0.65, depth / 2 + 0.03]} fontSize={height * 0.22} color={textColor} anchorX="center" anchorY="middle" outlineWidth={0.01} outlineColor="#000">{rank}</Text>
-      {/* Reward lines */}
+      <Text position={[0, height - 0.5, depth / 2 + 0.03]} fontSize={0.6} color={textColor} anchorX="center" anchorY="middle" outlineWidth={0.02} outlineColor="#000">{rank}</Text>
+      {/* Reward lines (Fixed spacing so it is legible!) */}
       {rewards.map((r, i) => (
-        <Text key={i} position={[0, height * 0.65 - (i + 1) * (height * 0.09), depth / 2 + 0.03]} fontSize={height * 0.05} color="#FFF" anchorX="center" anchorY="middle" outlineWidth={0.008} outlineColor="#000" maxWidth={width * 0.6} textAlign="center">{r}</Text>
+        <Text key={i} position={[0, height - 1.1 - (i * 0.25), depth / 2 + 0.03]} fontSize={0.16} color="#FFF" anchorX="center" anchorY="middle" outlineWidth={0.01} outlineColor="#000" maxWidth={width * 0.65} textAlign="center">{r}</Text>
       ))}
     </group>
   );
@@ -277,7 +281,7 @@ export default function Scene8() {
         {/* 3D Canvas */}
         <div className="w-full flex-1 relative min-h-[450px]">
           <Canvas
-            camera={{ position: [0, 2.5, 11], fov: 40 }}
+            camera={{ position: [0, -1, 13], fov: 40 }}
             style={{ position: "absolute", inset: 0 }}
             shadows
           >
@@ -288,24 +292,25 @@ export default function Scene8() {
             <Environment preset="city" />
             <CameraFlashes />
 
-            <group position={[0, -2.6, 0]} scale={1.2}>
+            {/* Shift group way down to align with camera y=-1 (straight-on POV) */}
+            <group position={[0, -4.5, 0]} scale={1.3}>
               {/* Floor red carpet running toward camera */}
               <mesh position={[0, 0, 4]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-                <planeGeometry args={[6.5, 10]} />
+                <planeGeometry args={[9, 10]} />
                 <meshStandardMaterial color="#CC0000" roughness={0.9} />
               </mesh>
 
-              {/* 2nd place (left) */}
-              <PodiumBlock position={[-2.15, 0, 0]} width={2.1} height={2} depth={2} rank="2nd" rewards={rewards.second} textColor="#C0C0C0" />
-              <SchoolKid position={[-2.15, 2.05, 0]} isGirl hasMedal medalColor="#C0C0C0" shirtColor="#047857" hasCert skinTone="#C68642" scale={0.95} />
+              {/* 2nd place (left) - Wider podium (2.6) */}
+              <PodiumBlock position={[-2.7, 0, 0]} width={2.6} height={2} depth={2} rank="2nd" rewards={rewards.second} textColor="#C0C0C0" />
+              <SchoolKid position={[-2.7, 2, 0]} isGirl hasMedal medalColor="#C0C0C0" shirtColor="#047857" hasCert skinTone="#C68642" scale={0.95} />
 
-              {/* 1st place (centre) */}
-              <PodiumBlock position={[0, 0, 0]} width={2.1} height={3.2} depth={2} rank="1st" rewards={rewards.first} textColor="#FFD700" />
-              <SchoolKid position={[0, 3.25, 0]} shirtColor="#1D4ED8" isWinner skinTone="#D2945F" />
+              {/* 1st place (centre) - Wider podium (2.8) */}
+              <PodiumBlock position={[0, 0, 0]} width={2.8} height={3.5} depth={2} rank="1st" rewards={rewards.first} textColor="#FFD700" />
+              <SchoolKid position={[0, 3.5, 0]} shirtColor="#1D4ED8" isWinner skinTone="#D2945F" />
 
-              {/* 3rd place (right) */}
-              <PodiumBlock position={[2.15, 0, 0]} width={2.1} height={1.4} depth={2} rank="3rd" rewards={rewards.third} textColor="#CD7F32" />
-              <SchoolKid position={[2.15, 1.45, 0]} shirtColor="#B91C1C" hasMedal medalColor="#CD7F32" hasCert skinTone="#E0AC69" scale={0.9} />
+              {/* 3rd place (right) - Wider podium (2.6) */}
+              <PodiumBlock position={[2.7, 0, 0]} width={2.6} height={1.4} depth={2} rank="3rd" rewards={rewards.third} textColor="#CD7F32" />
+              <SchoolKid position={[2.7, 1.4, 0]} shirtColor="#B91C1C" hasMedal medalColor="#CD7F32" hasCert skinTone="#E0AC69" scale={0.9} />
             </group>
           </Canvas>
         </div>
