@@ -83,7 +83,7 @@ export default function Scene7() {
            initial={{ opacity: 0, scale: 0.8 }}
            animate={{ opacity: 1, scale: 1 }}
            transition={{ delay: 1 }}
-           className="text-xl md:text-2xl font-black text-brand-gold mb-6 uppercase tracking-widest drop-shadow-sm"
+           className="text-2xl md:text-4xl lg:text-4xl font-black text-[#d97706] mb-8 uppercase tracking-[0.2em] drop-shadow-sm"
         >
           FUN ACTIVITIES
         </motion.h3>
@@ -92,7 +92,7 @@ export default function Scene7() {
           variants={container}
           initial="hidden"
           animate="show"
-          className="flex flex-row justify-center items-stretch gap-3 md:gap-4 w-full max-w-5xl mx-auto mb-10 relative z-10 px-4"
+          className="flex flex-row justify-center items-stretch gap-3 md:gap-6 w-full max-w-6xl mx-auto mb-10 relative z-10 px-4"
         >
           {ideathonData.scene7.activities.map((activity, i) => {
             const actImages = [
@@ -102,16 +102,22 @@ export default function Scene7() {
               "act_design.png"
             ];
             const gradients = [
-              "from-blue-500 to-cyan-400",
-              "from-purple-500 to-pink-400",
-              "from-orange-500 to-yellow-400",
-              "from-emerald-500 to-teal-400"
+              "from-[#00bcf2] to-[#00d4ff]",
+              "from-[#d946ef] to-[#f472b6]",
+              "from-[#f59e0b] to-[#fbbf24]",
+              "from-[#10b981] to-[#34d399]"
+            ];
+            const bgTints = [
+              "bg-cyan-50/85",
+              "bg-fuchsia-50/85",
+              "bg-amber-50/85",
+              "bg-emerald-50/85"
             ];
             const shadowColors = [
-              "shadow-blue-500/40",
-              "shadow-purple-500/40",
-              "shadow-orange-500/40",
-              "shadow-emerald-500/40"
+              "shadow-[#00bcf2]/40",
+              "shadow-[#d946ef]/40",
+              "shadow-[#f59e0b]/40",
+              "shadow-[#10b981]/40"
             ];
 
             return (
@@ -121,18 +127,18 @@ export default function Scene7() {
                 whileHover={{ scale: 1.05, y: -5 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setActiveActivity(activity)}
-                className={`flex-1 rounded-3xl p-1 bg-gradient-to-br ${gradients[i]} shadow-2xl ${shadowColors[i]} cursor-pointer group relative overflow-hidden`}
+                className={`flex-1 rounded-[32px] p-1 bg-gradient-to-br ${gradients[i]} shadow-2xl ${shadowColors[i]} cursor-pointer group relative overflow-hidden`}
               >
-                <div className="absolute inset-1 rounded-[22px] overflow-hidden z-0">
-                  <img src={`/media/${actImages[i]}`} alt={activity} className="w-full h-full object-cover opacity-30 group-hover:opacity-40 group-hover:scale-110 transition-all duration-700" />
-                  <div className="absolute inset-0 bg-white/80 backdrop-blur-[2px]"></div>
+                <div className="absolute inset-1 rounded-[28px] overflow-hidden z-0">
+                  <img src={`/media/${actImages[i]}`} alt={activity} className="w-full h-full object-cover opacity-40 group-hover:opacity-50 group-hover:scale-110 transition-all duration-700" />
+                  <div className={`absolute inset-0 ${bgTints[i]} backdrop-blur-[2px] transition-colors duration-500`}></div>
                 </div>
                 
-                <div className="relative z-10 h-full w-full rounded-[22px] px-2 py-4 md:px-4 md:py-6 flex flex-col items-center justify-center gap-3 text-center">
-                  <div className={`w-10 h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-br ${gradients[i]} flex items-center justify-center text-white text-lg md:text-xl font-black shadow-lg transform group-hover:scale-110 transition-transform`}>
+                <div className="relative z-10 h-full w-full rounded-[28px] px-2 py-6 md:px-4 md:py-8 flex flex-col items-center justify-center gap-4 text-center">
+                  <div className={`w-12 h-12 md:w-16 md:h-16 rounded-full bg-gradient-to-br ${gradients[i]} flex items-center justify-center text-white text-xl md:text-2xl font-black shadow-lg transform group-hover:scale-110 transition-transform`}>
                     {i + 1}
                   </div>
-                  <span className="font-black text-gray-800 text-[10px] md:text-sm lg:text-base uppercase tracking-wider leading-tight">{activity}</span>
+                  <span className="font-black text-gray-800 text-[11px] md:text-sm lg:text-[15px] uppercase tracking-wider leading-tight">{activity}</span>
                 </div>
               </motion.div>
             )
