@@ -44,7 +44,7 @@ export default function Scene7() {
           variants={container}
           initial="hidden"
           animate="show"
-          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6 w-full max-w-7xl mb-12 relative z-10 px-4"
+          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4 w-[95%] max-w-[1400px] mx-auto mb-12 relative z-10"
         >
           {ideathonData.scene7.categories.map((category, i) => {
             const kidImages = [
@@ -61,18 +61,18 @@ export default function Scene7() {
                 key={i}
                 variants={item}
                 whileHover={{ scale: 1.05, y: -5 }}
-                className="glass-card p-4 md:p-6 rounded-3xl flex flex-col items-center text-center gap-4 group hover:border-brand-blue/30 transition-all shadow-sm"
+                className="glass-card p-2 rounded-[28px] flex flex-col items-center justify-between text-center gap-2 group hover:border-brand-blue/30 transition-all shadow-xl h-full bg-white/40"
               >
                 {/* Generated Illustration for Kids */}
                 <motion.div 
                   animate={{ y: [0, -5, 0] }}
                   transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: i * 0.2 }}
-                  className="w-32 h-32 md:w-36 md:h-36 rounded-2xl flex items-center justify-center overflow-hidden border border-gray-100 mb-2 shadow-sm shrink-0"
+                  className="w-full aspect-square rounded-[22px] flex items-center justify-center overflow-hidden border-2 border-white/60 mb-2 shadow-lg shrink-0 bg-white/50"
                 >
                   <img src={`/media/${kidImages[i]}`} alt={category} className="w-full h-full object-cover" />
                 </motion.div>
 
-                <h3 className="text-sm md:text-base font-bold text-gray-700 leading-tight">{category}</h3>
+                <h3 className="text-xs md:text-sm lg:text-lg font-bold text-gray-800 leading-tight drop-shadow-sm px-1 mb-2">{category}</h3>
               </motion.div>
             )
           })}
@@ -92,22 +92,48 @@ export default function Scene7() {
           variants={container}
           initial="hidden"
           animate="show"
-          className="flex flex-wrap justify-center gap-6 w-full max-w-5xl mb-12 relative z-10"
+          className="flex flex-row justify-center items-stretch gap-3 md:gap-4 w-full max-w-5xl mx-auto mb-10 relative z-10 px-4"
         >
           {ideathonData.scene7.activities.map((activity, i) => {
+            const actImages = [
+              "act_robot.png",
+              "act_coding.png",
+              "act_science.png",
+              "act_design.png"
+            ];
+            const gradients = [
+              "from-blue-500 to-cyan-400",
+              "from-purple-500 to-pink-400",
+              "from-orange-500 to-yellow-400",
+              "from-emerald-500 to-teal-400"
+            ];
+            const shadowColors = [
+              "shadow-blue-500/40",
+              "shadow-purple-500/40",
+              "shadow-orange-500/40",
+              "shadow-emerald-500/40"
+            ];
+
             return (
               <motion.div 
                 key={i}
                 variants={item}
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ scale: 1.05, y: -5 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setActiveActivity(activity)}
-                className="glass-card px-6 py-4 rounded-2xl flex items-center gap-4 group cursor-pointer hover:border-brand-green/30"
+                className={`flex-1 rounded-3xl p-1 bg-gradient-to-br ${gradients[i]} shadow-2xl ${shadowColors[i]} cursor-pointer group relative overflow-hidden`}
               >
-                <div className="w-10 h-10 rounded-full bg-brand-green/10 flex items-center justify-center border border-brand-green/20 group-hover:bg-brand-green group-hover:text-white transition-colors">
-                  <span className="font-black text-brand-green group-hover:text-white transition-colors">{i + 1}</span>
+                <div className="absolute inset-1 rounded-[22px] overflow-hidden z-0">
+                  <img src={`/media/${actImages[i]}`} alt={activity} className="w-full h-full object-cover opacity-30 group-hover:opacity-40 group-hover:scale-110 transition-all duration-700" />
+                  <div className="absolute inset-0 bg-white/80 backdrop-blur-[2px]"></div>
                 </div>
-                <span className="font-bold text-gray-700">{activity}</span>
+                
+                <div className="relative z-10 h-full w-full rounded-[22px] px-2 py-4 md:px-4 md:py-6 flex flex-col items-center justify-center gap-3 text-center">
+                  <div className={`w-10 h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-br ${gradients[i]} flex items-center justify-center text-white text-lg md:text-xl font-black shadow-lg transform group-hover:scale-110 transition-transform`}>
+                    {i + 1}
+                  </div>
+                  <span className="font-black text-gray-800 text-[10px] md:text-sm lg:text-base uppercase tracking-wider leading-tight">{activity}</span>
+                </div>
               </motion.div>
             )
           })}
