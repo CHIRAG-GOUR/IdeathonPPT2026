@@ -19,7 +19,7 @@ export default function SceneWrapper({ children, className = "" }: { children: R
             style={{ willChange: "opacity" }}
           ></motion.div>
           
-          <div className="relative z-10 w-full bg-white/50 backdrop-blur-xl border border-white/60 rounded-[2.5rem] p-6 md:p-10 flex flex-col items-center justify-center shadow-lg">
+          <div className="relative z-10 w-full bg-transparent rounded-[2.5rem] p-6 md:p-10 flex flex-col items-center justify-center">
             {children}
           </div>
         </div>
