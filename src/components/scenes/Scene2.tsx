@@ -3,7 +3,6 @@
 import { motion, Variants } from "framer-motion";
 import SceneWrapper from "./SceneWrapper";
 import { ideathonData } from "@/content/ideathon-data";
-import AnimatedMountain from "../illustrations/AnimatedMountain";
 
 export default function Scene2() {
   const container: Variants = {
@@ -70,9 +69,9 @@ export default function Scene2() {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, delay: 0.5 }}
-          className="mb-4 md:mb-6 w-full max-w-sm"
+          className="mb-4 md:mb-6 w-48 md:w-72 h-auto drop-shadow-xl"
         >
-          <AnimatedMountain />
+          <img src="/media/Slide_2.gif" alt="Mountain Animation" className="w-full h-full object-contain mix-blend-multiply" />
         </motion.div>
 
         <motion.div 
