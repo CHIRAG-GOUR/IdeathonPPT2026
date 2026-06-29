@@ -99,7 +99,7 @@ function SchoolKid({
             <mesh position={[0.18, 1.5, -0.05]}><capsuleGeometry args={[0.04, 0.3, 8, 8]} /><meshStandardMaterial color="#1a1a2e" /></mesh>
           </group>
         ) : (
-          <mesh position={[0, 1.76, 0]}><boxGeometry args={[0.36, 0.12, 0.36]} /><meshStandardMaterial color="#1a1a2e" /></mesh>
+          <mesh position={[0, 1.7, -0.02]}><sphereGeometry args={[0.21, 16, 16]} /><meshStandardMaterial color="#1a1a2e" /></mesh>
         )}
         {/* TORSO — school shirt */}
         <mesh position={[0, 1.15, 0]} castShadow>
@@ -129,8 +129,6 @@ function SchoolKid({
         <group name="rightArm" position={[0.25, 1.35, 0]}>
           <mesh position={[0, -0.2, 0]} castShadow><capsuleGeometry args={[0.06, 0.3, 8, 8]} /><meshStandardMaterial color={shirtColor} roughness={0.8} /></mesh>
           <mesh position={[0, -0.45, 0]}><sphereGeometry args={[0.06, 12, 12]} /><meshStandardMaterial color={skinTone} /></mesh>
-          {/* Winner holds trophy with both hands! */}
-          {isWinner && <group position={[0, -0.5, 0]} rotation={[Math.PI, 0, 0]}><MiniTrophy /></group>}
         </group>
         {/* LEGS — school shorts/skirt */}
         <mesh position={[-0.09, 0.65, 0]} castShadow><capsuleGeometry args={[0.065, 0.35, 8, 8]} /><meshStandardMaterial color="#1E3A5F" roughness={0.9} /></mesh>
@@ -277,7 +275,16 @@ export default function Scene8() {
     <SceneWrapper>
       <CelebrationOverlay show={showConfetti} />
 
-      <div className="w-full h-full flex flex-col items-center justify-end relative z-10 pb-4">
+      <div className="w-full h-full flex flex-col items-center justify-end relative z-10 pb-2">
+        {/* Title — pinned to very top of the page */}
+        <motion.h2
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="absolute top-2 left-0 right-0 text-3xl md:text-5xl font-black text-[#D4AF37] uppercase tracking-[0.15em] text-center drop-shadow-md z-30 pointer-events-none"
+        >
+          {ideathonData.scene8.title}
+        </motion.h2>
+
         {/* 3D Canvas */}
         <div className="w-full flex-1 relative min-h-[450px]">
           <Canvas
@@ -315,16 +322,16 @@ export default function Scene8() {
           </Canvas>
         </div>
 
-        {/* "For Everyone" base strip — directly touching podium */}
-        <motion.div
+        {/* BOTTOM UI: For Everyone (Pill shape, lower on page) */}
+        <motion.div 
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
           onAnimationComplete={() => setTimeout(() => setShowConfetti(true), 800)}
-          className="w-full shrink-0 bg-gradient-to-r from-emerald-600 via-emerald-500 to-emerald-600 px-6 py-3 md:py-4"
+          className="w-fit max-w-5xl mx-auto shrink-0 relative z-20 bg-gradient-to-r from-emerald-600 via-emerald-500 to-emerald-600 shadow-xl overflow-hidden py-3 px-8 rounded-full border border-white/20 mb-2 mt-4"
         >
-          <div className="flex flex-col md:flex-row items-center justify-center gap-3 md:gap-8 max-w-5xl mx-auto">
-            <div className="flex items-center gap-2 shrink-0">
+          <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8 relative z-10">
+            <div className="flex items-center gap-2 text-white font-bold text-lg md:text-xl shrink-0">
               <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" /></svg>
               <h3 className="text-xl font-black text-white tracking-wide">For Everyone</h3>
             </div>
