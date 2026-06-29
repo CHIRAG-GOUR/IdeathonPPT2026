@@ -118,10 +118,10 @@ export default function Scene10() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1, duration: 1 }}
-                className="mt-12 rounded-2xl overflow-hidden border border-gray-200 shadow-md w-64 md:w-96"
+                className="mt-12 w-64 md:w-96 rounded-2xl overflow-hidden"
               >
                 <video 
-                  src="/media/Ideathon hands.mov"
+                  src="/media/Ideathon_hands.mov"
                   autoPlay 
                   loop 
                   muted 

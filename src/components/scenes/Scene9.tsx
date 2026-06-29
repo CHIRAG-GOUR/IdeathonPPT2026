@@ -120,20 +120,15 @@ export default function Scene9() {
           initial={{ y: 30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 1.5 }}
-          className="flex flex-wrap justify-center gap-3 max-w-3xl z-10"
+          className="bg-white border-4 border-green-500 rounded-3xl p-6 md:p-8 shadow-xl z-10 max-w-xl w-full text-center mt-2"
         >
-          {ideathonData.scene9.notes.map((note, i) => (
-            <motion.div 
-              key={i} 
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ delay: 1.8 + i * 0.2 }}
-              className="flex items-center gap-2 text-xs md:text-sm font-bold text-white bg-gray-900 px-5 py-2.5 rounded-full border border-gray-700 shadow-md backdrop-blur-md"
-            >
-              <span className="text-brand-gold text-base">⚠️</span>
-              {note}
-            </motion.div>
-          ))}
+          <ul className="text-gray-800 font-bold text-sm md:text-lg flex flex-col gap-4">
+            {ideathonData.scene9.notes.map((note, i) => (
+              <li key={i} className="flex items-center justify-center">
+                {note}
+              </li>
+            ))}
+          </ul>
         </motion.div>
 
       </div>

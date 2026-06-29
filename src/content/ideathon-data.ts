@@ -104,7 +104,6 @@ export const ideathonData = {
       { date: "AUGUST 11", event: "Prototype & Pitch Submission Deadline" }
     ],
     notes: [
-      "Submit through Official Google Form",
       "Participation is voluntary",
       "Teams must register on time",
       "Late submissions may not be accepted"
