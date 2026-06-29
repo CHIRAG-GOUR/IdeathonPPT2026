@@ -1,7 +1,6 @@
 "use client";
 
-import { motion, useAnimation } from "framer-motion";
-import { useEffect } from "react";
+import { motion } from "framer-motion";
 import SceneWrapper from "./SceneWrapper";
 import { ideathonData } from "@/content/ideathon-data";
 
@@ -65,53 +64,9 @@ const PodiumColumn = ({ level, image, height, mainColor, darkColor, topColor, te
   );
 };
 
-const Superhero = () => (
-  <svg viewBox="0 0 100 100" className="w-16 h-16 md:w-24 md:h-24 text-brand-blue drop-shadow-[0_10px_20px_rgba(0,188,242,0.6)] z-50">
-    <g fill="currentColor">
-      <circle cx="50" cy="20" r="10" />
-      <path d="M40,35 Q50,30 60,35 L75,55 L65,65 L50,45 L35,65 L25,55 Z" />
-      <path d="M45,40 L30,85 L45,90 L50,60 L55,90 L70,85 L55,40 Z" />
-      {/* Gold Cape! */}
-      <path d="M40,35 Q10,40 5,65 Q25,75 40,45 Z" fill="#ffd700" className="drop-shadow-md" />
-    </g>
-  </svg>
-);
-
 export default function Scene6() {
   const levels = ideathonData.scene6.levels; // [Level 1, Level 2, Level 3]
   const images = ["/media/level_1.png", "/media/level_2.png", "/media/level_3.png"];
-  
-  const humanControls = useAnimation();
-
-  useEffect(() => {
-    const runAnimation = async () => {
-      // Wait a moment for the scene to enter
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      // Jump sequence: Offscreen Right -> Bronze -> Silver -> Gold
-      await humanControls.start({
-        x: ["150%", "80%", "33%", "0%", "-33%", "-16%", "0%"],
-        // Y coordinates correspond to the heights of the podiums
-        y: ["0px", "-280px", "-240px", "-550px", "-320px", "-600px", "-420px"],
-        rotate: [0, -30, 0, 30, 0, -360, 0],
-        scale: [1, 1.2, 1, 1.4, 1, 1.5, 1.2],
-        transition: { 
-          duration: 3.5, 
-          times: [0, 0.15, 0.3, 0.55, 0.7, 0.85, 1], 
-          ease: "easeInOut" 
-        }
-      });
-
-      // Celebration loop on top of Gold podium
-      humanControls.start({
-        y: ["-420px", "-480px", "-420px"],
-        rotate: [0, -10, 10, 0],
-        transition: { duration: 1, repeat: Infinity, ease: "easeInOut" }
-      });
-    };
-    
-    runAnimation();
-  }, [humanControls]);
 
   return (
     <SceneWrapper>
@@ -142,7 +97,7 @@ export default function Scene6() {
               topColor="#f8fafc" // slate-50
               textColor="#0f172a"
               levelNum={2}
-              delay={0.6}
+              delay={1.5}
             />
             
             {/* CENTER: Level 3 (Gold) - Height Tallest */}
@@ -155,7 +110,7 @@ export default function Scene6() {
               topColor="#fef08a" // yellow-200
               textColor="#422006"
               levelNum={3}
-              delay={0.8}
+              delay={2.5}
             />
             
             {/* RIGHT: Level 1 (Bronze) - Height Shortest */}
@@ -168,19 +123,10 @@ export default function Scene6() {
               topColor="#fcd34d" // amber-300
               textColor="#ffffff"
               levelNum={1}
-              delay={0.4}
+              delay={0.5}
             />
 
           </div>
-
-          {/* Jumping Human Animation */}
-          <motion.div 
-            initial={{ x: "150%", y: "0px" }}
-            animate={humanControls}
-            className="absolute bottom-0 left-1/2 -ml-8 md:-ml-12 z-50 pointer-events-none"
-          >
-            <Superhero />
-          </motion.div>
 
           {/* Podium Base Floor (Silver) */}
           <motion.div 
