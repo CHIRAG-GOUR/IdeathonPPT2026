@@ -273,20 +273,11 @@ export default function Scene8() {
     <SceneWrapper>
       <CelebrationOverlay show={showConfetti} />
 
-      <div className="w-full h-full flex flex-col items-center relative z-10">
-        {/* Title — pinned to very top */}
-        <motion.h2
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-2xl md:text-4xl font-black pt-3 pb-1 text-[#D4AF37] uppercase tracking-[0.15em] text-center drop-shadow-sm shrink-0 z-20"
-        >
-          {ideathonData.scene8.title}
-        </motion.h2>
-
+      <div className="w-full h-full flex flex-col items-center justify-end relative z-10 pb-4">
         {/* 3D Canvas */}
-        <div className="w-full flex-1 relative min-h-[400px]">
+        <div className="w-full flex-1 relative min-h-[450px]">
           <Canvas
-            camera={{ position: [0, 3.5, 10], fov: 38 }}
+            camera={{ position: [0, 2.5, 11], fov: 40 }}
             style={{ position: "absolute", inset: 0 }}
             shadows
           >
@@ -297,9 +288,9 @@ export default function Scene8() {
             <Environment preset="city" />
             <CameraFlashes />
 
-            <group position={[0, -2.2, 0]} scale={1.25}>
+            <group position={[0, -2.6, 0]} scale={1.2}>
               {/* Floor red carpet running toward camera */}
-              <mesh position={[0, -0.01, 4]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+              <mesh position={[0, 0, 4]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
                 <planeGeometry args={[6.5, 10]} />
                 <meshStandardMaterial color="#CC0000" roughness={0.9} />
               </mesh>
