@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import SceneWrapper from "./SceneWrapper";
 import { ideathonData } from "@/content/ideathon-data";
-import AnimatedIdea from "../illustrations/AnimatedIdea";
 
 const flyDirections = [
   { x: -300, y: -200 }, // THINK
@@ -18,14 +17,14 @@ export default function Scene1() {
     <SceneWrapper>
       <div className="relative flex flex-col items-center justify-center w-full h-full gap-6 overflow-hidden">
         
-        {/* Animated Storyset-style Illustration */}
+        {/* Animated Storyset-style GIF */}
         <motion.div 
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="w-48 md:w-64 h-auto mb-2"
+          className="w-64 md:w-96 h-auto mb-2 drop-shadow-xl"
         >
-          <AnimatedIdea />
+          <img src="/media/Slide_1.gif" alt="Ideathon Animation" className="w-full h-full object-contain mix-blend-multiply" />
         </motion.div>
 
         {/* Title animates in later */}
