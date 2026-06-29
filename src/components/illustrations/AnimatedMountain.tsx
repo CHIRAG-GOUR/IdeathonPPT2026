@@ -16,33 +16,36 @@ export default function AnimatedMountain() {
           <path d="M 250 140 Q 290 110 330 150" fill="none" stroke="#CBD5E1" strokeWidth="3" strokeLinecap="round" strokeDasharray="5 10" />
         </motion.g>
 
-        {/* Hand Base (cupping the mountain) */}
+        {/* Hand Base (Properly detailed hand holding the mountain) */}
         <motion.path
-          initial={{ pathLength: 0, opacity: 0, y: 20 }}
-          animate={{ pathLength: 1, opacity: 1, y: 0 }}
-          transition={{ duration: 1.5, ease: "easeInOut" }}
-          d="M 30 260 C 120 350, 260 330, 370 230"
-          fill="none"
-          stroke="#0F172A"
-          strokeWidth="6"
-          strokeLinecap="round"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.5, delay: 0.2 }}
+          d="M 0 330 Q 150 370 280 310 L 375 250 C 395 230, 375 210, 355 230 L 260 290 Q 180 340 110 280 L 70 230 C 50 200, 20 220, 40 250 L 80 300 Q 50 320 0 320 Z"
+          fill="#cbd5e1"
+          opacity="0.3"
         />
+        
+        {/* Main Hand */}
         <motion.path
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1 }}
-          d="M 30 260 C 120 350, 260 330, 370 230 C 330 270, 220 380, 50 300 Z"
-          fill="#94A3B8"
-          opacity="0.15"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.5, ease: "easeOut" }}
+          d="M -10 320 Q 150 360 280 300 L 370 240 C 390 220, 370 200, 350 220 L 260 280 Q 180 330 110 270 L 70 220 C 50 190, 20 210, 40 240 L 80 290 Q 50 310 -10 310 Z"
+          fill="#f8fafc"
+          stroke="#475569"
+          strokeWidth="3"
+          strokeLinejoin="round"
         />
+
+        {/* Finger Details */}
         <motion.path
           initial={{ pathLength: 0 }}
           animate={{ pathLength: 1 }}
-          transition={{ duration: 1.5, delay: 0.3, ease: "easeOut" }}
-          d="M 190 310 C 250 310, 310 270, 350 240"
-          fill="none"
+          transition={{ duration: 1, delay: 1 }}
+          d="M 335 235 L 275 280 M 320 245 L 265 285"
           stroke="#475569"
-          strokeWidth="3"
+          strokeWidth="2.5"
           strokeLinecap="round"
         />
 
