@@ -3,6 +3,7 @@
 import { motion, Variants } from "framer-motion";
 import SceneWrapper from "./SceneWrapper";
 import { ideathonData } from "@/content/ideathon-data";
+import AnimatedMountain from "../illustrations/AnimatedMountain";
 
 export default function Scene2() {
   const container: Variants = {
@@ -65,14 +66,14 @@ export default function Scene2() {
           {ideathonData.scene2.title}
         </motion.h2>
 
-        <motion.img 
+        <motion.div 
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, delay: 0.5 }}
-          src="/media/gif_5.gif"
-          alt="You got what it takes"
-          className="mb-4 md:mb-6 rounded-2xl shadow-lg w-48 md:w-64 h-auto drop-shadow-md border-4 border-white/50"
-        />
+          className="mb-4 md:mb-6 w-full max-w-sm"
+        >
+          <AnimatedMountain />
+        </motion.div>
 
         <motion.div 
           variants={container}
