@@ -157,10 +157,12 @@ function SchoolKid({
 
 /* ─── PODIUM BLOCK ─── */
 function PodiumBlock({
-  position, width, height, depth, rank, rewards, textColor
+  position, width, height, depth, rank, rewards, textColor,
+  rankSize = 0.4, rewardSize = 0.16, lineSpacing = 0.25, topPadding = 0.45
 }: {
   position: [number, number, number]; width: number; height: number; depth: number;
   rank: string; rewards: string[]; textColor: string;
+  rankSize?: number; rewardSize?: number; lineSpacing?: number; topPadding?: number;
 }) {
   return (
     <group position={position}>
@@ -180,10 +182,10 @@ function PodiumBlock({
         <meshStandardMaterial color="#CC0000" roughness={0.85} />
       </mesh>
       {/* Rank text */}
-      <Text position={[0, height - 0.45, depth / 2 + 0.03]} fontSize={0.4} color={textColor} anchorX="center" anchorY="middle" outlineWidth={0.02} outlineColor="#000">{rank}</Text>
-      {/* Reward lines (Fixed spacing so it is legible!) */}
+      <Text position={[0, height - topPadding, depth / 2 + 0.03]} fontSize={rankSize} color={textColor} anchorX="center" anchorY="middle" outlineWidth={0.02} outlineColor="#000">{rank}</Text>
+      {/* Reward lines */}
       {rewards.map((r, i) => (
-        <Text key={i} position={[0, height - 0.95 - (i * 0.25), depth / 2 + 0.03]} fontSize={0.16} color="#FFF" anchorX="center" anchorY="middle" outlineWidth={0.01} outlineColor="#000" maxWidth={width * 0.65} textAlign="center">{r}</Text>
+        <Text key={i} position={[0, height - topPadding - 0.45 - (i * lineSpacing), depth / 2 + 0.03]} fontSize={rewardSize} color="#FFF" anchorX="center" anchorY="middle" outlineWidth={0.01} outlineColor="#000" maxWidth={width * 0.65} textAlign="center">{r}</Text>
       ))}
     </group>
   );
@@ -321,8 +323,8 @@ export default function Scene8() {
               <PodiumBlock position={[0, 0, 0]} width={2.8} height={3.5} depth={2} rank="1st" rewards={rewards.first} textColor="#FFD700" />
               <SchoolKid position={[0, 3.5, 0]} shirtColor="#1D4ED8" isWinner hasMedal medalColor="#FFD700" skinTone="#D2945F" />
 
-              {/* 3rd place (right) - Wider podium (2.6) */}
-              <PodiumBlock position={[2.7, 0, 0]} width={2.6} height={1.4} depth={2} rank="3rd" rewards={rewards.third} textColor="#CD7F32" />
+              {/* 3rd place (right) - Wider podium (2.6) - Compact Text! */}
+              <PodiumBlock position={[2.7, 0, 0]} width={2.6} height={1.4} depth={2} rank="3rd" rewards={rewards.third} textColor="#CD7F32" rankSize={0.3} rewardSize={0.14} lineSpacing={0.18} topPadding={0.3} />
               <SchoolKid position={[2.7, 1.4, 0]} shirtColor="#B91C1C" hasMedal medalColor="#CD7F32" hasCert skinTone="#E0AC69" scale={0.9} isBitingMedal />
             </group>
           </Canvas>
