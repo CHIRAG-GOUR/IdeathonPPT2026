@@ -253,7 +253,7 @@ export default function Scene5() {
 
         {/* Unified Scalable SVG Area */}
         <div className="flex-1 w-full flex items-center justify-center p-2 md:p-6 min-h-0">
-          <svg viewBox="0 0 1600 1250" className="w-full h-full max-h-[75vh] drop-shadow-2xl">
+          <svg viewBox="0 -100 1600 1350" className="w-full h-full max-h-[82vh] drop-shadow-2xl overflow-visible">
 
             {/* Asphalt Base */}
             <path d="M 100 300 L 1400 300 A 200 200 0 0 1 1400 700 L 200 700 A 200 200 0 0 0 200 1100 L 1350 1100"
@@ -291,7 +291,7 @@ export default function Scene5() {
                 />
 
                 {/* Event Reveal Card wrapped in foreignObject */}
-                <foreignObject x={n.cardX} y={n.cardY} width="400" height="260">
+                <foreignObject x={n.x - 240} y={n.y - 350} width="480" height="400" style={{ overflow: 'visible' }}>
                   <div className="w-full h-full p-2 flex items-center justify-center">
                     <AnimatePresence>
                       {currentNode >= i && (
@@ -299,17 +299,17 @@ export default function Scene5() {
                           initial={{ opacity: 0, y: 20, scale: 0.9 }}
                           animate={{ opacity: 1, y: 0, scale: 1 }}
                           transition={{ type: "spring", bounce: 0.4 }}
-                          className={`w-[360px] p-6 rounded-3xl flex flex-col items-center text-center shadow-[0_15px_40px_rgba(0,0,0,0.25)] border-4 transition-all ${cardStyles[i]}`}
+                          className={`w-[400px] p-6 rounded-3xl flex flex-col items-center text-center border-4 transition-all ${cardStyles[i]}`}
                         >
                           <div className={i % 2 === 0 && i !== 8 ? "skew-x-[3deg]" : (i === 8 ? "" : "skew-x-[-3deg]")}>
-                            <div className="flex items-center justify-center gap-3 mb-2">
-                              <span className="text-3xl">{i === 8 ? "🏆" : "🏁"}</span>
-                              <span className="font-black text-sm uppercase bg-black/20 px-4 py-1.5 rounded-full">{timeline[i].level}</span>
+                            <div className="flex items-center justify-center gap-3 mb-3">
+                              <span className="text-4xl">{i === 8 ? "🏆" : "🏁"}</span>
+                              <span className="font-black text-lg uppercase bg-black/20 px-5 py-2 rounded-full">{timeline[i].level}</span>
                             </div>
-                            <h4 className="font-black text-xl uppercase mb-2 drop-shadow-md">{timeline[i].date}</h4>
-                            <h3 className="font-bold text-lg leading-tight mb-3 drop-shadow-md">{timeline[i].event}</h3>
-                            <div className="w-full h-1.5 bg-white/30 mb-3 rounded-full" />
-                            <p className="text-sm leading-snug drop-shadow-sm px-4 font-medium">{timeline[i].desc}</p>
+                            <h4 className="font-black text-3xl uppercase mb-2 drop-shadow-md">{timeline[i].date}</h4>
+                            <h3 className="font-bold text-2xl leading-tight mb-4 drop-shadow-md">{timeline[i].event}</h3>
+                            <div className="w-full h-2 bg-white/30 mb-4 rounded-full" />
+                            <p className="text-lg leading-snug drop-shadow-sm px-2 font-medium">{timeline[i].desc}</p>
                           </div>
                         </motion.div>
                       )}
