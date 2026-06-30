@@ -26,8 +26,9 @@ export default function Scene10() {
   useEffect(() => {
     if (phase === "lines") {
       if (currentLine < lines.length) {
-        // Line 0 ("A year from now...") stays for 1.5s, others (with images) stay for 3.5s
-        const timer = setTimeout(() => setCurrentLine(currentLine + 1), currentLine === 0 ? 1500 : 3500);
+        // Line 0 stays for 1.5s, last line stays for 5.5s, others stay for 3.5s
+        const duration = currentLine === 0 ? 1500 : (currentLine === lines.length - 1 ? 5500 : 3500);
+        const timer = setTimeout(() => setCurrentLine(currentLine + 1), duration);
         return () => clearTimeout(timer);
       } else {
         const timer = setTimeout(() => setPhase("finale"), 2000);
