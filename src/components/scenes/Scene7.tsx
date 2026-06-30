@@ -31,8 +31,8 @@ export default function Scene7() {
   return (
     <SceneWrapper>
       <div className="w-full h-full flex flex-col items-center justify-center relative">
-        
-        <motion.h2 
+
+        <motion.h2
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-3xl md:text-5xl font-black mb-8 text-brand-blue uppercase tracking-wider text-center drop-shadow-sm"
@@ -40,7 +40,7 @@ export default function Scene7() {
           {ideathonData.scene7.title}
         </motion.h2>
 
-        <motion.div 
+        <motion.div
           variants={container}
           initial="hidden"
           animate="show"
@@ -55,16 +55,16 @@ export default function Scene7() {
               "community_kids.png",
               "future_kids.png"
             ];
-            
+
             return (
-              <motion.div 
+              <motion.div
                 key={i}
                 variants={item}
                 whileHover={{ scale: 1.05, y: -5 }}
                 className="glass-card p-2 rounded-[28px] flex flex-col items-center justify-between text-center gap-2 group hover:border-brand-blue/30 transition-all shadow-xl h-full bg-white/40"
               >
                 {/* Generated Illustration for Kids */}
-                <motion.div 
+                <motion.div
                   animate={{ y: [0, -5, 0] }}
                   transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: i * 0.2 }}
                   className="w-full aspect-square rounded-[22px] flex items-center justify-center overflow-hidden border-2 border-white/60 mb-2 shadow-lg shrink-0 bg-white/50"
@@ -80,15 +80,15 @@ export default function Scene7() {
 
         {/* Activities Section */}
         <motion.h3
-           initial={{ opacity: 0, scale: 0.8 }}
-           animate={{ opacity: 1, scale: 1 }}
-           transition={{ delay: 1 }}
-           className="text-2xl md:text-4xl lg:text-4xl font-black text-[#d97706] mb-8 uppercase tracking-[0.2em] drop-shadow-sm"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 1 }}
+          className="text-2xl md:text-4xl lg:text-4xl font-black text-[#d97706] mb-8 uppercase tracking-[0.2em] drop-shadow-sm"
         >
           FUN ACTIVITIES
         </motion.h3>
 
-        <motion.div 
+        <motion.div
           variants={container}
           initial="hidden"
           animate="show"
@@ -115,7 +115,7 @@ export default function Scene7() {
             ];
 
             return (
-              <motion.div 
+              <motion.div
                 key={i}
                 variants={item}
                 whileHover={{ scale: 1.05, y: -5 }}
@@ -127,7 +127,7 @@ export default function Scene7() {
                   <div className="w-full aspect-[4/3] rounded-[22px] overflow-hidden relative shadow-sm">
                     <img src={`/media/${actImages[i]}`} alt={activity} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                   </div>
-                  
+
                   <div className="flex-1 flex items-center justify-center px-1 pb-1">
                     <span className="font-black text-gray-800 text-[10px] md:text-xs lg:text-[14px] uppercase tracking-wider leading-tight">
                       {activity}
@@ -139,7 +139,7 @@ export default function Scene7() {
           })}
         </motion.div>
 
-        <motion.p 
+        <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.5 }}
@@ -153,20 +153,20 @@ export default function Scene7() {
       <AnimatePresence>
         {activeActivity && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setActiveActivity(null)}
               className="absolute inset-0 bg-black/40 backdrop-blur-sm cursor-pointer"
             />
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
               className="relative glass-card shadow-2xl rounded-3xl p-8 max-w-md w-full z-10"
             >
-              <button 
+              <button
                 onClick={() => setActiveActivity(null)}
                 className="absolute top-4 right-4 text-gray-400 hover:text-gray-800 transition-colors"
               >

@@ -73,7 +73,7 @@ export default function Scene10() {
                             initial={{ scale: 0.8, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
                             transition={{ delay: 0.2, duration: 0.5 }}
-                            src={lineImages[currentLine - 1]} 
+                            src={lineImages[currentLine - 1] || undefined} 
                             alt="Illustration" 
                             className="w-48 h-48 md:w-[300px] md:h-[300px] object-cover rounded-3xl shadow-2xl border-4 border-white/50"
                           />
