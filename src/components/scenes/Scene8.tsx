@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Environment, Text } from "@react-three/drei";
+import { Environment, Html } from "@react-three/drei";
 import { motion } from "framer-motion";
 import SceneWrapper from "./SceneWrapper";
 import { ideathonData } from "@/content/ideathon-data";
@@ -34,6 +34,7 @@ function Certificate3D() {
     </group>
   );
 }
+
 
 /* ─── SCHOOL KID 3D ─── */
 function SchoolKid({
@@ -181,8 +182,20 @@ function PodiumBlock({
         <boxGeometry args={[width * 0.7, height + 0.01, 0.02]} />
         <meshStandardMaterial color="#CC0000" roughness={0.85} />
       </mesh>
-      {/* Rank text */}
-      <Text position={[0, height - topPadding, depth / 2 + 0.03]} fontSize={rankSize} color={textColor} anchorX="center" anchorY="middle" outlineWidth={0.02} outlineColor="#000">{rank}</Text>
+      {/* Premium Rank text using HTML to exactly match Scene 6 font */}
+      <Html center transform position={[0, height - topPadding, depth / 2 + 0.01]} style={{ pointerEvents: 'none' }}>
+        <div 
+          className="font-black drop-shadow-md"
+          style={{
+            fontSize: `${rankSize * 75}px`,
+            color: textColor,
+            WebkitTextStroke: `${rankSize * 3}px #222`,
+            letterSpacing: '-0.02em'
+          }}
+        >
+          {rank}
+        </div>
+      </Html>
     </group>
   );
 }
@@ -320,8 +333,9 @@ export default function Scene8() {
               <SchoolKid position={[0, 3.5, 0]} shirtColor="#1D4ED8" isWinner hasMedal medalColor="#FFD700" skinTone="#D2945F" />
 
               {/* 3rd place (right) - Wider podium (2.6) - Compact Text! */}
-              <PodiumBlock position={[2.7, 0, 0]} width={2.6} height={1.4} depth={2} rank="3rd" rewards={rewards.third} textColor="#CD7F32" rankSize={0.3} rewardSize={0.14} lineSpacing={0.18} topPadding={0.3} />
+              <PodiumBlock position={[2.7, 0, 0]} width={2.6} height={1.4} depth={2} rank="3rd" rewards={rewards.third} textColor="#E89B55" rankSize={0.3} topPadding={0.5} />
               <SchoolKid position={[2.7, 1.4, 0]} shirtColor="#B91C1C" hasMedal medalColor="#CD7F32" hasCert skinTone="#E0AC69" scale={0.9} isBitingMedal />
+
             </group>
           </Canvas>
         </div>
@@ -336,9 +350,9 @@ export default function Scene8() {
             </div>
           </motion.div>
           
-          {/* 1st Place Card (Champions) */}
+          {/* 1st Place Card (Champion) */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="bg-white border-2 border-yellow-400 rounded-xl p-2 md:p-3 text-center shadow-lg relative -top-2">
-            <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-yellow-400 text-yellow-900 text-[10px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider">Champions</div>
+            <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-yellow-400 text-yellow-900 text-[10px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider">Champion</div>
             <div className="text-xs md:text-sm font-black text-[#B8860B] space-y-1 mt-2">
               {rewards.first.map((r, i) => <div key={i}>{r}</div>)}
             </div>

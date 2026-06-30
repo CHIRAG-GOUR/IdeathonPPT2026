@@ -230,10 +230,10 @@ export default function Scene5() {
 
   return (
     <SceneWrapper>
-      <div className="w-full h-full flex flex-col relative overflow-hidden bg-gradient-to-b from-[#eef2ff] to-[#f8fafc]">
+      <div className="w-full h-full flex flex-col items-center justify-center relative min-h-0">
 
         {/* Header */}
-        <div className="w-full pt-6 md:pt-10 z-40 relative">
+        <div className="w-full pt-2 md:pt-4 z-40 relative mb-4">
           <motion.h2
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -252,8 +252,8 @@ export default function Scene5() {
         </div>
 
         {/* Unified Scalable SVG Area */}
-        <div className="flex-1 w-full flex items-center justify-center p-2 md:p-6 overflow-hidden">
-          <svg viewBox="0 0 1600 1250" className="w-full h-full max-h-[85vh] drop-shadow-2xl">
+        <div className="flex-1 w-full flex items-center justify-center p-2 md:p-6 min-h-0">
+          <svg viewBox="0 0 1600 1250" className="w-full h-full max-h-[75vh] drop-shadow-2xl">
 
             {/* Asphalt Base */}
             <path d="M 100 300 L 1400 300 A 200 200 0 0 1 1400 700 L 200 700 A 200 200 0 0 0 200 1100 L 1350 1100"
