@@ -12,6 +12,17 @@ export default function Scene10() {
 
   const lines = ideathonData.scene10.lines;
 
+  const lineImages = [
+    null, // A year from now...
+    "/images/scene10/watching_audience.png",
+    "/images/scene10/winning_trophy.png",
+    "/images/scene10/talking_ideas.png",
+    "/images/scene10/building_ideas.png",
+    "/images/scene10/stay_audience.png",
+    "/images/scene10/stand_stage.png",
+    "/images/scene10/choice_yours.png"
+  ];
+
   useEffect(() => {
     if (phase === "lines") {
       if (currentLine < lines.length) {
@@ -44,7 +55,7 @@ export default function Scene10() {
                   {ideathonData.scene10.title}
                 </h2>
 
-                <div className="relative w-full h-64 mt-8 flex items-center justify-center">
+                <div className="relative w-full h-[450px] mt-8 flex items-center justify-center">
                   <AnimatePresence mode="wait">
                     {currentLine > 0 && currentLine <= lines.length && (
                       <motion.div
@@ -53,12 +64,22 @@ export default function Scene10() {
                         animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                         exit={{ opacity: 0, y: -20, filter: "blur(5px)" }}
                         transition={{ duration: 0.5 }}
-                        className="absolute inset-0 flex items-center justify-center"
+                        className="absolute inset-0 flex flex-col items-center justify-center gap-8"
                       >
+                        {lineImages[currentLine - 1] && (
+                          <motion.img 
+                            initial={{ scale: 0.8, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            transition={{ delay: 0.2, duration: 0.5 }}
+                            src={lineImages[currentLine - 1]} 
+                            alt="Illustration" 
+                            className="w-48 h-48 md:w-[300px] md:h-[300px] object-cover rounded-3xl shadow-2xl border-4 border-white/50"
+                          />
+                        )}
                         <LettersPullUp 
                           text={lines[currentLine - 1]} 
                           className={`font-black uppercase tracking-tight ${(currentLine - 1) % 2 !== 0 ? 'text-brand-blue drop-shadow-sm' : 'text-gray-700'}`} 
-                          style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)', lineHeight: 1.2, justifyContent: 'center' }} 
+                          style={{ fontSize: 'clamp(1.5rem, 3.5vw, 3rem)', lineHeight: 1.2, justifyContent: 'center' }} 
                         />
                       </motion.div>
                     )}
