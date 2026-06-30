@@ -328,24 +328,26 @@ export default function Scene8() {
 
         {/* WINNER REWARD CARDS HTML */}
         <div className="w-full max-w-5xl mx-auto grid grid-cols-3 gap-2 md:gap-4 px-4 relative z-20 mt-2">
-          {/* 2nd Place Card */}
+          {/* 2nd Place Card (Runner Up) */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="bg-white/90 backdrop-blur border border-gray-300 rounded-xl p-2 md:p-3 text-center shadow-md">
-            <div className="text-xs md:text-sm font-semibold text-gray-700 space-y-1">
+            <h4 className="text-slate-500 font-black text-xs md:text-sm uppercase mb-1 md:mb-2 tracking-wider">Runner Up</h4>
+            <div className="text-xs md:text-sm font-bold text-slate-500 space-y-1">
               {rewards.second.map((r, i) => <div key={i}>{r}</div>)}
             </div>
           </motion.div>
           
-          {/* 1st Place Card */}
+          {/* 1st Place Card (Champions) */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="bg-white border-2 border-yellow-400 rounded-xl p-2 md:p-3 text-center shadow-lg relative -top-2">
             <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-yellow-400 text-yellow-900 text-[10px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider">Champions</div>
-            <div className="text-xs md:text-sm font-bold text-gray-900 space-y-1 mt-2">
+            <div className="text-xs md:text-sm font-black text-[#B8860B] space-y-1 mt-2">
               {rewards.first.map((r, i) => <div key={i}>{r}</div>)}
             </div>
           </motion.div>
           
-          {/* 3rd Place Card */}
+          {/* 3rd Place Card (2nd Runner Up) */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }} className="bg-white/90 backdrop-blur border border-[#CD7F32] rounded-xl p-2 md:p-3 text-center shadow-md">
-            <div className="text-xs md:text-sm font-semibold text-gray-700 space-y-1">
+            <h4 className="text-[#A05A2C] font-black text-xs md:text-sm uppercase mb-1 md:mb-2 tracking-wider">2nd Runner Up</h4>
+            <div className="text-xs md:text-sm font-bold text-[#A05A2C] space-y-1">
               {rewards.third.map((r, i) => <div key={i}>{r}</div>)}
             </div>
           </motion.div>
