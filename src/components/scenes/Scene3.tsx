@@ -1,11 +1,11 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import SceneWrapper from "./SceneWrapper";
 import { ideathonData } from "@/content/ideathon-data";
 
 export default function Scene3() {
-  const container = {
+  const container: Variants = {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
@@ -13,22 +13,22 @@ export default function Scene3() {
     }
   };
 
-  const itemSlideUp = {
+  const itemSlideUp: Variants = {
     hidden: { opacity: 0, y: 30 },
     show: { opacity: 1, y: 0, transition: { duration: 0.6, type: "spring", bounce: 0.4 } }
   };
 
-  const itemSlideRight = {
+  const itemSlideRight: Variants = {
     hidden: { opacity: 0, x: -30 },
     show: { opacity: 1, x: 0, transition: { duration: 0.6, type: "spring", bounce: 0.4 } }
   };
 
-  const imageVariant = {
+  const imageVariant: Variants = {
     hidden: { opacity: 0, scale: 0.95, x: 30 },
     show: { opacity: 1, scale: 1, x: 0, transition: { duration: 1, delay: 0.5, ease: "easeOut" } }
   };
 
-  const checkmarkVariant = {
+  const checkmarkVariant: Variants = {
     hidden: { opacity: 0, scale: 0, rotate: -45 },
     show: { opacity: 1, scale: 1, rotate: 0, transition: { duration: 0.4, type: "spring", bounce: 0.6 } }
   };
