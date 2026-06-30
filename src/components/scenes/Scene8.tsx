@@ -67,7 +67,7 @@ function SchoolKid({
       if (ra) { ra.rotation.z = Math.sin(t * 8) * 0.4; ra.rotation.x = -Math.PI + 0.3; } // Wave high!
     } else if (isBitingMedal) {
       if (la) { la.rotation.z = 0.1; la.rotation.x = -0.5 + Math.sin(t * 4) * 0.15; }
-      if (ra) { ra.rotation.z = 1.0; ra.rotation.x = -2.0; } // Hand to mouth!
+      if (ra) { ra.rotation.z = -0.7; ra.rotation.x = -2.2; } // Hand to mouth!
     } else {
       if (la) { la.rotation.z = 0.1; la.rotation.x = -0.5 + Math.sin(t * 4) * 0.15; } // Forward and waving slightly
       if (ra) { ra.rotation.z = -0.1; ra.rotation.x = -0.5 - Math.sin(t * 4 + 1) * 0.15; }
@@ -183,10 +183,6 @@ function PodiumBlock({
       </mesh>
       {/* Rank text */}
       <Text position={[0, height - topPadding, depth / 2 + 0.03]} fontSize={rankSize} color={textColor} anchorX="center" anchorY="middle" outlineWidth={0.02} outlineColor="#000">{rank}</Text>
-      {/* Reward lines */}
-      {rewards.map((r, i) => (
-        <Text key={i} position={[0, height - topPadding - 0.45 - (i * lineSpacing), depth / 2 + 0.03]} fontSize={rewardSize} color="#FFF" anchorX="center" anchorY="middle" outlineWidth={0.01} outlineColor="#000" maxWidth={width * 0.65} textAlign="center">{r}</Text>
-      ))}
     </group>
   );
 }
@@ -216,7 +212,7 @@ function CameraFlashes() {
 /* ─── CONFETTI + FIRECRACKERS (HTML overlay) ─── */
 function CelebrationOverlay({ show }: { show: boolean }) {
   if (!show) return null;
-  const confettiColors = ['#ef4444','#3b82f6','#22c55e','#facc15','#a855f7','#ec4899','#f97316','#FFD700','#14b8a6'];
+  const confettiColors = ['#ef4444', '#3b82f6', '#22c55e', '#facc15', '#a855f7', '#ec4899', '#f97316', '#FFD700', '#14b8a6'];
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden z-50">
       {/* Confetti pieces */}
@@ -307,8 +303,8 @@ export default function Scene8() {
             <Environment preset="city" />
             <CameraFlashes />
 
-            {/* Shift group way down to align with camera y=-1 (straight-on POV) */}
-            <group position={[0, -4.5, 0]} scale={1.3}>
+            {/* Shift group up slightly to make room for cards */}
+            <group position={[0, -3.8, 0]} scale={1.3}>
               {/* Floor red carpet running toward camera */}
               <mesh position={[0, 0, 4]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
                 <planeGeometry args={[9, 10]} />
@@ -330,8 +326,33 @@ export default function Scene8() {
           </Canvas>
         </div>
 
+        {/* WINNER REWARD CARDS HTML */}
+        <div className="w-full max-w-5xl mx-auto grid grid-cols-3 gap-2 md:gap-4 px-4 relative z-20 mt-2">
+          {/* 2nd Place Card */}
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="bg-white/90 backdrop-blur border border-gray-300 rounded-xl p-2 md:p-3 text-center shadow-md">
+            <div className="text-xs md:text-sm font-semibold text-gray-700 space-y-1">
+              {rewards.second.map((r, i) => <div key={i}>{r}</div>)}
+            </div>
+          </motion.div>
+          
+          {/* 1st Place Card */}
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="bg-white border-2 border-yellow-400 rounded-xl p-2 md:p-3 text-center shadow-lg relative -top-2">
+            <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-yellow-400 text-yellow-900 text-[10px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider">Champions</div>
+            <div className="text-xs md:text-sm font-bold text-gray-900 space-y-1 mt-2">
+              {rewards.first.map((r, i) => <div key={i}>{r}</div>)}
+            </div>
+          </motion.div>
+          
+          {/* 3rd Place Card */}
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }} className="bg-white/90 backdrop-blur border border-[#CD7F32] rounded-xl p-2 md:p-3 text-center shadow-md">
+            <div className="text-xs md:text-sm font-semibold text-gray-700 space-y-1">
+              {rewards.third.map((r, i) => <div key={i}>{r}</div>)}
+            </div>
+          </motion.div>
+        </div>
+
         {/* BOTTOM UI: For Everyone (Pill shape, lower on page) */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
