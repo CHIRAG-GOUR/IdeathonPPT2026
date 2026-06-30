@@ -55,8 +55,8 @@ export default function Scene2() {
   return (
     <SceneWrapper>
       <div className="w-full flex flex-col items-center">
-        
-        <motion.h2 
+
+        <motion.h2
           initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
@@ -65,7 +65,7 @@ export default function Scene2() {
           {ideathonData.scene2.title}
         </motion.h2>
 
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, delay: 0.5 }}
@@ -74,7 +74,7 @@ export default function Scene2() {
           <img src="/media/Slide_2.gif" alt="Mountain Animation" className="w-full h-full object-contain mix-blend-multiply" />
         </motion.div>
 
-        <motion.div 
+        <motion.div
           variants={container}
           initial="hidden"
           animate="show"
@@ -83,9 +83,9 @@ export default function Scene2() {
           {/* First 3 lines as clean glass cards */}
           {ideathonData.scene2.lines.slice(0, 3).map((line, i) => {
             return (
-              <motion.div 
-                key={i} 
-                variants={item} 
+              <motion.div
+                key={i}
+                variants={item}
                 whileHover={{ scale: 1.05 }}
                 className={`p-4 md:p-5 rounded-3xl shadow-sm border-2 backdrop-blur-sm flex flex-col items-center justify-center text-center transition-all duration-300 w-full ${cardColors[i]}`}
               >
@@ -98,7 +98,7 @@ export default function Scene2() {
         </motion.div>
 
         {/* The final dramatic lines */}
-        <motion.div 
+        <motion.div
           variants={bottomContainer}
           initial="hidden"
           animate="show"
@@ -107,25 +107,25 @@ export default function Scene2() {
           <motion.p variants={item} className="text-lg md:text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-gray-600 to-gray-900 tracking-wide uppercase drop-shadow-sm">
             {ideathonData.scene2.lines[3]}
           </motion.p>
-          
+
           <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4 w-full justify-center mt-1 pb-4">
-            <motion.div 
-              variants={slideLeft} 
+            <motion.div
+              variants={slideLeft}
               className="px-4 py-3 glass-card flex items-center justify-center w-full md:w-auto relative overflow-hidden group"
             >
               <div className="absolute inset-0 bg-gray-50 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-300" />
               <span className="text-sm md:text-base text-gray-600 font-bold relative z-10">{ideathonData.scene2.lines[4]}</span>
             </motion.div>
-            
-            <motion.div 
+
+            <motion.div
               variants={popIn}
               className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-gray-100 border-2 border-gray-300 flex items-center justify-center shadow-inner z-10 shrink-0"
             >
               <span className="text-xs md:text-sm font-black text-gray-500">OR</span>
             </motion.div>
-            
-            <motion.div 
-              variants={slideRight} 
+
+            <motion.div
+              variants={slideRight}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="px-6 py-3 bg-brand-blue rounded-xl shadow-lg border-2 border-brand-blue/30 flex items-center justify-center w-full md:w-auto cursor-pointer"

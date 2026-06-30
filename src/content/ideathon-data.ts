@@ -25,16 +25,20 @@ export const ideathonData = {
     ]
   },
   scene3: {
-    title: "WELCOME TO SKILLIZEE",
-    points: [
-      "Transforming students into future-ready innovators",
-      "Learning beyond textbooks",
-      "Building creativity, leadership & problem-solving skills",
-      "Turning ideas into real-world impact",
-      "Preparing students for tomorrow's opportunities"
+    title: "The Challenge",
+    subtitle: "ONE REAL-WORLD PROBLEM",
+    missionTitle: "Your mission is simple:",
+    missionPoints: [
+      "Understand it",
+      "Research it",
+      "Find the root cause",
+      "Build the best possible solution"
     ],
-    tagline: ["Learn.", "Create.", "Innovate.", "Lead."],
-    videoPlaceholder: "Aarav Brand Video"
+    rememberTitle: "Remember",
+    rememberLines: [
+      "The problem is common...",
+      "But the solution should be uniquely yours."
+    ]
   },
   scene4: {
     title: "IDEATHON 2025 — THE NUMBERS SPEAK",
