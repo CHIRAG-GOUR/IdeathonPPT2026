@@ -151,6 +151,16 @@ export default function Scene5() {
     return { x: xs, y: ys, rotate: rs, times: ts, easings };
   };
 
+  const activeNodes = [0, 2, 5, 8]; // The nodes where we have data
+
+  const isMountedRef = useRef(true);
+  useEffect(() => {
+    isMountedRef.current = true;
+    return () => {
+      isMountedRef.current = false;
+    };
+  }, []);
+
   const startAnimation = useCallback(async () => {
     if (isPlayingRef.current) return;
     isPlayingRef.current = true;
@@ -158,47 +168,45 @@ export default function Scene5() {
     setCurrentNode(-1);
     playEngineSound();
 
-    controls.set({ x: 100, y: 300, rotate: 0 });
+    const safeStart = async (args: any) => {
+      if (isMountedRef.current) {
+        try { await controls.start(args); } catch (e) { /* ignore */ }
+      }
+    };
+
+    if (isMountedRef.current) controls.set({ x: 100, y: 300, rotate: 0 });
     await delay(800);
 
-    // Row 1: left to right (rotate: 0)
-    await controls.start({ x: 300, y: 300, rotate: 0, transition: { duration: 1, ease: "linear" } });
-    setCurrentNode(0); playTingSound(); await delay(600);
+    if (!isMountedRef.current) return;
+    await safeStart({ x: 300, y: 300, rotate: 0, transition: { duration: 1, ease: "linear" } });
+    if (!isMountedRef.current) return;
+    setCurrentNode(0); playTingSound(); await delay(1000);
 
-    await controls.start({ x: 800, y: 300, rotate: 0, transition: { duration: 1.5, ease: "linear" } });
-    setCurrentNode(1); playTingSound(); await delay(600);
+    if (!isMountedRef.current) return;
+    await safeStart({ x: 1300, y: 300, rotate: 0, transition: { duration: 2.5, ease: "linear" } });
+    if (!isMountedRef.current) return;
+    setCurrentNode(2); playTingSound(); await delay(1000);
 
-    await controls.start({ x: 1300, y: 300, rotate: 0, transition: { duration: 1.5, ease: "linear" } });
-    setCurrentNode(2); playTingSound(); await delay(600);
-
-    // Turn 1: approach 1400, clockwise arc, exit to 1300 (Node 3)
+    if (!isMountedRef.current) return;
     const t1 = buildTurn1Path();
-    await controls.start({
+    await safeStart({
       x: t1.x, y: t1.y, rotate: t1.rotate,
       transition: { duration: 2.2, times: t1.times, ease: t1.easings }
     });
-    setCurrentNode(3); playTingSound(); await delay(600);
+    if (!isMountedRef.current) return;
+    await safeStart({ x: 300, y: 700, rotate: 180, transition: { duration: 2.5, ease: "linear" } });
+    if (!isMountedRef.current) return;
+    setCurrentNode(5); playTingSound(); await delay(1000);
 
-    // Row 2: right to left (rotate: 180)
-    await controls.start({ x: 800, y: 700, rotate: 180, transition: { duration: 1.5, ease: "linear" } });
-    setCurrentNode(4); playTingSound(); await delay(600);
-
-    await controls.start({ x: 300, y: 700, rotate: 180, transition: { duration: 1.5, ease: "linear" } });
-    setCurrentNode(5); playTingSound(); await delay(600);
-
-    // Turn 2: approach 200, counter-clockwise arc, exit to 300 (Node 6)
+    if (!isMountedRef.current) return;
     const t2 = buildTurn2Path();
-    await controls.start({
+    await safeStart({
       x: t2.x, y: t2.y, rotate: t2.rotate,
       transition: { duration: 2.2, times: t2.times, ease: t2.easings }
     });
-    setCurrentNode(6); playTingSound(); await delay(600);
-
-    // Row 3: left to right (rotate: 0)
-    await controls.start({ x: 800, y: 1100, rotate: 0, transition: { duration: 1.5, ease: "linear" } });
-    setCurrentNode(7); playTingSound(); await delay(600);
-
-    await controls.start({ x: 1300, y: 1100, rotate: 0, transition: { duration: 1.5, ease: "linear" } });
+    if (!isMountedRef.current) return;
+    await safeStart({ x: 1300, y: 1100, rotate: 0, transition: { duration: 2.5, ease: "linear" } });
+    if (!isMountedRef.current) return;
     setCurrentNode(8); playWinnerSound();
 
     stopEngineSound();
@@ -211,8 +219,13 @@ export default function Scene5() {
   useEffect(() => {
     if (!hasStartedRef.current) {
       hasStartedRef.current = true;
-      controls.set({ x: 100, y: 300, rotate: 0 });
-      startAnimation();
+      // Slight delay to ensure motion component has bound to controls
+      setTimeout(() => {
+        if (isMountedRef.current) {
+          controls.set({ x: 100, y: 300, rotate: 0 });
+          startAnimation();
+        }
+      }, 50);
     }
   }, [startAnimation, controls]);
 
@@ -277,7 +290,10 @@ export default function Scene5() {
             <rect x="1300" y="1070" width="50" height="60" fill="url(#checker)" />
 
             {/* Event Nodes & Cards */}
-            {nodes.map((n, i) => (
+            {nodes.map((n, i) => {
+              if (!activeNodes.includes(i)) return null;
+              
+              return (
               <g key={`node-${i}`}>
                 {/* Node Marker */}
                 <motion.circle
@@ -291,25 +307,31 @@ export default function Scene5() {
                 />
 
                 {/* Event Reveal Card wrapped in foreignObject */}
-                <foreignObject x={n.x - 240} y={n.y - 350} width="480" height="400" style={{ overflow: 'visible' }}>
+                <foreignObject x={n.x - 240} y={n.y - 360} width="480" height="400" style={{ overflow: 'visible' }}>
                   <div className="w-full h-full p-2 flex items-center justify-center">
                     <AnimatePresence>
-                      {currentNode >= i && (
+                      {currentNode >= i && timeline[i].event !== "" && (
                         <motion.div
                           initial={{ opacity: 0, y: 20, scale: 0.9 }}
                           animate={{ opacity: 1, y: 0, scale: 1 }}
                           transition={{ type: "spring", bounce: 0.4 }}
-                          className={`w-[400px] p-6 rounded-3xl flex flex-col items-center text-center border-4 transition-all ${cardStyles[i]}`}
+                          className={`w-[400px] p-6 rounded-3xl flex flex-col items-center text-center border-4 shadow-2xl transition-all ${cardStyles[i]}`}
                         >
                           <div className={i % 2 === 0 && i !== 8 ? "skew-x-[3deg]" : (i === 8 ? "" : "skew-x-[-3deg]")}>
                             <div className="flex items-center justify-center gap-3 mb-3">
-                              <span className="text-4xl">{i === 8 ? "🏆" : "🏁"}</span>
-                              <span className="font-black text-lg uppercase bg-black/20 px-5 py-2 rounded-full">{timeline[i].level}</span>
+                              <span className="text-4xl">{i === 8 ? "🏆" : "🚩"}</span>
+                              {timeline[i].level && (
+                                <span className="font-black text-lg uppercase bg-black/20 px-5 py-2 rounded-full">{timeline[i].level}</span>
+                              )}
                             </div>
                             <h4 className="font-black text-3xl uppercase mb-2 drop-shadow-md">{timeline[i].date}</h4>
                             <h3 className="font-bold text-2xl leading-tight mb-4 drop-shadow-md">{timeline[i].event}</h3>
-                            <div className="w-full h-2 bg-white/30 mb-4 rounded-full" />
-                            <p className="text-lg leading-snug drop-shadow-sm px-2 font-medium">{timeline[i].desc}</p>
+                            {timeline[i].desc && (
+                              <>
+                                <div className="w-full h-2 bg-white/30 mb-4 rounded-full" />
+                                <p className="text-lg leading-snug drop-shadow-sm px-2 font-medium">{timeline[i].desc}</p>
+                              </>
+                            )}
                           </div>
                         </motion.div>
                       )}
@@ -317,7 +339,7 @@ export default function Scene5() {
                   </div>
                 </foreignObject>
               </g>
-            ))}
+            )})}
 
             {/* Top-Down Racing Car SVG Group */}
             <motion.g animate={controls} initial={{ x: 100, y: 300, rotate: 0 }}>

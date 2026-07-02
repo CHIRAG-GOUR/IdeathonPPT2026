@@ -84,24 +84,6 @@ export default function Scene4() {
           ))}
         </div>
 
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.5, duration: 1 }}
-          className="text-lg md:text-xl lg:text-2xl font-light text-center text-gray-600"
-        >
-          {ideathonData.scene4.tagline.split('. ').map((part, i) => (
-            <motion.span 
-              key={i} 
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 1.5 + i * 0.3 }}
-              className={i === 2 ? "text-brand-green font-black block mt-3 text-xl md:text-3xl tracking-tight drop-shadow-sm" : "block md:inline md:after:content-['.'] md:after:mx-2"}
-            >
-              {part.replace('.', '')}
-            </motion.span>
-          ))}
-        </motion.div>
 
       </div>
     </SceneWrapper>

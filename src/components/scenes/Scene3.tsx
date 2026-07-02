@@ -47,51 +47,35 @@ export default function Scene3() {
         >
           {/* Header */}
           <motion.div variants={itemSlideUp} className="mb-8">
-            <h2 className="text-2xl md:text-3xl font-black text-brand-blue uppercase tracking-widest drop-shadow-sm mb-2">
+            <h2 className="text-3xl md:text-5xl font-black text-brand-blue uppercase tracking-widest drop-shadow-sm mb-2">
               {ideathonData.scene3.title}
             </h2>
-            <h3 className="text-3xl md:text-5xl font-black text-gray-900 uppercase tracking-tight leading-tight">
-              {ideathonData.scene3.subtitle}
-            </h3>
           </motion.div>
 
           {/* Mission */}
           <motion.div variants={itemSlideUp} className="mb-6">
-            <h4 className="text-xl md:text-2xl font-bold text-gray-700 mb-4">
-              {ideathonData.scene3.missionTitle}
-            </h4>
-            <div className="flex flex-col gap-3">
-              {ideathonData.scene3.missionPoints.map((point, i) => (
-                <motion.div 
-                  key={i} 
-                  variants={itemSlideRight} 
-                  className="flex items-center gap-4 bg-white/60 backdrop-blur-md p-3 md:p-4 rounded-xl border border-gray-100 shadow-sm"
-                >
+            <div className="flex flex-col gap-5">
+              {ideathonData.scene3.missionPoints.map((point, i) => {
+                const icons = ["💡", "🤝", "🚀"];
+                return (
                   <motion.div 
-                    variants={checkmarkVariant}
-                    className="flex-shrink-0 w-8 h-8 md:w-10 md:h-10 rounded-full bg-brand-green/20 text-brand-green flex items-center justify-center font-bold text-lg"
+                    key={i} 
+                    variants={itemSlideRight} 
+                    className="flex items-center gap-4 bg-white/60 backdrop-blur-md p-4 md:p-6 rounded-xl border border-gray-100 shadow-sm"
                   >
-                    ✓
+                    <motion.div 
+                      variants={checkmarkVariant}
+                      className="flex-shrink-0 w-10 h-10 md:w-14 md:h-14 rounded-full bg-brand-blue/10 text-brand-blue flex items-center justify-center font-bold text-2xl md:text-3xl"
+                    >
+                      {icons[i] || "✓"}
+                    </motion.div>
+                    <span className="text-lg md:text-2xl font-bold text-gray-800">
+                      {point}
+                    </span>
                   </motion.div>
-                  <span className="text-base md:text-xl font-bold text-gray-800">
-                    {point}
-                  </span>
-                </motion.div>
-              ))}
+                );
+              })}
             </div>
-          </motion.div>
-
-          {/* Remember */}
-          <motion.div variants={itemSlideUp} className="mt-4 bg-gradient-to-br from-brand-blue/10 to-brand-purple/10 p-5 md:p-6 rounded-2xl border border-white/50 shadow-md">
-            <h4 className="text-lg md:text-xl font-black text-brand-blue uppercase tracking-widest mb-2">
-              {ideathonData.scene3.rememberTitle}
-            </h4>
-            <p className="text-base md:text-lg font-medium text-gray-700 leading-snug">
-              {ideathonData.scene3.rememberLines[0]}
-            </p>
-            <p className="text-lg md:text-2xl font-black text-gray-900 mt-1 drop-shadow-sm">
-              {ideathonData.scene3.rememberLines[1]}
-            </p>
           </motion.div>
         </motion.div>
 

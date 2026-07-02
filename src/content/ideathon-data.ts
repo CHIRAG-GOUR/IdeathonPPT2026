@@ -25,92 +25,71 @@ export const ideathonData = {
     ]
   },
   scene3: {
-    title: "The Challenge",
-    subtitle: "ONE REAL-WORLD PROBLEM",
-    missionTitle: "Your mission is simple:",
+    title: "SkilliZee: Where Future-Ready Begins",
     missionPoints: [
-      "Understand it",
-      "Research it",
-      "Find the root cause",
-      "Build the best possible solution"
-    ],
-    rememberTitle: "Remember",
-    rememberLines: [
-      "The problem is common...",
-      "But the solution should be uniquely yours."
+      "Learn real-world skills: creativity, problem-solving, leadership",
+      "Hands-on experiences through challenges",
+      "From classrooms to pitch rooms!"
     ]
   },
   scene4: {
-    title: "IDEATHON 2025 — THE NUMBERS SPEAK",
+    title: "Flashback: Ideathon 2026 Highlights",
     metrics: [
-      { value: 4000, suffix: "+", label: "Students Participated" },
-      { value: 285, suffix: "", label: "Innovation Teams Formed" },
-      { value: 285, suffix: "", label: "Prototypes Submitted" },
-      { value: 100, suffix: "%", label: "Teams Reached Prototype Stage" }
+      { value: 8486, suffix: "", label: "Students participated" },
+      { value: 637, suffix: "", label: "Team formed" },
+      { value: 102, suffix: "", label: "Ideas selected" },
+      { value: 100, suffix: "%", label: "Participation rate" }
     ],
-    tagline: "Countless Ideas. Countless Lessons. One Life-Changing Experience.",
-    videoPlaceholder: "Highlights Video"
+    tagline: ""
   },
   scene5: {
-    title: "THE JOURNEY TO THE GRAND FINALE",
+    title: "What’s Coming Up This Year?",
     timeline: [
-      { date: "JULY 27-28", event: "Ideathon Kickoff", level: "Level 1", desc: "Orientation, Introduction & Problem Statement in Auditorium" },
-      { date: "JULY 29-31", event: "Brainstorming & Teaming", level: "Level 1", desc: "Team formation & Idea sketching in class" },
-      { date: "AUG 3-8", event: "Masterclass Q&A", level: "Level 1", desc: "Live offline sessions to clarify doubts" },
-      { date: "AUG 10-29", event: "Finalize Idea & Prototype", level: "Level 1", desc: "3 weeks for class presentations and basic prep" },
-      { date: "AUG 31-SEP 1", event: "Announcement of Winners", level: "Level 2", desc: "Level 2 problem statement & judging" },
-      { date: "SEPT 28", event: "Align Winning Teams", level: "Level 2", desc: "Final alignments for Level 2 competitors" },
-      { date: "SEPT 29-31", event: "Masterclass & Live Q&A", level: "Level 2", desc: "Discussion with Aarna ma'am & parent judges" },
-      { date: "OCT 11", event: "Results & Founder's Masterclass", level: "Level 2+3", desc: "Certificate giveaway at CCIS" },
-      { date: "NOV 8", event: "Grand Finale", level: "Level 3", desc: "6 Finalist Teams Big pitch & trophy ceremony" }
+      { date: "July 29", event: "Ideathon Round 1 – Class Level Begins", level: "", desc: "" },
+      { date: "", event: "", level: "", desc: "" },
+      { date: "July 31", event: "Team & Genre Submission along with Masterclass", level: "", desc: "" },
+      { date: "", event: "", level: "", desc: "" },
+      { date: "", event: "", level: "", desc: "" },
+      { date: "Aug 29", event: "LEVEL-1 : Finalize Idea + Prototype + Class Presentations", level: "", desc: "" },
+      { date: "", event: "", level: "", desc: "" },
+      { date: "", event: "", level: "", desc: "" },
+      { date: "GRAND FINALE", event: "But only if u win Level 1 & 2", level: "", desc: "" }
     ]
   },
   scene6: {
-    title: "3 LEVELS. 1 CHAMPION.",
+    title: "Battle Format",
     levels: [
-      { level: "Level 1", name: "CLASSROOM CLASH", desc: "Compete against teams in your class" },
-      { level: "Level 2", name: "SCHOOL SHOWDOWN", desc: "Compete against the best teams in your school" },
-      { level: "Level 3", name: "GRAND FINALE", desc: "Face top innovators and fight for the title" }
+      { level: "Level 1", name: "Class Competition", desc: "" },
+      { level: "Level 2", name: "School Showdown", desc: "" },
+      { level: "Level 3", name: "Grand Finale", desc: "" }
     ],
-    tagline: ["Survive.", "Advance.", "Conquer."]
+    tagline: []
   },
   scene7: {
-    title: "ANY IDEA CAN BECOME A WINNER",
-    categories: [
-      "Technology & AI",
-      "Environment & Sustainability",
-      "Education & Learning",
-      "Health & Wellness",
-      "Community Impact",
-      "Future Innovations"
-    ],
-    activities: [
-      "Robot Building",
-      "Coding Challenges",
-      "Science Puzzles",
-      "Design Workshops"
-    ],
-    statement: "The next winning idea could be sitting in this room right now."
+    title: "🏆 Prizes, Pride & Possibilities",
+    text: [
+      "🏆 Cash prize, devices, Rolling Trophy & Certificates",
+      "🎤 Pitch to live audience & real judges",
+      "💪 Confidence, creativity, and recognition!",
+      "Pitch in front of real investors and get funded"
+    ]
   },
   scene8: {
-    title: "PRIZES • RECOGNITION • GLORY",
-    rewards: {
-      first: ["Electronic Device", "Cash Prize", "Champion Trophy", "Winner Certificates"],
-      second: ["Medals", "Certificates", "Recognition"],
-      third: ["Medals", "Certificates", "Recognition"],
-      everyone: ["Innovation Experience", "Presentation Skills", "Teamwork Skills", "Future-Ready Learning"]
-    }
+    title: "Don’t Miss Out!",
+    notes: [
+      "Participation is voluntary – but unforgettable!"
+    ],
+    deadlines: [
+      { date: "31 July", event: "Team Name submission deadline" },
+      { date: "Aug 06", event: "Prototype submission via google form Pitch deadline" }
+    ]
   },
   scene9: {
-    title: "THE CLOCK IS TICKING",
-    deadlines: [
-      { date: "AUGUST 5", event: "Team Registration Deadline" },
-      { date: "AUGUST 11", event: "Prototype & Pitch Submission Deadline" }
-    ],
-    notes: [
-      "Participation is voluntary",
-      "Teams must register on time",
-      "Late submissions may not be accepted"
+    title: "🎤 Who Will Take the Spotlight?",
+    lines: [
+      "Some will sit and watch.",
+      "Others will shine on stage.",
+      "What will YOU choose?"
     ]
   },
   scene10: {
@@ -132,3 +111,4 @@ export const ideathonData = {
     buttonText: "LET THE GAME BEGIN"
   }
 };
+

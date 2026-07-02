@@ -15,12 +15,11 @@ import Scene6 from "@/components/scenes/Scene6";
 import Scene7 from "@/components/scenes/Scene7";
 import Scene8 from "@/components/scenes/Scene8";
 import Scene9 from "@/components/scenes/Scene9";
-import Scene10 from "@/components/scenes/Scene10";
 import { playWhooshSound, playStartupSound } from "@/utils/audio";
 
 // Define the number of steps per scene for arrow navigation
-const SCENE_STEPS = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
-const TOTAL_SCENES = 10;
+const SCENE_STEPS = [1, 1, 1, 1, 1, 1, 1, 1, 1];
+const TOTAL_SCENES = 9;
 
 export default function Presentation() {
   const [hasStarted, setHasStarted] = useState(false);
@@ -77,7 +76,6 @@ export default function Presentation() {
       case 6: return 7000; // Scene 7: Categories & Activities
       case 7: return 7000; // Scene 8: Prizes
       case 8: return 5500; // Scene 9: Clock
-      case 9: return 6000; // Scene 10: Call to action
       default: return 5000;
     }
   };
@@ -159,7 +157,6 @@ export default function Presentation() {
       case 6: return <Scene7 key="scene7" />;
       case 7: return <Scene8 key="scene8" />;
       case 8: return <Scene9 key="scene9" />;
-      case 9: return <Scene10 key="scene10" />;
       default: return null;
     }
   };

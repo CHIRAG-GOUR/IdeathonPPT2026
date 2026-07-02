@@ -66,7 +66,7 @@ const PodiumColumn = ({ level, image, height, mainColor, darkColor, topColor, te
 
 export default function Scene6() {
   const levels = ideathonData.scene6.levels; // [Level 1, Level 2, Level 3]
-  const images = ["/media/level_1.png", "/media/level_2.png", "/media/level_3.png"];
+  const images = ["/media/level_1_new.png", "/media/level_2_new.png", "/media/level_3_new.png"];
 
   return (
     <SceneWrapper>
@@ -76,7 +76,7 @@ export default function Scene6() {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, type: "spring" }}
-          className="text-3xl md:text-5xl lg:text-6xl font-black mb-6 md:mb-12 uppercase tracking-wide text-center drop-shadow-sm flex flex-col sm:flex-row gap-2 sm:gap-4 justify-center"
+          className="text-3xl md:text-5xl lg:text-6xl font-black mb-12 md:mb-20 uppercase tracking-wide text-center drop-shadow-sm flex flex-col sm:flex-row gap-2 sm:gap-4 justify-center"
         >
           <span className="text-brand-blue">3 LEVELS.</span>
           <span className="text-[#ffd700] drop-shadow-[0_2px_10px_rgba(255,215,0,0.4)]">1 CHAMPION.</span>
